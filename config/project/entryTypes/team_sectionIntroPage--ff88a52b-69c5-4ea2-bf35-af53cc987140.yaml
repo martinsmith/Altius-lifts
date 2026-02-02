@@ -38,42 +38,6 @@ fieldLayouts:
         name: Content
         uid: d813337f-7765-4b1c-aee5-49bb5b27a507
         userCondition: null
-      -
-        elementCondition: null
-        elements:
-          -
-            dateAdded: '2025-09-23T13:52:01+00:00'
-            editCondition: null
-            elementCondition: null
-            fieldUid: 98ba4066-3226-4e5f-b54c-f5e9e3e71062 # SEO Information
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 87af23e9-f83b-4e26-8dff-9f56ec8b0859
-            userCondition: null
-            warning: null
-            width: 100
-          -
-            dateAdded: '2025-09-23T13:53:11+00:00'
-            editCondition: null
-            elementCondition: null
-            fieldUid: 793d9983-213a-4cbd-ad28-8d2f692eee3a # Alternative Schema
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: f6caddba-d71d-4150-9443-fed7f91ed2fa
-            userCondition: null
-            warning: null
-            width: 100
-        name: 'SEO Information'
-        uid: db36b895-a3d0-4e72-8be0-b32b1170d617
-        userCondition: null
 handle: team_sectionIntroPage
 hasTitleField: true
 icon: null

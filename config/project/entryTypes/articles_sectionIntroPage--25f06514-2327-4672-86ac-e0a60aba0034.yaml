@@ -59,27 +59,6 @@ fieldLayouts:
         name: Content
         uid: bdcde8ab-42b6-4a82-952f-1e68017cb94c
         userCondition: null
-      -
-        elementCondition: null
-        elements:
-          -
-            dateAdded: null
-            editCondition: null
-            elementCondition: null
-            fieldUid: 98ba4066-3226-4e5f-b54c-f5e9e3e71062 # SEO Information
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: cc801e1c-3ac3-4832-8c4d-460f1d94e41e
-            userCondition: null
-            warning: null
-            width: 100
-        name: 'SEO Information'
-        uid: 3e50ed71-97ff-479c-ba28-233088cd6a5f
-        userCondition: null
 handle: articles_sectionIntroPage
 hasTitleField: true
 icon: null

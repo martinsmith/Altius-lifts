@@ -152,42 +152,6 @@ fieldLayouts:
         name: Content
         uid: 3e5661bf-cc5d-4550-b89f-241ffea8de93
         userCondition: null
-      -
-        elementCondition: null
-        elements:
-          -
-            dateAdded: '2024-09-17T13:45:29+00:00'
-            editCondition: null
-            elementCondition: null
-            fieldUid: 98ba4066-3226-4e5f-b54c-f5e9e3e71062 # SEO Information
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 6a066455-0993-42cb-9a9d-8fdf9f45fe90
-            userCondition: null
-            warning: null
-            width: 100
-          -
-            dateAdded: '2025-09-23T13:53:22+00:00'
-            editCondition: null
-            elementCondition: null
-            fieldUid: 793d9983-213a-4cbd-ad28-8d2f692eee3a # Alternative Schema
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 78c315d8-4e4f-4ae1-8b46-ddf8aee0332f
-            userCondition: null
-            warning: null
-            width: 100
-        name: 'SEO Information'
-        uid: 0364efe3-8b67-4ce5-840f-c7fdd847f84c
-        userCondition: null
 handle: whyUs
 hasTitleField: true
 icon: null

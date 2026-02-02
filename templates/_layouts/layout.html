@@ -2,16 +2,14 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		{% block pageCss %}
-
-		{% endblock %}
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{% block title %}{{ entry.title ?? 'Altius Lifts' }} | Altius Lifts{% endblock %}</title>
+		{% block head %}{% endblock %}
 		<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
 		<link rel="manifest" href="/favicon/site.webmanifest">
-
 	</head>
 	<body>
 		<div id="smooth-content">
@@ -98,7 +96,7 @@
 							{% endapply %}
 						</ul>
 					</div>
-                    <p>Copyright &copy; {{ "now" | date("Y") }} Caledonian Lifts Manchester Ltd. All Rights Reserved.</p>
+                    <p>Copyright &copy; {{ "now" | date("Y") }} Altius Lifts Ltd. All Rights Reserved.</p>
                 </div>
             </footer>
 		</div>

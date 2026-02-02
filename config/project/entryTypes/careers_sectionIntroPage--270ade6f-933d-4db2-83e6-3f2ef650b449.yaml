@@ -113,27 +113,6 @@ fieldLayouts:
         name: Content
         uid: 3a419160-e10b-4cc7-9d5c-e4a94088bf36
         userCondition: null
-      -
-        elementCondition: null
-        elements:
-          -
-            dateAdded: '2024-09-18T15:19:02+00:00'
-            editCondition: null
-            elementCondition: null
-            fieldUid: 98ba4066-3226-4e5f-b54c-f5e9e3e71062 # SEO Information
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 0a4f1054-3766-47ad-9d25-5ed38ac4e05b
-            userCondition: null
-            warning: null
-            width: 100
-        name: 'SEO Information'
-        uid: 8cf730f5-97c5-4ebb-ac92-5d4bd32f55e4
-        userCondition: null
 handle: careers_sectionIntroPage
 hasTitleField: false
 icon: null
