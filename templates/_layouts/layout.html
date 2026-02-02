@@ -111,39 +111,5 @@
                 </div>
             </footer>
 		</div>
-		{% block alternativeJSON %}
-			{# Custom Schema Logic - Replace SEOmatic default schema with custom JSON-LD #}
-			{% if entry.alternativeSchema is defined and entry.alternativeSchema is not empty %}
-
-				{# Clear SEOmatic cache and disable default JSON-LD objects #}
-				{% do seomatic.jsonLd.container().clearCache(true) %}
-
-				{# Disable default SEOmatic JSON-LD objects #}
-				{% set defaultObjects = ['mainEntityOfPage', 'identity', 'creator', 'breadcrumbList'] %}
-				{% for objectHandle in defaultObjects %}
-					{% set object = seomatic.jsonLd.get(objectHandle) %}
-					{% if object %}
-						{% do object.include(false) %}
-					{% endif %}
-				{% endfor %}
-
-				{# Create custom schema objects from the alternativeSchema field #}
-				{% set customSchemas = entry.alternativeSchema %}
-				{% if customSchemas['@graph'] is defined %}
-					{# Handle @graph structure with multiple schema objects #}
-					{% for schemaObject in customSchemas['@graph'] %}
-						{% set schemaKey = 'custom' ~ schemaObject['@type'] ~ loop.index %}
-						{% set schemaConfig = schemaObject|merge({'key': schemaKey, 'type': schemaObject['@type']}) %}
-						{% do seomatic.jsonLd.create(schemaConfig) %}
-					{% endfor %}
-				{% else %}
-					{# Handle single schema object #}
-					{% set schemaConfig = customSchemas|merge({'key': 'customSchema', 'type': customSchemas['@type']}) %}
-					{% do seomatic.jsonLd.create(schemaConfig) %}
-				{% endif %}
-
-			{% endif %}
-
-		{% endblock %}
 	</body>
 </html>
