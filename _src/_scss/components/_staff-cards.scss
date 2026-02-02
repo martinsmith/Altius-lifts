@@ -1,0 +1,186 @@
+
+
+div.staff-cards {
+    ul {
+        display: grid;
+        li {
+            // display: grid;
+            background: #fafafa;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: all .5s ease;
+            a {
+                display: grid;
+            }
+            h2 {
+                font-weight: 500;
+                border-bottom: 1px solid #ddd;
+            }
+            p.pos {
+                text-transform: uppercase;
+                font-weight: 700;
+            }
+            div.text {
+                justify-self: center;
+            }
+            div.img {
+                grid-row: 1;
+                overflow: hidden;
+                filter: saturate(90%);
+                img {
+                    transition: all .8s ease;
+                }
+            }
+        }
+        li:hover {
+            transform: scale(1.01);
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+            background: #fff;
+            img {
+                transform: scale(1.05);
+                filter: saturate(130%);
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 320px) {
+
+    div.staff-cards {
+        max-width: 350px;
+        justify-self: center;
+        ul {
+            gap: 30px;
+            li {
+                border-radius: 17px;
+                text-align: center;
+                a {
+                    padding: 17px 15px 25px 15px;
+
+                }
+                h2 {
+                    font-size: 1.1rem;
+                    padding-bottom: 7px;
+                    margin-bottom: 15px;
+                }
+                p.pos {
+                    font-size: 0.8rem;
+                }
+                div.text {
+                    width: 80%;
+                }
+                div.img {
+                    border-radius: 10px 10px 0 0;
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+    
+}
+
+@media only screen and (min-width: 730px) {
+
+    div.staff-cards {
+        ul {
+            gap: 50px;
+            li {
+                h2 {
+                    font-size: 1.2rem;
+                }
+                p.pos {
+                    font-size: 0.85rem;
+                }
+                div.img {
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+    
+}
+
+@media only screen and (min-width: 960px) {
+
+    div.staff-cards {
+        max-width: unset;
+        ul {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3%;
+            li {
+                a {
+                    padding: 12px 10px 20px 10px;
+                }
+                h2 {
+                    font-size: 1rem;
+                }
+                p.pos {
+                    font-size: 0.75rem;
+                }
+                div.img {
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+    
+}
+
+
+@media only screen and (min-width: 1140px) {
+
+    div.staff-cards {
+        ul {
+            gap: 5%;
+            li {
+                a {
+                    padding: 12px 10px 20px 10px;
+                }
+                div.img {
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 1280px) {
+
+    div.staff-cards {
+        ul {
+            li {
+                a {
+                    padding: 15px 12px 25px 12px;
+                }
+                h2 {
+                    font-size: 1.1rem;
+                }
+                p.pos {
+                    font-size: 0.8rem;
+                }
+            }
+        }
+    }
+    
+}
+
+
+@media only screen and (min-width: 1600px) {
+
+    div.staff-cards {
+        ul {
+            li {
+                a {
+                    padding: 20px 15px 30px 15px;
+                }
+                h2 {
+                    font-size: 1.2rem;
+                }
+                p.pos {
+                    font-size: 0.85rem;
+                }
+            }
+        }
+    }
+    
+}

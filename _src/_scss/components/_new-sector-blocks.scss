@@ -1,0 +1,199 @@
+div.text-image-blocks {
+    div.block {
+        display: grid;
+
+        h2 {
+            font-weight: 600;
+            border-bottom: 1px solid lighten(#71717a, 20%);
+        }
+
+        ul {
+            li {
+                font-family: $monty;
+                font-weight: 600;
+                text-transform: uppercase;
+                border-bottom: 1px solid rgba(255, 255, 255, 1);
+            }
+
+            li:last-of-type {
+                padding-bottom: 0;
+            }
+        }
+
+        *:nth-last-of-type,
+        p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        div.img {
+            background-color: #fff;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            min-height: 100%;
+
+            img {
+                min-height: 100%;
+                object-fit: cover;
+            }
+        }
+
+    }
+}
+
+@media only screen and (min-width: 320px) {
+    div.text-image-blocks {
+        grid-row-gap: 40px;
+        div.block {
+            text-align: center;
+            grid-row-gap: 25px;
+
+            h2 {
+                font-size: 1.1rem;
+                line-height: 1.2;
+                padding-bottom: 15px;
+                margin-bottom: 30px;
+            }
+
+            p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+                margin-bottom: 10px;
+            }
+
+            ul {
+                margin-top: 10px;
+
+                li {
+                    font-size: 0.7rem;
+                    line-height: 1.3;
+                    padding: 8px 0;
+                }
+            }
+
+            div.img {
+                grid-row: 1;
+            }
+        }
+
+        div.parallax:not(:last-child) {
+            margin-block-end: 40px;
+        }
+    }
+}
+
+@media only screen and (min-width: 560px) {
+    div.text-image-blocks {
+        justify-self: center;
+
+        div.block {
+            grid-row-gap: 30px;
+
+            h2 {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+
+            ul {
+                li {
+                    font-size: 0.75rem;
+                    padding: 10px 0;
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 730px) {
+    div.text-image-blocks {
+        div.block {
+
+            h2 {
+                font-size: 1.4rem;
+                margin-bottom: 25px;
+            }
+
+            p {
+                margin-bottom: 15px;
+            }
+
+            div.img {
+                margin-bottom: 25px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 960px) {
+    div.text-image-blocks {
+        grid-row-gap: 60px;
+        width: unset;
+        div.block {
+            grid-column-gap: 7%;
+            h2 {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+
+            div.img {
+                margin-bottom: 0;
+            }
+        }
+
+
+        div.block.hasImg {
+            grid-template-columns: 1fr 40%;
+            text-align: left;
+            &:nth-of-type(odd) {
+                div.img {
+                    grid-column: 2;
+                }
+            }
+        }
+
+        div.block.hasImg {
+            &:nth-of-type(even) {
+                grid-template-columns: 40% 1fr;
+            }
+        }
+    }
+}
+
+
+
+@media only screen and (min-width: 1140px) {
+    div.text-image-blocks {
+
+        div.block {
+            h2 {
+                font-size: 1.6rem;
+                font-weight: 400;
+                margin-bottom: 20px;
+            }
+
+            p {
+                line-height: 1.5;
+            }
+        }
+    }
+}
+
+
+
+
+
+@media only screen and (min-width: 1280px) {
+    div.text-image-blocks {
+        grid-row-gap: 90px;
+        div.block {
+            h2 {
+                font-size: 1.7rem;
+                margin-bottom: 30px;
+            }
+
+            p {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+        }
+    }
+}

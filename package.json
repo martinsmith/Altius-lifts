@@ -1,0 +1,25 @@
+{
+  "name": "caledonian-lifts",
+  "version": "1.0.0",
+  "description": "Caledonian Lifts Manchester website",
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "build:js": "vite build",
+    "build:css": "sass _src/_scss:web/_dist/css --style=compressed --no-source-map"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "repository": {},
+  "private": true,
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "hc-offcanvas-nav": "^6.1.5",
+    "swiper": "^11.1.1"
+  },
+  "devDependencies": {
+    "sass": "^1.97.2",
+    "vite": "^7.3.1"
+  }
+}

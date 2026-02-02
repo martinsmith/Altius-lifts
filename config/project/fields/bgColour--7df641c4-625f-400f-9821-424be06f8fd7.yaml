@@ -1,0 +1,10 @@
+columnSuffix: palqerpm
+handle: bgColour
+instructions: null
+name: 'Information Blocks - Information Block - Block Colour'
+searchable: false
+settings:
+  allowCustomColors: true
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Color

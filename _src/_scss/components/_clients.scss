@@ -1,0 +1,138 @@
+div.clients {
+    grid-row: 2;
+    overflow: hidden;
+    ul.clients-inner {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        li {
+            img {
+                width: auto;
+                height: 100%;
+                min-width: 100%;
+            }
+        }
+    }
+}
+
+div.clients[data-animated="true"] .clients-inner {
+    width: max-content;
+    animation: scroll var(--_animation-duration, var(--speed))
+      var(--_animation-direction, forwards) linear infinite;
+}
+
+
+.clients[data-speed="slow"] {
+    --_animation-duration: var(--speed);
+}
+
+.clients[data-animated="true"] .clients-inner:hover {
+    animation-play-state: paused;
+}
+
+
+@keyframes scroll {
+    to {
+      transform: translate(calc(-50% - 0.5rem));
+    }
+  }
+
+
+
+@media only screen and (min-width: 320px) {
+    :root {
+        --speed: 20s;
+    }
+    
+    div.clients {
+        margin-top: -20px;
+        ul.clients-inner {
+            gap: 15px;
+            li {
+                height: 60px;
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 560px) {
+    :root {
+        --speed: 30s;
+    }
+    
+    div.clients {
+        margin-top: -15px;
+        ul.clients-inner {
+            gap: 30px;
+        }
+    }
+}
+
+
+@media only screen and (min-width: 730px) {
+    div.clients {
+        margin-top: -10px;
+        ul.clients-inner {
+            gap: 35px;
+            li {
+                height: 70px;
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 1024px) {
+    :root {
+        --speed: 40s;
+    }
+    
+    div.clients {
+        ul.clients-inner {
+            li {
+                height: 75px;
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 1140px) {
+    :root {
+        --speed: 60s;
+    }
+    
+    div.clients {
+        margin-top: -5px;
+        gap: 40px;
+    }
+}
+
+@media only screen and (min-width: 1280px) {
+    :root {
+        --speed: 70s;
+    }
+    
+    div.clients {
+        margin-top: 0;
+        ul.clients-inner {
+            gap: 50px;
+            li {
+                height: 80px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    :root {
+        --speed: 100s;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    :root {
+        --speed: 100s;
+    }
+}

@@ -1,0 +1,50 @@
+
+        <div class="text-image-blocks nest">
+{% for block in entry.mx_contentBlock.all() %}
+{% switch block.type %}
+
+{% case 'subSectionIntro' %}
+<div class="sub section-intro ctr">
+  <h2>{{ block.sectionTitle }}</h2>
+  {{ block.sectionIntro }}
+</div>
+
+    {% case 'textImage' %}
+
+          <div class="block ctr {% if block.articleImage|length %}hasImg{% endif %}">
+            <div class="text">
+                <h2>{{ block.title }}</h2>
+                {{ block.fd_text }}
+            </div>
+            {% if block.articleImage|length %}
+            <div class="img">
+              <img src="{{ block.articleImage.one.url() }}" alt="{{ block.articleImage.one.title }}">
+            </div>
+            {% endif %}
+          </div>
+
+          {% case 'accordion' %}
+
+          <ul class="ctr accordion">
+            {% for item in block.accordionContent %}
+            <li class="panel">
+              <div class="accHeader">
+                {{ item.accordionTitle }}
+              </div>
+              <div class="accContent">
+                <div>{{ item.accordionText }}</div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+
+
+    {% case 'bigParallaxImage' %}
+    {% if block.image.one() %}
+    <div class="parallax">
+      <div class="pInner" style="background-image: url('{{ block.image.one().url() }}');"></div>
+  </div>
+    {% endif %}
+{% endswitch %}
+{% endfor %}
+        </div>

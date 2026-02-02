@@ -1,0 +1,30 @@
+@import '../abstracts/_colors';
+@import '../abstracts/_fonts';
+@import '../components/_hero';
+@import '../components/_text-image-block';
+@import '../components/_section-intro';
+@import '../components/_contact';
+@import '../components/_job-listing';
+@import '../components/_apply-now-box';
+
+
+
+section.s1 {
+    background-color: $lt-beige;
+}
+
+div.section-header {
+    text-align: left;
+    justify-self: unset;
+}
+
+div.job-description {
+    div.text-block {
+        text-align: left;
+        ul {
+            li {
+                // background: lighten($lt-beige, 5%);
+            }
+        }
+    }
+}

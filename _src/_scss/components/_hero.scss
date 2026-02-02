@@ -1,0 +1,206 @@
+div.hero {
+    display: grid;
+    z-index: 8;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+    div.bgImg {
+        width: 100%;
+    }
+    div.overlay {
+        display: none;
+    }
+    div.intro {
+        justify-self: center;
+        h1 {
+            font-family: $monty;
+            text-transform: uppercase;
+        }
+    }
+}
+
+
+@media only screen and (min-width: 320px) {
+
+    div.hero {
+        div.bgImg {
+            height: 220px;
+        }
+        div.intro {
+            padding: 40px 0 60px 0;
+            text-align: center;
+            h1 {
+                font-size: 1.6rem;
+                font-weight: 500;
+                line-height: 1.2;
+                margin-bottom: 15px;
+            }
+            p {
+                font-size: 0.95rem;
+                line-height: 1.4;
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 560px) {
+    div.hero {
+        div.bgImg {
+            height: 260px;
+        }
+        div.intro {
+            h1 {
+                font-size: 1.7rem;
+                margin-bottom: 20px;
+            }
+            p {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 730px) {
+    div.hero {
+        grid-template-rows: 300px;
+        div.bgImg, div.intro, div.overlay {
+            grid-area: 1 / 1 / 2 / 2;
+        }
+        div.bgImg {
+            height: auto;
+        }
+        div.intro {
+            text-align: left;
+            color: #fff;
+            align-self: center;
+            padding-left: 1.5%;
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 5px;
+                width: 80%;
+            }
+            p {
+                line-height: 1.4;
+                width: 80%;
+            }
+        }
+        div.overlay {
+            display: block;
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+        }
+    }
+}
+
+
+
+
+
+@media only screen and (min-width: 960px) {
+
+    div.hero {
+        grid-template-rows: 370px;
+        div.intro {
+            h1 {
+                opacity: 1;
+                font-size: 2.2rem;
+                font-weight: 600;
+                margin-bottom: 10px;
+                width: 70%;
+            }
+            p {
+                opacity: 1;
+                line-height: 1.5;
+                width: 60%;
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 1024px) {
+    div.hero {
+        grid-template-rows: 400px;
+    }
+}
+
+@media only screen and (min-width: 1140px) {
+    div.hero {
+        grid-template-rows: 430px;
+        div.intro {
+            h1 {
+                font-size: 2.6rem;
+                margin-bottom: 15px;
+            }
+            p {
+                font-size: 1.15rem;
+                font-weight: 300;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1280px) {
+
+    div.hero {
+        grid-template-rows: 500px;
+        div.intro {
+            h1 {
+                font-size: 3.2rem;
+            }
+            p {
+                font-size: 1.3rem;
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 1400px) {
+    div.hero {
+        grid-template-rows: 550px;
+        div.intro {
+            h1 {
+                font-size: 3.5rem;
+            }
+            p {
+                font-size: 1.4rem;
+                width: 70%;
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 1600px) {
+    div.hero {
+        grid-template-rows: 600px;
+        div.intro {
+            h1 {
+                font-size: 3.8rem;
+            }
+            p {
+                font-size: 1.5rem;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1800px) {
+
+    div.hero {
+        grid-template-rows: 650px;
+    }
+
+}
+
+
+@media only screen and (min-width: 2000px) {
+
+    div.hero {
+        grid-template-rows: 750px;
+    }
+}

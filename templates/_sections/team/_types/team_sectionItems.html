@@ -1,0 +1,59 @@
+{% extends "_layouts/layout" %}
+
+{% block pageCss %}
+<link rel="stylesheet" href="/_dist/css/pages/team.css">
+{% endblock %}
+
+{% block content %}
+<div class="content">
+
+    <section class="s1 pad nest roundel rw">
+        <div class="ctr gd staff-bio">
+            <div class="section-header">
+                <h1><a href="{{ entry.parent.url }}">Meet the Team</a> - {{ entry.title }}</h1>
+            </div>
+                <div class="info">
+                    <h2>{{ entry.title }}</h2>
+                    <p class="pos">{{ entry.staffPosition }}</p>
+                    <p class="tel">Telephone: <a href="tel:{{ entry.staffContactNumber }}">{{ entry.staffContactNumber }}</a></p>
+                    {% apply enkode_emails %}
+                    <p class="email"><a href="mailto:{{ entry.staffEmailAddress }}">Send Email</a></p>
+                    {% endapply %}
+                </div>
+                <div class="text-block">
+                    {{ entry.textBlock }}
+                </div>
+                {% if entry.staffPhoto|length %}
+                <div class="img">
+                    <img src="{{ entry.staffPhoto.one().url }}" alt="">
+                </div>
+                {% endif %}
+                <div class="other-staff">
+                    <h2>Other Management Staff</h2>
+                    {% set level2Entries = craft.entries.section('team').level(2).id('not ' ~ entry.id) %}
+                    <ul>
+                        {% for entry in level2Entries %}
+                        <li>
+                                <div class="text">
+                                    <h3><a href="{{ entry.url }}">{{ entry.title }}</a></h3>
+                                    {% if entry.staffPosition|length %}
+                                    <p class="pos">{{ entry.staffPosition }}</p>
+                                    {% endif %}
+                                </div>
+                                {% if entry.staffPhoto|length %}
+                                <div class="img">
+                                    <a href="{{ entry.url }}">
+                                        <img src="{{ entry.staffPhoto.one().url }}" alt="">
+                                    </a>
+                                </div>
+                                {% endif %}
+                            
+                        </li>
+                        {% endfor %}
+                    </ul>
+            </div>
+            </div>
+    </section>
+	
+</div>
+{% endblock %}

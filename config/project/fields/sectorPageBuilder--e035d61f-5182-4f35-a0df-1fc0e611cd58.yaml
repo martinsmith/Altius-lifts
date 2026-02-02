@@ -1,0 +1,41 @@
+columnSuffix: null
+handle: sectorPageBuilder
+instructions: null
+name: 'Sector Page Builder'
+searchable: false
+settings:
+  createButtonLabel: null
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 5d49fa5b-f75d-4770-a7c1-932c914abc23 # Accordion
+    -
+      __assoc__:
+        -
+          - uid
+          - 9a61ea49-f29c-419d-a6cf-f130c95d32a8 # Info Blocks
+    -
+      __assoc__:
+        -
+          - uid
+          - 9ed5cd74-29c0-4c5d-8808-b6112f366f16 # New Sub-Section Intro
+    -
+      __assoc__:
+        -
+          - uid
+          - d875cc48-f7f2-4c0e-876d-754ae446746a # Big Parallax Image
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

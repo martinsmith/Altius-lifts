@@ -1,0 +1,81 @@
+
+
+div.sectors {
+    ul {
+        display: grid;
+
+        li {
+            font-family: $monty;
+            text-transform: uppercase;
+            font-weight: 700;
+            a, span {
+                display: block;
+                background: #d6d3d1;
+                transition: all .25s ease;
+            }
+            a:hover {
+                background: darken(#d6d3d1, 5%);
+            }
+        }
+    }
+}
+
+
+@media only screen and (min-width: 320px) {
+    div.sectors {
+
+        ul {
+            grid-row-gap: 10px;
+
+            li {
+                font-size: 0.8rem;
+                text-align: center;
+                a, span {
+                    padding: 10px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 560px) {
+    div.sectors {
+
+        ul {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    div.sectors {
+
+        ul {
+            grid-row-gap: 15px;
+
+            li {
+                font-size: 0.9rem;
+                a, span {
+                    padding: 15px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    div.sectors {
+
+        ul {
+            grid-row-gap: 20px;
+
+            li {
+                font-size: 0.95rem;
+                a, span {
+                    padding: 25px;
+                }
+            }
+        }
+    }
+}

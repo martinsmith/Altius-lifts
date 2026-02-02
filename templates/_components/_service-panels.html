@@ -1,0 +1,29 @@
+<div class="service-panels">
+    <ul>
+        {% for panel in entry.informationBlocks %}
+        <li class="panel">
+                <div class="text">
+                    <h2 style="border-bottom-color: {{ panel.bgColour }};">{{ panel.blockTitle }}</h2>
+                    <p>{{ panel.blockText }}</p>
+                    <ul>
+                        {% for item in panel.blockPoints %}
+                        <li>{{ item.point }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% if panel.blockLink.exists() %}
+                    {% endif %}
+                </div>
+                {% if panel.blockLink|length %}
+                <div class="link"><a href="{{ panel.blockLink.one().url }}" style="background-color: {{ panel.bgColour }}">Find out more...</a></div>
+                {% endif %}
+                <div class="img" style="border-bottom-color: {{ panel.bgColour }};">
+                    {% if panel.blockLink|length %}
+                    <a href="{{ panel.blockLink.one().url }}" style="background-image: url('{{ panel.blockImage.one.url() }}');">More Information</a>
+                    {% else %}
+                    <span style="background-image: url('{{ panel.blockImage.one.url() }}');"></span>
+                    {% endif %}
+                </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

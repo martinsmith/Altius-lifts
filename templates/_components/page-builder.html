@@ -1,0 +1,54 @@
+    {% for block in entry.sectorPageBuilder.all() %}
+      {% switch block.type %}
+          {% case 'sectionIntroduction' %}
+          <section class="s1 pad nest rw">
+          <div class="section-intro ctr">
+            <h2>{{ block.sectionTitle }}</h2>
+            {{ block.sectionIntro }}
+          </div>
+          {% case 'infoBlocks' %}
+
+          <div class="text-image-block ctr">
+            <ul>
+                {% for item in block.infoBlock %}
+                <li class="panel">
+                        <div class="text">
+                            <h2>{{ item.blockTitle }}</h2>
+                            {{ item.blockText }}
+                        </div>
+                        <div class="img">
+                            {% if item.blockImage|length %}
+                            <img src="{{ item.blockImage.one.url() }}" alt="{{ item.blockImage.one.title }}">
+                            {% endif %}
+                        </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        </section>
+
+          {% case 'accordion' %}
+
+          <ul class="ctr accordion">
+            {% for item in block.accordionContent %}
+            <li class="panel">
+              <div class="accHeader">
+                {{ item.accordionTitle }}
+              </div>
+              <div class="accContent">
+                <div>{{ item.accordionText }}</div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </section>
+
+          {% case 'bigParallaxImage' %}
+          {% if block.image.one() %}
+          <div class="parallax">
+            <div class="pInner" style="background-image: url('{{ block.image.one().url() }}');"></div>
+        </div>
+          {% endif %}
+      {% endswitch %}
+    {% endfor %}
+    

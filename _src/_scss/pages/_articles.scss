@@ -1,0 +1,79 @@
+@import '../abstracts/_colors';
+@import '../abstracts/_fonts';
+@import '../components/_hero';
+@import '../components/_article-cards';
+@import '../components/_article-item';
+@import '../components/_parallax';
+
+
+section.s1 {
+    background-color: $lt-beige;
+}
+
+@media only screen and (min-width: 320px) {
+    div.article {
+        div.section-header {
+            width: 100%;
+            grid-row: 1;
+        }
+        div.main-image {
+            grid-row: 2;
+        }
+        div.text-block {
+            margin-bottom: 50px;
+        }
+    }
+}
+
+
+@media only screen and (min-width: 560px) {
+    div.article {
+        div.text-block {
+            margin-bottom: 70px;
+        }
+    }
+}
+
+
+@media only screen and (min-width: 960px) {
+    div.article {
+        max-width: 730px;
+    }
+}
+
+
+@media only screen and (min-width: 1280px) {
+    div.article {
+        max-width: unset;
+        grid-template-columns: 1fr 25%;
+        grid-column-gap: 10%;
+        div.section-header {
+            grid-column: 1 / span 2;
+            justify-self: start;
+            width: 100%;
+            h1 {
+                text-align: left;
+            }
+        }
+        div.main-image {
+            grid-column: 1;
+        }
+        div.text-block {
+            grid-column: 1;
+        }
+        div.archive {
+            grid-column: 2;
+            grid-row: 2 / span 2;
+            align-self: start;
+            position: sticky;
+            top: 50px;
+        }
+    }
+}
+
+
+@media only screen and (min-width: 1400px) {
+    div.article {
+        grid-template-columns: 1fr 25%;
+    }
+}

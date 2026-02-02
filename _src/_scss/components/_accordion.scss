@@ -1,0 +1,238 @@
+ul.accordion {
+    width: 100%;
+    overflow: hidden;
+  
+    li.panel {
+      display: block;
+      position: relative;
+      overflow: hidden;
+      div.accHeader {
+        cursor: pointer;
+        position: relative;
+        background: lighten(#71717a, 15%);
+        transition: all 0.25s ease;
+        color: #fff;
+  
+        &:after {
+            font-family: "fontello";
+          position: absolute;
+          content: '\e801';
+          color: #fff;
+          line-height: 0;
+          background: #000;
+        }
+        &:hover {
+          background: lighten(#71717a, 25%);
+        }
+      }
+  
+      div.accContent {
+        position: relative;
+        height: 0;
+  
+        > div {
+          background: #fff;
+          ul {
+            li {
+              border-left: 1px solid #ddd;
+            }
+          }
+          *:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+    li.panel.active {
+      div.accHeader {
+        background: darken(#71717a, 0%);
+        &:after {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+  
+  
+  ////////////////////////////////////////////////////////////////////////////
+  
+  @media only screen and (min-width: 320px) {
+    ul.accordion {
+      text-align: left;
+  
+      li.panel {
+        margin-bottom: 10px;
+  
+        div.accHeader {
+          font-size: 0.9rem;
+          line-height: 1.2;
+          padding: 12px 40px 12px 15px;
+  
+          &:after {
+            font-size: 0.75rem;
+            bottom: 20px;
+            right: 15px;
+          }
+        }
+  
+        div.accContent {
+          > div {
+            padding: 20px 15px 25px 15px;
+  
+            p {
+              font-size: 0.9rem;
+              line-height: 1.4;
+              margin-bottom: 10px;
+            }
+            ul {
+              padding: 10px 0;
+              li {
+                font-size: 0.85rem;
+                line-height: 1.45;
+                padding-left: 10px;
+                margin-bottom: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+
+   ////////////////////////////////////////////////////////////////////////////
+  
+   @media only screen and (min-width: 560px) {
+    ul.accordion {
+  
+      li.panel {
+
+        div.accContent {
+          > div {  
+            ul {
+              li {
+                padding-left: 12px;
+                margin-bottom: 15px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  
+  ////////////////////////////////////////////////////////////////////////////
+  
+  @media only screen and (min-width: 730px) {
+    ul.accordion {
+      li.panel {
+        div.accHeader {
+          font-size: 1.05rem;
+          padding: 20px 40px 25px 25px;
+  
+          &:after {
+            font-size: 0.9rem;
+            bottom: 32px;
+            right: 30px;
+          }
+        }
+  
+        div.accContent {
+          > div {
+            padding: 25px 30px 25px 25px;
+  
+            p {
+              font-size: 1rem;
+            }
+            ul {
+              li {
+                font-size: 0.9rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  ////////////////////////////////////////////////////////////////////////////
+  
+  @media only screen and (min-width: 960px) {
+    ul.accordion {
+        max-width: 1100px;
+      li.panel {
+        div.accHeader {
+          padding: 20px 40px 25px 30px;
+          font-size: 1.1rem;
+        }
+        div.accContent {
+          > div {
+            padding: 25px 50px 25px 30px;
+          }
+        }
+      }
+    }
+  }
+
+    
+  ////////////////////////////////////////////////////////////////////////////
+  
+  @media only screen and (min-width: 1140px) {
+    ul.accordion {
+      li.panel {
+        div.accHeader {
+            font-size: 1.15rem;
+        }
+      }
+    }
+  }
+
+
+  ////////////////////////////////////////////////////////////////////////////
+  
+  @media only screen and (min-width: 1280px) {
+    ul.accordion {
+      li.panel {
+        div.accHeader {
+            padding: 25px 60px 22px 40px;
+  
+          &:after {
+            right: 25px;
+          }
+        }
+  
+        div.accContent {
+          > div {
+            padding: 40px 60px 45px 40px;
+          }
+        }
+      }
+    }
+  }
+  
+  ////////////////////////////////////////////////////////////////////////////
+  
+  @media only screen and (min-width: 1400px) {
+    ul.accordion {
+      li.panel {
+        div.accHeader {
+            padding: 25px 60px 22px 50px;
+  
+          &:after {
+            right: 25px;
+          }
+        }
+  
+        div.accContent {
+          > div {
+            padding: 50px 60px 55px 50px;
+          }
+        }
+      }
+    }
+  }
+  

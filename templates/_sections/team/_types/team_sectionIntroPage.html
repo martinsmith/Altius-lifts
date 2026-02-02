@@ -1,0 +1,40 @@
+{% extends "_layouts/layout" %}
+
+{% block pageCss %}
+<link rel="stylesheet" href="/_dist/css/pages/team.css">
+{% endblock %}
+
+{% block content %}
+<div class="content">
+
+    <section class="s1 pad nest roundel rw">
+        <div class="ctr gd">
+            <div class="section-header">
+                <h1>{{ entry.title }}</h1>
+            </div>
+            <div class="staff-cards">
+                {% set level2Entries = craft.entries.section('team').level(2) %}
+                <ul>
+                    {% for entry in level2Entries %}
+                    <li>
+                        <a href="{{ entry.url }}">
+                            <div class="text">
+                                <h2>{{ entry.title }}</h2>
+                                {% if entry.staffPosition|length %}
+                                <p class="pos">{{ entry.staffPosition }}</p>
+                                {% endif %}
+                            </div>
+                            {% if entry.staffPhoto|length %}
+                            <div class="img">
+                                <img src="{{ entry.staffPhoto.one().url }}" alt="">
+                            </div>
+                            {% endif %}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>	
+</div>
+{% endblock %}
