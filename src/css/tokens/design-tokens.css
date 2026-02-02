@@ -1,45 +1,88 @@
 @layer tokens {
 
 /* Comprehensive Design Token System - Single Source of Truth */
+/* Altius Lifts Corporate Color Palette */
 
 :root {
   /* === COLOR PALETTE === */
+  /*
+   * Primary Brand Colors - Altius Lifts
+   * Corporate Blue: RGB(6, 85, 159) = #06559F
+   * Corporate Cyan: RGB(22, 219, 225) = #16DBE1
+   */
+
   /* Primary brand colors */
-  --primary-color: #404e5c;
-  --secondary-color: #B9AA9D;
-  --accent-color: #E1ECC3;
-  --light-color: #f3f4f1;
-  --dark-color: #495159;
-  --highlight-color: #E1ECC3;
+  --primary-color: #06559F;           /* Corporate Blue - main brand color */
+  --secondary-color: #0A4A85;         /* Darker blue for depth */
+  --accent-color: #16DBE1;            /* Corporate Cyan - accent/highlight */
+  --light-color: #F0F7FA;             /* Light blue-tinted white */
+  --dark-color: #043A6B;              /* Deep navy for contrast */
+  --highlight-color: #16DBE1;         /* Cyan for highlights */
+
+  /* Extended blue palette */
+  --blue-50: #E8F4FC;                 /* Lightest blue tint */
+  --blue-100: #C5E4F7;                /* Very light blue */
+  --blue-200: #8DC9EF;                /* Light blue */
+  --blue-300: #4FAEE6;                /* Medium light blue */
+  --blue-400: #1A8AD4;                /* Medium blue */
+  --blue-500: #06559F;                /* Primary corporate blue */
+  --blue-600: #054A8A;                /* Slightly darker */
+  --blue-700: #043A6B;                /* Dark blue */
+  --blue-800: #032A4D;                /* Very dark blue */
+  --blue-900: #021A30;                /* Deepest blue */
+
+  /* Extended cyan palette */
+  --cyan-50: #E6FCFD;                 /* Lightest cyan tint */
+  --cyan-100: #B3F6F8;                /* Very light cyan */
+  --cyan-200: #80F0F3;                /* Light cyan */
+  --cyan-300: #4DEAED;                /* Medium light cyan */
+  --cyan-400: #16DBE1;                /* Primary corporate cyan */
+  --cyan-500: #12B8BD;                /* Slightly darker cyan */
+  --cyan-600: #0E9599;                /* Medium dark cyan */
+  --cyan-700: #0A7275;                /* Dark cyan */
+  --cyan-800: #064F51;                /* Very dark cyan */
+  --cyan-900: #032C2D;                /* Deepest cyan */
+
+  /* Supporting neutral palette */
+  --neutral-50: #F8FAFC;              /* Near white */
+  --neutral-100: #F1F5F9;             /* Very light grey */
+  --neutral-200: #E2E8F0;             /* Light grey */
+  --neutral-300: #CBD5E1;             /* Medium light grey */
+  --neutral-400: #94A3B8;             /* Medium grey */
+  --neutral-500: #64748B;             /* Grey */
+  --neutral-600: #475569;             /* Medium dark grey */
+  --neutral-700: #334155;             /* Dark grey */
+  --neutral-800: #1E293B;             /* Very dark grey */
+  --neutral-900: #0F172A;             /* Near black */
 
   /* Text colors */
-  --text-primary: #2d3748;
-  --text-secondary: #4a5568;
-  --text-light: #a0aec0;
-  --footer-text-color: #e1ecc3;
+  --text-primary: #1E293B;            /* Dark grey for body text */
+  --text-secondary: #475569;          /* Medium grey for secondary text */
+  --text-light: #94A3B8;              /* Light grey for muted text */
+  --footer-text-color: #FFFFFF;       /* White text for dark backgrounds */
 
   /* Functional colors */
-  --success-color: #48bb78;
-  --warning-color: #ed8936;
-  --error-color: #e53e3e;
-  --info-color: #4299e1;
+  --success-color: #10B981;           /* Green - success states */
+  --warning-color: #F59E0B;           /* Amber - warning states */
+  --error-color: #EF4444;             /* Red - error states */
+  --info-color: #16DBE1;              /* Cyan - info states (matches brand) */
 
   /* Background colors */
-  --bg-light: #f3f4f1; /* Changed from #dfe9f0 to match features section (soft sage-tinted grey) */
-  --bg-dark: #2d3748;
-  --bg-alternate: #edf2f7;
-  --dark-background-color: #708290;
-  --dark-background-color-darker: #5a6a78; /* Darker variant for gradients */
+  --bg-light: #F0F7FA;                /* Light blue-tinted background */
+  --bg-dark: #1E293B;                 /* Dark background */
+  --bg-alternate: #E8F4FC;            /* Alternate light background */
+  --dark-background-color: #06559F;   /* Corporate blue background */
+  --dark-background-color-darker: #043A6B; /* Darker blue for gradients */
 
   /* Border colors */
-  --border-color: #e2e8f0;
-  --border-dark: #cbd5e0;
+  --border-color: #E2E8F0;            /* Light border */
+  --border-dark: #CBD5E1;             /* Darker border */
 
   /* Modern color manipulation using color-mix() */
-  --accent-color-dark: color-mix(in srgb, var(--accent-color) 90%, black);
-  --accent-color-light: color-mix(in srgb, var(--accent-color) 85%, white);
+  --accent-color-dark: color-mix(in srgb, var(--accent-color) 80%, var(--primary-color));
+  --accent-color-light: color-mix(in srgb, var(--accent-color) 70%, white);
   --primary-color-light: color-mix(in srgb, var(--primary-color) 80%, white);
-  --primary-color-lighter: color-mix(in srgb, var(--primary-color) 70%, white);
+  --primary-color-lighter: color-mix(in srgb, var(--primary-color) 60%, white);
   --primary-color-lightest: color-mix(in srgb, var(--primary-color) 30%, white);
 
   /* === TYPOGRAPHY === */
@@ -62,17 +105,17 @@
   --line-height-relaxed: 1.625;
   --line-height-loose: 2;
 
-  /* Typography scale */
-  --text-xs: 0.75rem;      /* 12px */
-  --text-sm: 0.875rem;     /* 14px */
-  --text-base: 1rem;       /* 16px */
-  --text-lg: 1.125rem;     /* 18px */
-  --text-xl: 1.25rem;      /* 20px */
-  --text-2xl: 1.5rem;      /* 24px */
-  --text-3xl: 1.875rem;    /* 30px */
-  --text-4xl: 2.25rem;     /* 36px */
-  --text-5xl: 3rem;        /* 48px */
-  --text-6xl: 3.75rem;     /* 60px */
+  /* Typography scale - refined for corporate balance */
+  --text-xs: 0.6875rem;    /* 11px */
+  --text-sm: 0.8125rem;    /* 13px */
+  --text-base: 0.9375rem;  /* 15px */
+  --text-lg: 1rem;         /* 16px */
+  --text-xl: 1.125rem;     /* 18px */
+  --text-2xl: 1.25rem;     /* 20px */
+  --text-3xl: 1.5rem;      /* 24px */
+  --text-4xl: 1.875rem;    /* 30px */
+  --text-5xl: 2.25rem;     /* 36px */
+  --text-6xl: 3rem;        /* 48px */
 
   /* Semantic heading sizes */
   --heading-h1: var(--text-5xl);
@@ -85,7 +128,7 @@
   /* Semantic typography tokens */
   --text-hero: var(--text-6xl);
   --text-section-title: var(--text-4xl);
-  --text-card-title: var(--text-xl);
+  --text-card-title: var(--text-lg);
   --text-body: var(--text-base);
   --text-caption: var(--text-sm);
   --text-label: var(--text-sm);
@@ -212,17 +255,17 @@
 /* === RESPONSIVE ADJUSTMENTS === */
 @media (max-width: 768px) {
   :root {
-    /* Responsive typography */
+    /* Responsive typography - tablet */
     --heading-h1: var(--text-4xl);
     --heading-h2: var(--text-3xl);
     --heading-h3: var(--text-2xl);
     --heading-h4: var(--text-xl);
     --heading-h5: var(--text-lg);
     --heading-h6: var(--text-base);
-    
+
     --text-hero: var(--text-5xl);
     --text-section-title: var(--text-3xl);
-    --text-card-title: var(--text-lg);
+    --text-card-title: var(--text-base);
 
     /* Responsive spacing */
     --section-padding: var(--space-16);
@@ -234,17 +277,17 @@
 
 @media (max-width: 480px) {
   :root {
-    /* Extra small responsive typography */
+    /* Extra small responsive typography - mobile */
     --heading-h1: var(--text-3xl);
     --heading-h2: var(--text-2xl);
     --heading-h3: var(--text-xl);
     --heading-h4: var(--text-lg);
     --heading-h5: var(--text-base);
     --heading-h6: var(--text-sm);
-    
+
     --text-hero: var(--text-4xl);
     --text-section-title: var(--text-2xl);
-    --text-card-title: var(--text-base);
+    --text-card-title: var(--text-sm);
 
     /* Extra small responsive spacing */
     --section-padding: var(--space-12);
