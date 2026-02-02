@@ -19,6 +19,7 @@ use craft\elements\User;
 use craft\enums\CmsEdition;
 use craft\errors\InvalidElementException;
 use craft\errors\UploadFailedException;
+use craft\errors\WrongEditionException;
 use craft\events\DefineUserContentSummaryEvent;
 use craft\events\FindLoginUserEvent;
 use craft\events\InvalidUserTokenEvent;
@@ -50,6 +51,10 @@ use craft\web\ServiceUnavailableHttpException;
 use craft\web\UploadedFile;
 use craft\web\View;
 use DateTime;
+use thamtech\ratelimiter\Context;
+use thamtech\ratelimiter\handlers\TooManyRequestsHttpExceptionHandler;
+use thamtech\ratelimiter\limit\RateLimit;
+use thamtech\ratelimiter\RateLimiter;
 use Throwable;
 use yii\base\Exception;
 use yii\base\InvalidArgumentException;
@@ -118,7 +123,7 @@ class UsersController extends Controller
     public const EVENT_LOGIN_FAILURE = 'loginFailure';
 
     /**
-     * @event DefineEditUserScreensEvent The event that is triggered when defining the screens that should be
+     * @event \craft\events\DefineEditUserScreensEvent The event that is triggered when defining the screens that should be
      * shown for the user being edited.
      * @since 5.1.0
      */
@@ -174,11 +179,43 @@ class UsersController extends Controller
         'logout' => self::ALLOW_ANONYMOUS_LIVE | self::ALLOW_ANONYMOUS_OFFLINE,
         'impersonate-with-token' => self::ALLOW_ANONYMOUS_LIVE | self::ALLOW_ANONYMOUS_OFFLINE,
         'save-user' => self::ALLOW_ANONYMOUS_LIVE,
-        'send-activation-email' => self::ALLOW_ANONYMOUS_LIVE | self::ALLOW_ANONYMOUS_OFFLINE,
         'send-password-reset-email' => self::ALLOW_ANONYMOUS_LIVE | self::ALLOW_ANONYMOUS_OFFLINE,
         'set-password' => self::ALLOW_ANONYMOUS_LIVE | self::ALLOW_ANONYMOUS_OFFLINE,
         'verify-email' => self::ALLOW_ANONYMOUS_LIVE | self::ALLOW_ANONYMOUS_OFFLINE,
     ];
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors(): array
+    {
+        return parent::behaviors() + [
+            'rateLimiter' => [
+                'class' => RateLimiter::class,
+                'only' => ['send-password-reset-email'],
+                'components' => [
+                    'rateLimit' => [
+                        'definitions' => [
+                            'reset-password' => [
+                                'class' => RateLimit::class,
+                                'limit' => 1,
+                                'window' => 1,
+                                'identifier' => fn(Context $context, $rateLimitId) => sprintf(
+                                    '%s:%s',
+                                    $rateLimitId,
+                                    $context->request->getUserIP(),
+                                ),
+                            ],
+                        ],
+                    ],
+                    'allowanceStorage' => [
+                        'cache' => 'cache',
+                    ],
+                ],
+                'as tooManyRequestsException' => TooManyRequestsHttpExceptionHandler::class,
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -390,7 +427,7 @@ class UsersController extends Controller
      */
     public function actionImpersonate(): ?Response
     {
-        $this->requirePostRequest();
+        $this->userActionChecks();
         $this->requireElevatedSession();
 
         $userSession = Craft::$app->getUser();
@@ -429,7 +466,7 @@ class UsersController extends Controller
      */
     public function actionGetImpersonationUrl(): Response
     {
-        $this->requirePostRequest();
+        $this->userActionChecks();
         $this->requireElevatedSession();
 
         $userId = $this->request->getBodyParam('userId');
@@ -717,6 +754,7 @@ class UsersController extends Controller
      */
     public function actionGetPasswordResetUrl(): Response
     {
+        $this->userActionChecks();
         $this->requirePermission('administrateUsers');
 
         if (!$this->_verifyElevatedSession()) {
@@ -994,7 +1032,7 @@ class UsersController extends Controller
      */
     public function actionEnableUser(): ?Response
     {
-        $this->requirePostRequest();
+        $this->userActionChecks();
 
         $userId = $this->request->getRequiredBodyParam('userId');
         $user = Craft::$app->getUsers()->getUserById($userId);
@@ -1031,8 +1069,8 @@ class UsersController extends Controller
      */
     public function actionActivateUser(): ?Response
     {
+        $this->userActionChecks();
         $this->requirePermission('administrateUsers');
-        $this->requirePostRequest();
         $userVariable = $this->request->getValidatedBodyParam('userVariable') ?? 'user';
 
         $userId = $this->request->getRequiredBodyParam('userId');
@@ -1417,10 +1455,7 @@ class UsersController extends Controller
     public function actionSavePassword(): ?Response
     {
         $this->requireCpRequest();
-
-        if (!Craft::$app->getUser()->getHasElevatedSession()) {
-            throw new BadRequestHttpException('An elevated session is required to change your password.');
-        }
+        $this->requireElevatedSession();
 
         $user = static::currentUser();
 
@@ -1780,16 +1815,18 @@ JS);
             $originalEmail = $user->email;
             $user->email = $user->unverifiedEmail;
 
-            if ($isNewUser) {
-                // Send the activation email
-                Craft::$app->getUsers()->sendActivationEmail($user);
-            } else {
-                // Send the standard verification email
-                Craft::$app->getUsers()->sendNewEmailVerifyEmail($user);
+            try {
+                if ($isNewUser) {
+                    // Send the activation email
+                    Craft::$app->getUsers()->sendActivationEmail($user);
+                } else {
+                    // Send the standard verification email
+                    Craft::$app->getUsers()->sendNewEmailVerifyEmail($user);
+                }
+            } finally {
+                // Put the original email back into place
+                $user->email = $originalEmail;
             }
-
-            // Put the original email back into place
-            $user->email = $originalEmail;
         }
 
         // Is this public registration, and was the user going to be activated automatically?
@@ -1943,7 +1980,7 @@ JS);
      */
     public function actionSendActivationEmail(): ?Response
     {
-        $this->requirePostRequest();
+        $this->userActionChecks();
 
         $userId = $this->request->getRequiredBodyParam('userId');
 
@@ -1996,7 +2033,7 @@ JS);
      */
     public function actionUnlockUser(): Response
     {
-        $this->requirePostRequest();
+        $this->userActionChecks();
         $this->requirePermission('moderateUsers');
 
         $userId = $this->request->getRequiredBodyParam('userId');
@@ -2033,7 +2070,7 @@ JS);
      */
     public function actionSuspendUser(): ?Response
     {
-        $this->requirePostRequest();
+        $this->userActionChecks();
         $this->requirePermission('moderateUsers');
 
         $userId = $this->request->getRequiredBodyParam('userId');
@@ -2124,7 +2161,7 @@ JS);
      */
     public function actionDeactivateUser(): ?Response
     {
-        $this->requirePostRequest();
+        $this->userActionChecks();
 
         $userId = $this->request->getRequiredBodyParam('userId');
         $user = Craft::$app->getUsers()->getUserById($userId);
@@ -2219,7 +2256,7 @@ JS);
      */
     public function actionUnsuspendUser(): ?Response
     {
-        $this->requirePostRequest();
+        $this->userActionChecks();
         $this->requirePermission('moderateUsers');
 
         $userId = $this->request->getRequiredBodyParam('userId');
@@ -2394,22 +2431,6 @@ JS);
 
         $this->setSuccessFlash(Craft::t('app', 'User fields saved.'));
         return $this->redirectToPostedUrl();
-    }
-
-    /**
-     * Verifies a password for a user.
-     *
-     * @return Response|null
-     */
-    public function actionVerifyPassword(): ?Response
-    {
-        $this->requireAcceptsJson();
-
-        if ($this->_verifyExistingPassword()) {
-            return $this->asSuccess();
-        }
-
-        return $this->asFailure(Craft::t('app', 'Invalid password.'));
     }
 
     /**
@@ -3107,5 +3128,18 @@ JS);
             $model->newPassword = null;
             $model->currentPassword = null;
         }
+    }
+
+    /**
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
+     * @throws WrongEditionException
+     */
+    private function userActionChecks(): void
+    {
+        Craft::$app->requireEdition(CmsEdition::Team);
+        $this->requirePostRequest();
+        $this->requireCpRequest();
+        $this->requirePermission('editUsers');
     }
 }

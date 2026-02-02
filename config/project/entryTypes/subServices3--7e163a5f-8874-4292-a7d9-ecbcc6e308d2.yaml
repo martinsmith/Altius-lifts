@@ -3,6 +3,8 @@ description: null
 fieldLayouts:
   308b815f-75b8-46fb-9899-5be7547bea55:
     cardThumbAlignment: end
+    cardView:
+      - 'layoutElement:f7275249-03b7-462d-b8ad-01555bb08752'
     tabs:
       -
         elementCondition: null
@@ -13,10 +15,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: subTitle
-            includeInCards: false
             instructions: null
             label: Title
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -30,10 +30,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: subTabText
-            includeInCards: true
             instructions: null
             label: 'Tab Text'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -47,10 +45,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: b42073cc-57b6-4636-b08c-5b9bb29facb4 # Sub Service Intro
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -64,10 +60,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: d2c3b28c-ed81-4d1d-a2c8-8a4cfff51ecd # Price List
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

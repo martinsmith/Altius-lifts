@@ -13,10 +13,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 75d5ff91-e0e7-479a-b047-041d2c3e1649 # Page Header
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -30,10 +28,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 9f2c1146-2e6e-476c-9e77-c6e736164ed7 # Brands and Products
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -47,10 +43,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 04ddff7f-52ed-458a-bc0c-a3a9d4b76f4d # Single Image
             handle: genericImage
-            includeInCards: false
             instructions: "This will appear wherever you don't include an image with a product."
             label: 'Generic Placeholder Image'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -64,10 +58,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 71202746-fb78-4408-b9b3-1c3d1e39ffb8 # Call to Action
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -87,10 +79,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: f425b0e8-1203-40a7-9f6f-108688342507 # SEO Information
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

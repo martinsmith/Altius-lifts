@@ -13,10 +13,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 75d5ff91-e0e7-479a-b047-041d2c3e1649 # Page Header
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -30,10 +28,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 5f596b25-ec1e-469a-8c81-e040276faa25 # Offer Cards
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -47,10 +43,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 6b2d5a14-d767-4360-88fa-ca10896170a4 # Promo Links
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -64,10 +58,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 71202746-fb78-4408-b9b3-1c3d1e39ffb8 # Call to Action
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -87,10 +79,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: f425b0e8-1203-40a7-9f6f-108688342507 # SEO Information
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

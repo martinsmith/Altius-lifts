@@ -17,10 +17,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 04ddff7f-52ed-458a-bc0c-a3a9d4b76f4d # Single Image
             handle: customerPhoto
-            includeInCards: true
             instructions: null
             label: 'Customer Photo'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -34,10 +32,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: b5144bca-43e4-4a75-8d36-4405e3f2629a # Testimonial Text
             handle: null
-            includeInCards: true
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -51,10 +47,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: customerName
-            includeInCards: true
             instructions: null
             label: 'Customer Name'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -68,10 +62,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: customerCite
-            includeInCards: false
             instructions: null
             label: 'Customer Citation'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

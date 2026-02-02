@@ -24,6 +24,8 @@ use yii\di\NotInstantiableException;
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
+ *
+ * @template T of Module
  */
 class Controller extends Component implements ViewContextInterface
 {
@@ -31,18 +33,20 @@ class Controller extends Component implements ViewContextInterface
      * @event ActionEvent an event raised right before executing a controller action.
      * You may set [[ActionEvent::isValid]] to be false to cancel the action execution.
      */
-    const EVENT_BEFORE_ACTION = 'beforeAction';
+    public const EVENT_BEFORE_ACTION = 'beforeAction';
     /**
      * @event ActionEvent an event raised right after executing a controller action.
      */
-    const EVENT_AFTER_ACTION = 'afterAction';
-
+    public const EVENT_AFTER_ACTION = 'afterAction';
     /**
      * @var string the ID of this controller.
      */
     public $id;
     /**
      * @var Module the module that this controller belongs to.
+     *
+     * @phpstan-var T
+     * @psalm-var T
      */
     public $module;
     /**
@@ -60,6 +64,9 @@ class Controller extends Component implements ViewContextInterface
     /**
      * @var Action|null the action that is currently being executed. This property will be set
      * by [[run()]] when it is called by [[Application]] to run an action.
+     *
+     * @phpstan-var Action<$this>|null
+     * @psalm-var Action<$this>|null
      */
     public $action;
     /**
@@ -87,6 +94,12 @@ class Controller extends Component implements ViewContextInterface
      * @param string $id the ID of this controller.
      * @param Module $module the module that this controller belongs to.
      * @param array $config name-value pairs that will be used to initialize the object properties.
+     *
+     * @phpstan-param T $module
+     * @psalm-param T $module
+     *
+     * @phpstan-param array<string, mixed> $config
+     * @psalm-param array<string, mixed> $config
      */
     public function __construct($id, $module, $config = [])
     {
@@ -113,7 +126,7 @@ class Controller extends Component implements ViewContextInterface
      * It should return an array, with array keys being action IDs, and array values the corresponding
      * action class names or action configuration arrays. For example,
      *
-     * ```php
+     * ```
      * return [
      *     'action1' => 'app\components\Action1',
      *     'action2' => [
@@ -127,6 +140,9 @@ class Controller extends Component implements ViewContextInterface
      * [[\Yii::createObject()]] will be used later to create the requested action
      * using the configuration provided here.
      * @return array
+     *
+     * @phpstan-return array<array-key, class-string|array{class: class-string, ...}>
+     * @psalm-return array<array-key, class-string|array{class: class-string, ...}>
      */
     public function actions()
     {
@@ -141,6 +157,9 @@ class Controller extends Component implements ViewContextInterface
      * @return mixed the result of the action.
      * @throws InvalidRouteException if the requested action ID cannot be resolved into an action successfully.
      * @see createAction()
+     *
+     * @phpstan-param array<array-key, mixed> $params
+     * @psalm-param array<array-key, mixed> $params
      */
     public function runAction($id, $params = [])
     {
@@ -181,7 +200,7 @@ class Controller extends Component implements ViewContextInterface
 
             // call afterAction on modules
             foreach ($modules as $module) {
-                /* @var $module Module */
+                /** @var Module $module */
                 $result = $module->afterAction($action, $result);
             }
         }
@@ -202,6 +221,9 @@ class Controller extends Component implements ViewContextInterface
      * @param array $params the parameters to be passed to the action.
      * @return mixed the result of the action.
      * @see runAction()
+     *
+     * @phpstan-param array<array-key, mixed> $params
+     * @psalm-param array<array-key, mixed> $params
      */
     public function run($route, $params = [])
     {
@@ -221,6 +243,15 @@ class Controller extends Component implements ViewContextInterface
      * @param Action $action the action to be bound with parameters.
      * @param array $params the parameters to be bound to the action.
      * @return array the valid parameters that the action can run with.
+     *
+     * @phpstan-param Action<$this> $action
+     * @psalm-param Action<$this> $action
+     *
+     * @phpstan-param array<array-key, mixed> $params
+     * @psalm-param array<array-key, mixed> $params
+     *
+     * @phpstan-return mixed[]
+     * @psalm-return mixed[]
      */
     public function bindActionParams($action, $params)
     {
@@ -236,6 +267,9 @@ class Controller extends Component implements ViewContextInterface
      * method will be created and returned.
      * @param string $id the action ID.
      * @return Action|null the newly created action instance. Null if the ID doesn't resolve into any action.
+     *
+     * @phpstan-return Action<$this>|null
+     * @psalm-return Action<$this>|null
      */
     public function createAction($id)
     {
@@ -272,7 +306,7 @@ class Controller extends Component implements ViewContextInterface
      *
      * If you override this method, your code should look like the following:
      *
-     * ```php
+     * ```
      * public function beforeAction($action)
      * {
      *     // your custom code here, if you want the code to run before action filters,
@@ -290,6 +324,9 @@ class Controller extends Component implements ViewContextInterface
      *
      * @param Action $action the action to be executed.
      * @return bool whether the action should continue to run.
+     *
+     * @phpstan-param Action<$this> $action
+     * @psalm-param Action<$this> $action
      */
     public function beforeAction($action)
     {
@@ -306,7 +343,7 @@ class Controller extends Component implements ViewContextInterface
      *
      * If you override this method, your code should look like the following:
      *
-     * ```php
+     * ```
      * public function afterAction($action, $result)
      * {
      *     $result = parent::afterAction($action, $result);
@@ -318,6 +355,9 @@ class Controller extends Component implements ViewContextInterface
      * @param Action $action the action just executed.
      * @param mixed $result the action return result.
      * @return mixed the processed action result.
+     *
+     * @phpstan-param Action<$this> $action
+     * @psalm-param Action<$this> $action
      */
     public function afterAction($action, $result)
     {
@@ -401,6 +441,9 @@ class Controller extends Component implements ViewContextInterface
      * These parameters will not be available in the layout.
      * @return string the rendering result.
      * @throws InvalidArgumentException if the view file or the layout file does not exist.
+     *
+     * @phpstan-param array<string, mixed> $params
+     * @psalm-param array<string, mixed> $params
      */
     public function render($view, $params = [])
     {
@@ -432,6 +475,9 @@ class Controller extends Component implements ViewContextInterface
      * @param array $params the parameters (name-value pairs) that should be made available in the view.
      * @return string the rendering result.
      * @throws InvalidArgumentException if the view file does not exist.
+     *
+     * @phpstan-param array<string, mixed> $params
+     * @psalm-param array<string, mixed> $params
      */
     public function renderPartial($view, $params = [])
     {
@@ -444,6 +490,9 @@ class Controller extends Component implements ViewContextInterface
      * @param array $params the parameters (name-value pairs) that should be made available in the view.
      * @return string the rendering result.
      * @throws InvalidArgumentException if the view file does not exist.
+     *
+     * @phpstan-param array<string, mixed> $params
+     * @psalm-param array<string, mixed> $params
      */
     public function renderFile($file, $params = [])
     {
@@ -548,7 +597,7 @@ class Controller extends Component implements ViewContextInterface
 
     /**
      * Fills parameters based on types and names in action method signature.
-     * @param \ReflectionType $type The reflected type of the action parameter.
+     * @param \ReflectionNamedType $type The reflected type of the action parameter.
      * @param string $name The name of the parameter.
      * @param array &$args The array of arguments for the action, this function may append items to it.
      * @param array &$requestedParams The array with requested params, this function may write specific keys to it.
@@ -558,7 +607,7 @@ class Controller extends Component implements ViewContextInterface
      * (for example an interface type hint) without a proper definition in the container.
      * @since 2.0.36
      */
-    final protected function bindInjectedParams(\ReflectionType $type, $name, &$args, &$requestedParams)
+    final protected function bindInjectedParams(\ReflectionNamedType $type, $name, &$args, &$requestedParams)
     {
         // Since it is not a builtin type it must be DI injection.
         $typeName = $type->getName();

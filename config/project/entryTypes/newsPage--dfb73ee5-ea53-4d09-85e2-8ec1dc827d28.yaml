@@ -13,10 +13,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 75d5ff91-e0e7-479a-b047-041d2c3e1649 # Page Header
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -36,10 +34,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: f425b0e8-1203-40a7-9f6f-108688342507 # SEO Information
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

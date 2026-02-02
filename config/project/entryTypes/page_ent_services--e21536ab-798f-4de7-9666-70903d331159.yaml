@@ -13,10 +13,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 75d5ff91-e0e7-479a-b047-041d2c3e1649 # Page Header
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -30,10 +28,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 71202746-fb78-4408-b9b3-1c3d1e39ffb8 # Call to Action
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -53,10 +49,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: serviceType2
-            includeInCards: false
             instructions: null
             label: 'Service Type'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -70,10 +64,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: serviceTabText2
-            includeInCards: false
             instructions: null
             label: 'Service Tab Text'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -87,10 +79,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: serviceIcon2
-            includeInCards: false
             instructions: null
             label: 'Service Icon'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -104,10 +94,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 9b42751e-b87f-4957-8c54-5a457d443a7f # Basic with H2
             handle: mainServiceIntro2
-            includeInCards: false
             instructions: null
             label: 'Main Service Intro'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -121,10 +109,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 3b3650a6-7e79-4860-9537-41787a90b09b # Services
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -138,10 +124,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 357f9164-8489-4611-9576-cdc99300d44e
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -161,10 +145,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: serviceType1
-            includeInCards: false
             instructions: null
             label: 'Service Type'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -178,10 +160,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: serviceTabText1
-            includeInCards: false
             instructions: null
             label: 'Service Tab Text'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -195,10 +175,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: serviceIcon1
-            includeInCards: false
             instructions: null
             label: 'Service Icon'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -212,10 +190,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 9b42751e-b87f-4957-8c54-5a457d443a7f # Basic with H2
             handle: mainServiceIntro1
-            includeInCards: false
             instructions: null
             label: 'Main Service Intro'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -229,10 +205,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 91bf7b22-c506-4a80-8c0d-506bf77a3dfc # Services
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -246,10 +220,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: bd8fab1a-d105-471a-a842-1dc57f562d2e
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -269,10 +241,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: serviceType3
-            includeInCards: false
             instructions: null
             label: 'Service Type'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -286,10 +256,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: serviceTabText3
-            includeInCards: false
             instructions: null
             label: 'Service Tab Text'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -303,10 +271,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: serviceIcon3
-            includeInCards: false
             instructions: null
             label: 'Service Icon'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -320,10 +286,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 9b42751e-b87f-4957-8c54-5a457d443a7f # Basic with H2
             handle: mainServiceIntro3
-            includeInCards: false
             instructions: null
             label: 'Main Service Intro'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -337,10 +301,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: e7d1aee4-6d2a-4c14-b96d-33b111833a0b # Services
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -354,10 +316,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 1695451e-7370-4b89-928e-32da8e7984e0
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -377,10 +337,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: f425b0e8-1203-40a7-9f6f-108688342507 # SEO Information
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

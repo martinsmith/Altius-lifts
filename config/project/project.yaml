@@ -1,4 +1,4 @@
-dateModified: 1765536066
+dateModified: 1770045258
 elementSources:
   craft\elements\Entry:
     -
@@ -85,7 +85,7 @@ meta:
     9b42751e-b87f-4957-8c54-5a457d443a7f: 'Basic with H2' # Basic with H2
     9f2c1146-2e6e-476c-9e77-c6e736164ed7: 'Brands and Products' # Brands and Products
     10dcb136-b8a7-4325-90fe-c0cda2e1ebd1: 'Simple Text' # Simple Text
-    21f4ef74-64dc-48e3-bb94-93d62c25ef08: 'Hair Haven' # Hair Haven
+    21f4ef74-64dc-48e3-bb94-93d62c25ef08: 'Altius Lifts' # Altius Lifts
     24b60046-c604-467a-9159-5c28626085cb: FAQs # FAQs
     30d70629-c8e5-40db-9f27-dd7dd53d0afb: 'Card Link' # Card Link
     35f4bfc2-4432-43df-bd81-7ccfd0e7a7f1: Team # Team
@@ -142,7 +142,7 @@ meta:
     d2f55de7-1c60-480a-99db-3d871461fe31: 'Text Color' # Text Color
     d51d5a9b-69fe-4e13-acd6-d4f9a20ccae1: 'Title Text' # Title Text
     d60136f4-9baf-4f3c-9a20-bbd1bf47b28a: Services # Services
-    d9707244-1d4e-4b5b-9d06-b6055492603e: 'Hair Haven' # Hair Haven
+    d9707244-1d4e-4b5b-9d06-b6055492603e: 'Altius Lifts' # Altius Lifts
     da000afe-cb2f-43bf-a97b-769110bde6f6: 'Sub Services' # Sub Services
     dfb73ee5-ea53-4d09-85e2-8ec1dc827d28: News # News
     e2c6ec4d-d46c-47ec-800d-206eea4d27b1: 'Contact Form' # Contact Form
@@ -223,64 +223,12 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
-  seomatic:
-    edition: standard
-    enabled: true
-    licenseKey: 55JPLHLCDK5V239ZG7MJ1967
-    schemaVersion: 3.0.13
-    settings:
-      addHrefLang: true
-      addPaginatedHreflang: true
-      addXDefaultHrefLang: true
-      alwaysIncludeCanonicalUrls: false
-      cpTitlePrefix: '⚙ '
-      cspNonce: ''
-      cspScriptSrcPolicies:
-        -
-          __assoc__:
-            -
-              - policy
-              - "'self'"
-      devModeCpTitlePrefix: '🚧⚙ '
-      devModeTitlePrefix: '🚧 '
-      displayAnalysisSidebar: true
-      displayPreviewSidebar: true
-      enableDebugToolbarPanel: true
-      enableJsonLdEndpoint: false
-      enableMetaContainerEndpoint: false
-      enableSeoFileLinkEndpoint: false
-      environment: dev
-      excludeNonCanonicalUrls: false
-      generatorEnabled: true
-      headersEnabled: true
-      includeHomepageInBreadcrumbs: true
-      lowercaseCanonicalUrl: true
-      manuallySetEnvironment: false
-      maxDescriptionLength: 155
-      maxTitleLength: 70
-      metaCacheDuration: 0
-      pluginName: SEOmatic
-      regenerateSitemapsAutomatically: true
-      renderEnabled: true
-      separatorChar: '|'
-      sidebarDisplayPreviewTypes:
-        - google
-        - twitter
-        - facebook
-      siteGroupsSeparate: true
-      siteUrlOverride: ''
-      sitemapsEnabled: true
-      socialMediaPreviewTarget: true
-      submitSitemaps: true
-      truncateDescriptionTags: true
-      truncateTitleTags: true
-      xDefaultSite: 0
 system:
   edition: solo
   live: true
-  name: 'Hair Haven'
+  name: 'Altius Lifts'
   retryDuration: null
-  schemaVersion: 5.8.0.3
+  schemaVersion: 5.9.0.8
   timeZone: America/Los_Angeles
 users:
   allowPublicRegistration: false

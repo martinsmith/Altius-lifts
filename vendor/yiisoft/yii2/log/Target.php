@@ -13,7 +13,9 @@ use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 use yii\helpers\VarDumper;
+use yii\web\IdentityInterface;
 use yii\web\Request;
+use yii\web\User;
 
 /**
  * Target is the base class for all log target classes.
@@ -211,7 +213,7 @@ abstract class Target extends Component
      *
      * For example,
      *
-     * ```php
+     * ```
      * ['error', 'warning']
      * // which is equivalent to:
      * Logger::LEVEL_ERROR | Logger::LEVEL_WARNING
@@ -344,7 +346,10 @@ abstract class Target extends Component
         $request = Yii::$app->getRequest();
         $ip = $request instanceof Request ? $request->getUserIP() : '-';
 
-        /* @var $user \yii\web\User */
+        /**
+         * @var User $user
+         * @phpstan-var User<IdentityInterface>
+         */
         $user = Yii::$app->has('user', true) ? Yii::$app->get('user') : null;
         if ($user && ($identity = $user->getIdentity(false))) {
             $userID = $identity->getId();
@@ -352,7 +357,7 @@ abstract class Target extends Component
             $userID = '-';
         }
 
-        /* @var $session \yii\web\Session */
+        /** @var \yii\web\Session $session */
         $session = Yii::$app->has('session', true) ? Yii::$app->get('session') : null;
         $sessionID = $session && $session->getIsActive() ? $session->getId() : '-';
 
@@ -368,7 +373,7 @@ abstract class Target extends Component
      * For example, to only enable a log if the current user is logged in you can configure the target
      * as follows:
      *
-     * ```php
+     * ```
      * 'enabled' => function() {
      *     return !Yii::$app->user->isGuest;
      * }
@@ -381,7 +386,6 @@ abstract class Target extends Component
 
     /**
      * Check whether the log target is enabled.
-     * @property bool Indicates whether this log target is enabled. Defaults to true.
      * @return bool A value indicating whether this log target is enabled.
      */
     public function getEnabled()

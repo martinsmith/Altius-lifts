@@ -16,10 +16,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 04ddff7f-52ed-458a-bc0c-a3a9d4b76f4d # Single Image
             handle: cardImage
-            includeInCards: true
             instructions: null
             label: 'Card Image'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -36,7 +34,6 @@ fieldLayouts:
             disabled: false
             elementCondition: null
             id: null
-            includeInCards: false
             inputType: null
             instructions: null
             label: 'Card Title'
@@ -45,7 +42,6 @@ fieldLayouts:
             name: null
             orientation: null
             placeholder: null
-            providesThumbs: false
             readonly: false
             required: true
             size: null
@@ -63,10 +59,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: cardText
-            includeInCards: true
             instructions: null
             label: 'Card Text'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -80,10 +74,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: cardLink
-            includeInCards: false
             instructions: null
             label: 'Card Link'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

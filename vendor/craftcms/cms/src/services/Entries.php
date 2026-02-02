@@ -1452,6 +1452,12 @@ SQL)->execute();
         if ($db->columnExists(Table::ENTRYTYPES, 'color')) {
             $query->addSelect('color');
         }
+        if ($db->columnExists(Table::ENTRYTYPES, 'uiLabelFormat')) {
+            $query->addSelect('uiLabelFormat');
+        }
+        if ($db->columnExists(Table::ENTRYTYPES, 'allowLineBreaksInTitles')) {
+            $query->addSelect('allowLineBreaksInTitles');
+        }
 
         return $query;
     }
@@ -1673,8 +1679,15 @@ SQL)->execute();
             $entryTypeRecord->uid = $entryTypeUid;
 
             // todo: remove after the next breakpoint
-            if (Craft::$app->getDb()->columnExists(Table::ENTRYTYPES, 'description')) {
+            $db = Craft::$app->getDb();
+            if ($db->columnExists(Table::ENTRYTYPES, 'description')) {
                 $entryTypeRecord->description = $data['description'] ?? null;
+            }
+            if ($db->columnExists(Table::ENTRYTYPES, 'uiLabelFormat')) {
+                $entryTypeRecord->uiLabelFormat = $data['uiLabelFormat'] ?? '{title}';
+            }
+            if ($db->columnExists(Table::ENTRYTYPES, 'allowLineBreaksInTitles')) {
+                $entryTypeRecord->allowLineBreaksInTitles = $data['allowLineBreaksInTitles'] ?? false;
             }
 
             if (!empty($data['fieldLayouts'])) {
@@ -1961,7 +1974,7 @@ SQL)->execute();
         $usages = $this->allEntryTypeUsages();
 
         foreach ($entryTypes as $entryType) {
-            $label = $entryType->getUiLabel();
+            $label = Html::encode($entryType->getUiLabel());
             $chipCellContent = Html::beginTag('div', ['class' => 'inline-chips']) .
                 Cp::chipHtml($entryType, [
                     'labelHtml' => Html::a($label, $entryType->getCpEditUrl(), [

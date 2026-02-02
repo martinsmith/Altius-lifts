@@ -18,7 +18,7 @@ namespace yii\caching;
  *
  * A typical usage pattern of cache is like the following:
  *
- * ```php
+ * ```
  * $key = 'demo';
  * $data = $cache->get($key);
  * if ($data === false) {
@@ -29,7 +29,7 @@ namespace yii\caching;
  *
  * Because CacheInterface extends the [[\ArrayAccess]] interface, it can be used like an array. For example,
  *
- * ```php
+ * ```
  * $cache['foo'] = 'some data';
  * echo $cache['foo'];
  * ```
@@ -39,6 +39,8 @@ namespace yii\caching;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Dmitry Naumenko <d.naumenko.a@gmail.com>
  * @since 2.0.13. Previous framework versions used abstract class [[yii\caching\Cache]] as interface.
+ *
+ * @extends \ArrayAccess<string, mixed>
  */
 interface CacheInterface extends \ArrayAccess
 {
@@ -169,7 +171,7 @@ interface CacheInterface extends \ArrayAccess
      *
      * Usage example:
      *
-     * ```php
+     * ```
      * public function getTopProducts($count = 10) {
      *     $cache = $this->cache; // Could be Yii::$app->cache
      *     return $cache->getOrSet(['top-n-products', 'n' => $count], function ($cache) use ($count) {
@@ -188,6 +190,12 @@ interface CacheInterface extends \ArrayAccess
      * the corresponding value in the cache will be invalidated when it is fetched via [[get()]].
      * This parameter is ignored if [[serializer]] is `false`.
      * @return mixed result of $callable execution
+     *
+     * @template TResult of mixed
+     * @psalm-param callable():TResult|\Closure():TResult $callable
+     * @phpstan-param callable():TResult|\Closure():TResult $callable
+     * @psalm-return TResult
+     * @phpstan-return TResult
      */
     public function getOrSet($key, $callable, $duration = null, $dependency = null);
 }

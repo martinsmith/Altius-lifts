@@ -49,40 +49,39 @@ abstract class Application extends Module
     /**
      * @event Event an event raised before the application starts to handle a request.
      */
-    const EVENT_BEFORE_REQUEST = 'beforeRequest';
+    public const EVENT_BEFORE_REQUEST = 'beforeRequest';
     /**
      * @event Event an event raised after the application successfully handles a request (before the response is sent out).
      */
-    const EVENT_AFTER_REQUEST = 'afterRequest';
+    public const EVENT_AFTER_REQUEST = 'afterRequest';
     /**
      * Application state used by [[state]]: application just started.
      */
-    const STATE_BEGIN = 0;
+    public const STATE_BEGIN = 0;
     /**
      * Application state used by [[state]]: application is initializing.
      */
-    const STATE_INIT = 1;
+    public const STATE_INIT = 1;
     /**
      * Application state used by [[state]]: application is triggering [[EVENT_BEFORE_REQUEST]].
      */
-    const STATE_BEFORE_REQUEST = 2;
+    public const STATE_BEFORE_REQUEST = 2;
     /**
      * Application state used by [[state]]: application is handling the request.
      */
-    const STATE_HANDLING_REQUEST = 3;
+    public const STATE_HANDLING_REQUEST = 3;
     /**
      * Application state used by [[state]]: application is triggering [[EVENT_AFTER_REQUEST]]..
      */
-    const STATE_AFTER_REQUEST = 4;
+    public const STATE_AFTER_REQUEST = 4;
     /**
      * Application state used by [[state]]: application is about to send response.
      */
-    const STATE_SENDING_RESPONSE = 5;
+    public const STATE_SENDING_RESPONSE = 5;
     /**
      * Application state used by [[state]]: application has ended.
      */
-    const STATE_END = 6;
-
+    public const STATE_END = 6;
     /**
      * @var string the namespace that controller classes are located in.
      * This namespace will be used to load controller classes by prepending it to the controller class name.
@@ -113,7 +112,10 @@ abstract class Application extends Module
      */
     public $sourceLanguage = 'en-US';
     /**
-     * @var Controller the currently active controller instance
+     * @var Controller|null the currently active controller instance
+     *
+     * @phpstan-var Controller<Module>|null
+     * @psalm-var Controller<Module>|null
      */
     public $controller;
     /**
@@ -127,6 +129,9 @@ abstract class Application extends Module
     public $requestedRoute;
     /**
      * @var Action|null the requested Action. If null, it means the request cannot be resolved into an action.
+     *
+     * @phpstan-var Action<covariant Controller<Module>>|null
+     * @psalm-var Action<covariant Controller<Module>>|null
      */
     public $requestedAction;
     /**
@@ -137,7 +142,7 @@ abstract class Application extends Module
      * @var array|null list of installed Yii extensions. Each array element represents a single extension
      * with the following structure:
      *
-     * ```php
+     * ```
      * [
      *     'name' => 'extension name',
      *     'version' => 'version number',
@@ -189,6 +194,9 @@ abstract class Application extends Module
      * @param array $config name-value pairs that will be used to initialize the object properties.
      * Note that the configuration must contain both [[id]] and [[basePath]].
      * @throws InvalidConfigException if either [[id]] or [[basePath]] configuration is missing.
+     *
+     * @phpstan-param array<string, mixed> $config
+     * @psalm-param array<string, mixed> $config
      */
     public function __construct($config = [])
     {
@@ -360,7 +368,6 @@ abstract class Application extends Module
      * Sets the root directory of the application and the @app alias.
      * This method can only be invoked at the beginning of the constructor.
      * @param string $path the root directory of the application.
-     * @property string the root directory of the application.
      * @throws InvalidArgumentException if the directory does not exist.
      */
     public function setBasePath($path)

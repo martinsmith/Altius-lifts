@@ -19,7 +19,6 @@ fieldLayouts:
             disabled: false
             elementCondition: null
             id: null
-            includeInCards: false
             inputType: null
             instructions: null
             label: Name
@@ -28,7 +27,6 @@ fieldLayouts:
             name: null
             orientation: null
             placeholder: null
-            providesThumbs: false
             readonly: false
             required: true
             size: null
@@ -46,10 +44,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: position
-            includeInCards: true
             instructions: null
             label: Position
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -63,10 +59,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 04ddff7f-52ed-458a-bc0c-a3a9d4b76f4d # Single Image
             handle: staffPhoto
-            includeInCards: true
             instructions: null
             label: Photo
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -80,10 +74,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 10dcb136-b8a7-4325-90fe-c0cda2e1ebd1 # Simple Text
             handle: shortBio
-            includeInCards: false
             instructions: null
             label: 'Short Bio'
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -97,10 +89,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: c1e5720b-386a-4bba-8784-306bc80ba4f6 # Specialities
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -114,10 +104,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: b7f863e4-f418-4417-9cb5-c6d3f5bf1155 # Can be booked?
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

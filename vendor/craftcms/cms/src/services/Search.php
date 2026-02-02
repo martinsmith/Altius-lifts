@@ -31,6 +31,7 @@ use craft\search\SearchQueryTermGroup;
 use Throwable;
 use yii\base\Component;
 use yii\base\Exception;
+use yii\caching\TagDependency;
 use yii\db\Exception as DbException;
 use yii\db\Expression;
 use yii\db\Schema;
@@ -209,6 +210,11 @@ class Search extends Component
         // Release the lock
         $mutex->release($lockKey);
 
+        // Invalidate search query caches for this element type
+        TagDependency::invalidate(Craft::$app->getCache(), [
+            sprintf('element-search-query:%s', get_class($element)),
+        ]);
+
         return true;
     }
 
@@ -308,22 +314,9 @@ class Search extends Component
         }
 
         try {
-            for ($try = 0; $try < 3; $try++) {
-                try {
-                    if (!Db::update(Table::SEARCHINDEXQUEUE, ['reserved' => true], ['id' => $jobId])) {
-                        // another process must be handling the same job
-                        return;
-                    }
-                    break;
-                } catch (DbException $e) {
-                    if (str_contains($e->getPrevious()?->getMessage(), 'deadlock')) {
-                        // A gap lock was probably hit. Try again in one second
-                        // https://github.com/craftcms/cms/issues/17318
-                        sleep(1);
-                    } else {
-                        throw $e;
-                    }
-                }
+            if (!Db::update(Table::SEARCHINDEXQUEUE, ['reserved' => true], ['id' => $jobId])) {
+                // another process must be handling the same job
+                return;
             }
         } finally {
             $mutex->release($lockName);
@@ -438,7 +431,8 @@ class Search extends Component
             ->cache(true, new ElementQueryTagDependency($elementQuery, [
                 'tags' => [
                     'element-index-query',
-                    sprintf('element-index-query::%s', $elementQuery->elementType),
+                    "element-index-query::$elementQuery->elementType",
+                    "element-search-query::$elementQuery->elementType",
                 ],
             ]))
             ->all();
@@ -601,6 +595,35 @@ DELETE FROM $searchIndexTable s
 WHERE NOT EXISTS (
     SELECT * FROM $elementsTable
     WHERE id = s."elementId"
+)
+SQL;
+        }
+        $db->createCommand($sql)->execute();
+    }
+
+    /**
+     * Deletes any search indexes that belong to elements that don’t exist anymore.
+     *
+     * @since 5.9.0
+     */
+    public function deleteOrphanedIndexJobs(): void
+    {
+        $db = Craft::$app->getDb();
+        $searchIndexQueueTable = Table::SEARCHINDEXQUEUE;
+        $elementsTable = Table::ELEMENTS;
+
+        if ($db->getIsMysql()) {
+            $sql = <<<SQL
+DELETE q.* FROM $searchIndexQueueTable q
+LEFT JOIN $elementsTable e ON e.id = q.elementId
+WHERE e.id IS NULL
+SQL;
+        } else {
+            $sql = <<<SQL
+DELETE FROM $searchIndexQueueTable q
+WHERE NOT EXISTS (
+    SELECT * FROM $elementsTable
+    WHERE id = q."elementId"
 )
 SQL;
         }

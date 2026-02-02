@@ -41,25 +41,6 @@ return array (
       '@yii/symfonymailer' => $vendorDir . '/yiisoft/yii2-symfonymailer/src',
     ),
   ),
-  'yiisoft/yii2-queue' => 
-  array (
-    'name' => 'yiisoft/yii2-queue',
-    'version' => '2.3.7.0',
-    'alias' => 
-    array (
-      '@yii/queue' => $vendorDir . '/yiisoft/yii2-queue/src',
-      '@yii/queue/db' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/db',
-      '@yii/queue/sqs' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/sqs',
-      '@yii/queue/amqp' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/amqp',
-      '@yii/queue/file' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/file',
-      '@yii/queue/sync' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/sync',
-      '@yii/queue/redis' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/redis',
-      '@yii/queue/stomp' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/stomp',
-      '@yii/queue/gearman' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/gearman',
-      '@yii/queue/beanstalk' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/beanstalk',
-      '@yii/queue/amqp_interop' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/amqp_interop',
-    ),
-  ),
   'samdark/yii2-psr-log-target' => 
   array (
     'name' => 'samdark/yii2-psr-log-target',
@@ -88,5 +69,33 @@ return array (
       '@nystudio107/codeeditor' => $vendorDir . '/nystudio107/craft-code-editor/src',
     ),
     'bootstrap' => 'nystudio107\\codeeditor\\CodeEditor',
+  ),
+  'yiisoft/yii2-queue' => 
+  array (
+    'name' => 'yiisoft/yii2-queue',
+    'version' => '2.3.8.0',
+    'alias' => 
+    array (
+      '@yii/queue' => $vendorDir . '/yiisoft/yii2-queue/src',
+      '@yii/queue/db' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/db',
+      '@yii/queue/sqs' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/sqs',
+      '@yii/queue/amqp' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/amqp',
+      '@yii/queue/file' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/file',
+      '@yii/queue/sync' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/sync',
+      '@yii/queue/redis' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/redis',
+      '@yii/queue/stomp' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/stomp',
+      '@yii/queue/gearman' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/gearman',
+      '@yii/queue/beanstalk' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/beanstalk',
+      '@yii/queue/amqp_interop' => $vendorDir . '/yiisoft/yii2-queue/src/drivers/amqp_interop',
+    ),
+  ),
+  'thamtech/yii2-ratelimiter-advanced' => 
+  array (
+    'name' => 'thamtech/yii2-ratelimiter-advanced',
+    'version' => '0.5.0.0',
+    'alias' => 
+    array (
+      '@thamtech/ratelimiter' => $vendorDir . '/thamtech/yii2-ratelimiter-advanced/src',
+    ),
   ),
 );

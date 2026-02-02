@@ -20,7 +20,7 @@ previewTargets:
         - '1'
 propagationMethod: all
 siteSettings:
-  21f4ef74-64dc-48e3-bb94-93d62c25ef08: # Hair Haven
+  21f4ef74-64dc-48e3-bb94-93d62c25ef08: # Altius Lifts
     enabledByDefault: true
     hasUrls: true
     template: offers.twig

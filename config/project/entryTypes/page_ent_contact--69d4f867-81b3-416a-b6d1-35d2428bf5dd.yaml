@@ -13,10 +13,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 75d5ff91-e0e7-479a-b047-041d2c3e1649 # Page Header
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -30,10 +28,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 69b12cc6-3150-4b5d-9318-88d440f5431e # Location
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -47,10 +43,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 2bc6cf54-0be9-41dd-950d-f337f8afa9ce # Opening Hours
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -64,10 +58,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 5c61d44f-616f-4ae5-b273-cdb67ecfff52 # Connect
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -81,10 +73,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: e2c6ec4d-d46c-47ec-800d-206eea4d27b1 # Contact Form
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -98,10 +88,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: 172c19a6-5e5c-49fc-b221-96f628e74fbe # Frequently Asked Questions
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -121,10 +109,8 @@ fieldLayouts:
             elementCondition: null
             fieldUid: f425b0e8-1203-40a7-9f6f-108688342507 # SEO Information
             handle: null
-            includeInCards: false
             instructions: null
             label: null
-            providesThumbs: false
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

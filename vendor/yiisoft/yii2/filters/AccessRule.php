@@ -12,8 +12,10 @@ use yii\base\Action;
 use yii\base\Component;
 use yii\base\Controller;
 use yii\base\InvalidConfigException;
+use yii\base\Module;
 use yii\helpers\IpHelper;
 use yii\helpers\StringHelper;
+use yii\web\IdentityInterface;
 use yii\web\Request;
 use yii\web\User;
 
@@ -83,7 +85,7 @@ class AccessRule extends Component
      * If this is an array, it will be passed directly to [[User::can()]]. For example for passing an
      * ID from the current request, you may use the following:
      *
-     * ```php
+     * ```
      * ['postId' => Yii::$app->request->get('id')]
      * ```
      *
@@ -91,7 +93,7 @@ class AccessRule extends Component
      * evaluate the array values only if they are needed, for example when a model needs to be
      * loaded like in the following code:
      *
-     * ```php
+     * ```
      * 'rules' => [
      *     [
      *         'allow' => true,
@@ -131,7 +133,7 @@ class AccessRule extends Component
      * @var callable a callback that will be called to determine if the rule should be applied.
      * The signature of the callback should be as follows:
      *
-     * ```php
+     * ```
      * function ($rule, $action)
      * ```
      *
@@ -150,7 +152,7 @@ class AccessRule extends Component
      *
      * The signature of the callback should be as follows:
      *
-     * ```php
+     * ```
      * function ($rule, $action)
      * ```
      *
@@ -166,6 +168,12 @@ class AccessRule extends Component
      * @param User|false $user the user object or `false` in case of detached User component
      * @param Request $request
      * @return bool|null `true` if the user is allowed, `false` if the user is denied, `null` if the rule does not apply to the user
+     *
+     * @phpstan-param Action<Controller<Module>> $action
+     * @psalm-param Action<Controller<Module>> $action
+     *
+     * @phpstan-param User<IdentityInterface>|false $user
+     * @psalm-param User<IdentityInterface>|false $user
      */
     public function allows($action, $user, $request)
     {
@@ -186,6 +194,9 @@ class AccessRule extends Component
     /**
      * @param Action $action the action
      * @return bool whether the rule applies to the action
+     *
+     * @phpstan-param Action<Controller<Module>> $action
+     * @psalm-param Action<Controller<Module>> $action
      */
     protected function matchAction($action)
     {
@@ -195,6 +206,9 @@ class AccessRule extends Component
     /**
      * @param Controller $controller the controller
      * @return bool whether the rule applies to the controller
+     *
+     * @phpstan-param Controller<Module> $controller
+     * @psalm-param Controller<Module> $controller
      */
     protected function matchController($controller)
     {
@@ -216,6 +230,9 @@ class AccessRule extends Component
      * @param User $user the user object
      * @return bool whether the rule applies to the role
      * @throws InvalidConfigException if User component is detached
+     *
+     * @phpstan-param User<IdentityInterface> $user
+     * @psalm-param User<IdentityInterface> $user
      */
     protected function matchRole($user)
     {
@@ -297,6 +314,9 @@ class AccessRule extends Component
     /**
      * @param Action $action the action to be performed
      * @return bool whether the rule should be applied
+     *
+     * @phpstan-param Action<Controller<Module>> $action
+     * @psalm-param Action<Controller<Module>> $action
      */
     protected function matchCustom($action)
     {

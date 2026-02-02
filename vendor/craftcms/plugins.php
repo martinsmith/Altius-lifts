@@ -61,22 +61,6 @@ return array (
       'mailer' => 'craft\\contactform\\Mailer',
     ),
   ),
-  'nystudio107/craft-seomatic' => 
-  array (
-    'class' => 'nystudio107\\seomatic\\Seomatic',
-    'basePath' => $vendorDir . '/nystudio107/craft-seomatic/src',
-    'handle' => 'seomatic',
-    'aliases' => 
-    array (
-      '@nystudio107/seomatic' => $vendorDir . '/nystudio107/craft-seomatic/src',
-    ),
-    'name' => 'SEOmatic',
-    'version' => '5.1.19',
-    'description' => 'SEOmatic facilitates modern SEO best practices & implementation for Craft CMS 5. It is a turnkey SEO system that is comprehensive, powerful, and flexible.',
-    'developer' => 'nystudio107',
-    'developerUrl' => 'https://nystudio107.com',
-    'documentationUrl' => 'https://nystudio107.com/docs/seomatic/',
-  ),
   'craftcms/ckeditor' => 
   array (
     'class' => 'craft\\ckeditor\\Plugin',
