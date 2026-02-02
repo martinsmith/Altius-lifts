@@ -1,0 +1,12 @@
+columnSuffix: null
+handle: textColor
+instructions: null
+name: 'Text Color'
+searchable: false
+settings:
+  default: false
+  offLabel: 'Use Light Text'
+  onLabel: 'Use Dark Text'
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

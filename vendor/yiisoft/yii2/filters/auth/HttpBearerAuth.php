@@ -7,14 +7,12 @@
 
 namespace yii\filters\auth;
 
-use yii\base\Component;
-
 /**
  * HttpBearerAuth is an action filter that supports the authentication method based on HTTP Bearer token.
  *
  * You may use HttpBearerAuth by attaching it as a behavior to a controller or module, like the following:
  *
- * ```
+ * ```php
  * public function behaviors()
  * {
  *     return [
@@ -27,9 +25,6 @@ use yii\base\Component;
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
- *
- * @template T of Component
- * @extends HttpHeaderAuth<T>
  */
 class HttpBearerAuth extends HttpHeaderAuth
 {

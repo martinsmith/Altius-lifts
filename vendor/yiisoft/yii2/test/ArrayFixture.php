@@ -17,9 +17,6 @@ use yii\base\InvalidConfigException;
  *
  * @author Mark Jebri <mark.github@yandex.ru>
  * @since 2.0
- *
- * @implements \IteratorAggregate<string, array<string, mixed>>
- * @implements \ArrayAccess<string, array<string, mixed>|null>
  */
 class ArrayFixture extends Fixture implements \IteratorAggregate, \ArrayAccess, \Countable
 {
@@ -28,9 +25,6 @@ class ArrayFixture extends Fixture implements \IteratorAggregate, \ArrayAccess, 
 
     /**
      * @var array the data rows. Each array element represents one row of data (column name => column value).
-     *
-     * @phpstan-var array<string, array<string, mixed>>
-     * @psalm-var array<string, array<string, mixed>>
      */
     public $data = [];
 
@@ -54,9 +48,6 @@ class ArrayFixture extends Fixture implements \IteratorAggregate, \ArrayAccess, 
      *
      * @return array the data to be put into the database
      * @throws InvalidConfigException if the specified data file does not exist.
-     *
-     * @phpstan-return array<string, array<string, mixed>>
-     * @psalm-return array<string, array<string, mixed>>
      */
     protected function getData()
     {

@@ -139,19 +139,17 @@ class CpScreenResponseFormatter extends Component implements ResponseFormatterIn
         $errorSummary = is_callable($behavior->errorSummary) ? call_user_func($behavior->errorSummary) : $behavior->errorSummary;
 
         if (Craft::$app->getIsMultiSite() && isset($behavior->site)) {
-            $siteMenuItems = !empty($behavior->selectableSites)
-                ? Cp::siteMenuItems($behavior->selectableSites, $behavior->site, [
-                    'includeOmittedSites' => true,
-                ])
-                : [];
-
             array_unshift($crumbs, [
                 'id' => 'site-crumb',
                 'icon' => Cp::earthIcon(),
                 'label' => Craft::t('site', $behavior->site->name),
                 'menu' => [
                     'label' => Craft::t('app', 'Select site'),
-                    'items' => $siteMenuItems,
+                    'items' => !empty($behavior->selectableSites)
+                        ? Cp::siteMenuItems($behavior->selectableSites, $behavior->site, [
+                            'includeOmittedSites' => true,
+                        ])
+                        : null,
                 ],
             ]);
         }

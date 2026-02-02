@@ -385,7 +385,6 @@ class NestedElementManager extends Component
         $config += [
             'showInGrid' => false,
             'prevalidate' => false,
-            'selectable' => false,
         ];
 
         return $this->createView(
@@ -401,7 +400,6 @@ class NestedElementManager extends Component
                         'type' => $this->elementType::lowerDisplayName(),
                     ]),
                     'showInGrid' => $config['showInGrid'],
-                    'selectable' => $config['selectable'],
                 ];
 
                 $html = Html::beginTag('div', options: [
@@ -422,8 +420,8 @@ class NestedElementManager extends Component
                         ->all();
                 }
 
-                // See if there are any provisional changes we should show
-                ElementHelper::loadProvisionalChanges($elements);
+                // See if there are any provisional drafts we should swap these out with
+                ElementHelper::swapInProvisionalDrafts($elements);
 
                 if ($this->hasErrors($owner)) {
                     foreach ($elements as $element) {
@@ -441,9 +439,9 @@ class NestedElementManager extends Component
                         fn(ElementInterface $element) => Cp::elementCardHtml($element, [
                             'context' => 'field',
                             'showActionMenu' => true,
-                            'selectable' => $config['selectable'],
                             'sortable' => $config['sortable'],
                             'showInGrid' => $config['showInGrid'] ?? false,
+                            'hyperlink' => false,
                         ]),
                         $elements,
                     ), [
@@ -558,17 +556,17 @@ class NestedElementManager extends Component
                 }
 
                 return Cp::elementIndexHtml($this->elementType, [
-                    'class' => [$config['prevalidate'] ? 'prevalidate' : ''],
                     'context' => 'embedded-index',
+                    'id' => $id,
+                    'showSiteMenu' => false,
+                    'sources' => false,
+                    'fieldLayouts' => $config['fieldLayouts'],
                     'defaultSort' => $config['defaultSort'],
                     'defaultTableColumns' => $config['defaultTableColumns'],
                     'defaultViewMode' => $config['defaultViewMode'],
-                    'fieldLayouts' => $config['fieldLayouts'],
-                    'id' => $id,
-                    'prevalidate' => $config['prevalidate'] ?? false,
                     'registerJs' => false,
-                    'showSiteMenu' => false,
-                    'sources' => false,
+                    'class' => [$config['prevalidate'] ? 'prevalidate' : ''],
+                    'prevalidate' => $config['prevalidate'] ?? false,
                 ]);
             },
         );
@@ -690,7 +688,7 @@ JS, [
         $resetValue = false;
 
         if ($owner->duplicateOf !== null) {
-            // If this is a draft, its nested element ownership should have already been duplicated by Drafts::createDraft()
+            // If this is a draft, its nested element ownership will be duplicated by Drafts::createDraft()
             if ($owner->getIsRevision()) {
                 $this->createRevisions($owner->duplicateOf, $owner);
             // getIsUnpublishedDraft is needed for "save as new" duplication
@@ -698,11 +696,7 @@ JS, [
                 $this->duplicateNestedElements($owner->duplicateOf, $owner, true, !$isNew);
             }
             $resetValue = true;
-        } elseif (
-            $this->isDirty($owner) ||
-            $this->propagateRequired($owner) ||
-            !empty($owner->newSiteIds)
-        ) {
+        } elseif ($this->isDirty($owner) || !empty($owner->newSiteIds)) {
             $this->saveNestedElements($owner);
         } elseif ($owner->mergingCanonicalChanges) {
             $this->mergeCanonicalChanges($owner);
@@ -784,23 +778,6 @@ JS, [
         }
     }
 
-    private function propagateRequired(ElementInterface $owner, ?ElementInterface $localizedOwner = null): bool
-    {
-        foreach ($this->fieldInstances($owner) as $instance) {
-            if (
-                $instance->layoutElement->required &&
-                (
-                    !$localizedOwner ||
-                    $instance->isValueEmpty($localizedOwner->getFieldValue($instance->handle), $localizedOwner)
-                )
-            ) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private function saveNestedElements(ElementInterface $owner): void
     {
         $elementsService = Craft::$app->getElements();
@@ -835,11 +812,6 @@ JS, [
                 // and then pasted back in somewhere else.)
                 if (isset($element->dateDeleted)) {
                     $elementsService->restoreElement($element);
-                }
-
-                // if the owner is propagating required fields and attributes, so should the nested elements
-                if ($owner->propagateRequired) {
-                    $element->propagateRequired = true;
                 }
 
                 $sortOrder++;
@@ -895,11 +867,7 @@ JS, [
             // Should we duplicate the elements to other sites?
             if (
                 $this->propagationMethod !== PropagationMethod::All &&
-                (
-                    $owner->propagateAll ||
-                    $this->propagateRequired($owner) ||
-                    !empty($owner->newSiteIds)
-                )
+                ($owner->propagateAll || !empty($owner->newSiteIds))
             ) {
                 // Find the owner's site IDs that *aren't* supported by this site's nested elements
                 $ownerSiteIds = array_map(
@@ -909,8 +877,8 @@ JS, [
                 $fieldSiteIds = $this->getSupportedSiteIds($owner);
                 $otherSiteIds = array_diff($ownerSiteIds, $fieldSiteIds);
 
-                // If propagateAll & propagateRequired aren't set, only deal with sites that the element was just propagated to for the first time
-                if (!$owner->propagateAll && !$this->propagateRequired($owner)) {
+                // If propagateAll isn't set, only deal with sites that the element was just propagated to for the first time
+                if (!$owner->propagateAll) {
                     $preexistingOtherSiteIds = array_diff($otherSiteIds, $owner->newSiteIds);
                     $otherSiteIds = array_intersect($otherSiteIds, $owner->newSiteIds);
                 } else {
@@ -964,9 +932,7 @@ JS, [
                         } else {
                             // Duplicate the elements, but **don't track** the duplications, so the edit page doesn’t think
                             // its elements have been replaced by the other sites’ nested elements
-                            if ($owner->propagateAll || $this->propagateRequired($owner, $localizedOwner)) {
-                                $this->duplicateNestedElements($owner, $localizedOwner, force: true);
-                            }
+                            $this->duplicateNestedElements($owner, $localizedOwner, force: true);
                         }
 
                         // Make sure we don't duplicate elements for any of the sites that were just propagated to
@@ -1044,7 +1010,7 @@ JS, [
      * which weren’t included in the duplication
      * @param bool $force Whether to force duplication, even if it looks like only the nested element ownership was duplicated
      */
-    public function duplicateNestedElements(
+    private function duplicateNestedElements(
         ElementInterface $source,
         ElementInterface $target,
         bool $checkOtherSites = false,

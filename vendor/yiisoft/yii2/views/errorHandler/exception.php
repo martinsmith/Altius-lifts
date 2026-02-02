@@ -1,9 +1,7 @@
 <?php
-/**
- * @var \yii\web\View $this
- * @var \Throwable $exception
- * @var \yii\web\ErrorHandler $handler
- */
+/* @var $this \yii\web\View */
+/* @var $exception \Throwable */
+/* @var $handler \yii\web\ErrorHandler */
 ?>
 <?php if (method_exists($this, 'beginPage')): ?>
     <?php $this->beginPage() ?>

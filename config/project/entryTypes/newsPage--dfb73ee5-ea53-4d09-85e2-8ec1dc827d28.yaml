@@ -1,0 +1,63 @@
+color: null
+description: null
+fieldLayouts:
+  2fdd34c1-a953-454a-b74d-c33391c478de:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-07-19T09:31:10+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 75d5ff91-e0e7-479a-b047-041d2c3e1649 # Page Header
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e4f9c9d3-a61b-4531-bd3d-8e5baec30ad1
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 4db0c3af-d27b-4753-9148-d552423fa2e3
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-11-10T14:27:49+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: f425b0e8-1203-40a7-9f6f-108688342507 # SEO Information
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 2cd7e72d-069a-4a7f-9c40-7f51d938b322
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: 18405b19-cb11-4ddb-aebf-0efcae219c8d
+        userCondition: null
+handle: newsPage
+hasTitleField: false
+icon: null
+name: News
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: '{cb_pageHeader.pageTitle}'
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

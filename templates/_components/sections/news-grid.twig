@@ -1,0 +1,174 @@
+
+{% set featuredArticle = craft.entries()
+    .section('newsSection')
+    .type('newsArticle')
+    .featuredArticle(true)
+    .orderBy('postDate desc')
+    .with(['articleImage', 'author'])
+    .one() %}
+
+{# If no featured article found, use the most recent article #}
+{% if not featuredArticle %}
+    {% set featuredArticle = craft.entries()
+        .section('newsSection')
+        .type('newsArticle')
+        .orderBy('postDate desc')
+        .with(['articleImage', 'author'])
+        .one() %}
+{% endif %}
+
+{# Prepare the query for pagination with enhanced eager-loading #}
+{% set newsQuery = craft.entries()
+    .section('newsSection')
+    .type('newsArticle')
+    .id(['not', featuredArticle ? featuredArticle.id : 0])
+    .with([
+        ['articleImage', {
+            withTransforms: [
+                { width: 400, height: 250, mode: 'crop', format: 'webp', quality: 85 },
+                { width: 800, height: 500, mode: 'crop', format: 'webp', quality: 85 }
+            ]
+        }],
+        'author'
+    ])
+    .orderBy('postDate desc')
+    .limit(10) %}
+
+{# Use CraftCMS native pagination #}
+{% paginate newsQuery as pageInfo, articles %}
+
+<section class="news-section" id="news-grid">
+    <div class="container">
+        <div class="section-header">
+            <h2>Latest News</h2>
+            <p>Stay updated with our latest articles, salon news, and beauty trends</p>
+        </div>
+        
+        {% if articles|length %}
+            <div class="news-grid">
+                {% for article in articles %}
+                    {# Generate excerpt from articleText #}
+                    {% set articleContent = article.articleText %}
+                    {% set excerpt = articleContent|striptags|slice(0, 120) ~ '...' %}
+                    
+                    <div class="news-card" data-modal-target="news-modal-{{ article.id }}">
+                        <div class="news-image">
+                            {% if article.articleImage|length %}
+                                {% set image = article.articleImage.one() %}
+                                <img src="{{ image.getUrl() }}" alt="{{ article.title }}">
+                            {% else %}
+                                <img src="/assets/default.webp" alt="{{ article.title }}">
+                            {% endif %}
+                            <div class="news-date">
+                                <span class="day">{{ article.postDate|date('j') }}</span>
+                                <span class="month">{{ article.postDate|date('M') }}</span>
+                            </div>
+                        </div>
+                        <div class="news-card-content">
+                            <h3>{{ article.title }}</h3>
+                            <p class="news-excerpt">{{ excerpt }}</p>
+                            
+                            <div class="news-meta">
+                                {% if article.author %}
+                                    <span class="news-author">
+                                        <i class="far fa-user"></i> {{ article.author.fullName ?? article.author.username }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="news-actions">
+                                <a href="#" class="btn primary" data-modal-target="news-modal-{{ article.id }}">
+                                    <i class="fas fa-arrow-right btn-icon"></i>
+                                    Read More
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No news articles available at the moment.</p>
+        {% endif %}
+        
+        {# Include pagination if there are multiple pages #}
+        {% include '_components/ui/pagination.twig' with { pageInfo: pageInfo } %}
+    </div>
+    
+    {# Individual modals for each news article #}
+    {% for article in articles %}
+        <div id="news-modal-{{ article.id }}" class="modal-overlay news-article-modal" style="display: none;" data-article-id="{{ article.id }}">
+            <div class="modal-content modal-large">
+                <button class="modal-close" aria-label="Close modal">&times;</button>
+                <div class="modal-body">
+                    <div class="news-article-header">
+                        {% if article.articleImage|length %}
+                            {% set image = article.articleImage.one() %}
+                            <img src="{{ image.getUrl() }}" alt="{{ article.title }}" class="news-modal-image" data-image-url="{{ image.getUrl() }}">
+                        {% endif %}
+                        <div class="article-meta">
+                            <h1 class="news-modal-title">{{ article.title }}</h1>
+                            <div class="news-meta">
+                                <span class="news-modal-date">
+                                    <i class="far fa-calendar"></i>
+                                    {{ article.postDate|date('F j, Y') }}
+                                </span>
+                                {% if article.author %}
+                                    <span class="news-modal-author">
+                                        <i class="far fa-user"></i>
+                                        {{ article.author.fullName ?? article.author.username }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-content-wrapper">
+                        <div class="news-content-header">
+                            <h1 class="news-modal-title">{{ article.title }}</h1>
+                            <div class="news-meta">
+                                <span class="news-modal-date">
+                                    <i class="far fa-calendar"></i>
+                                    {{ article.postDate|date('F j, Y') }}
+                                </span>
+                                {% if article.author %}
+                                    <span class="news-modal-author">
+                                        <i class="far fa-user"></i>
+                                        {{ article.author.fullName ?? article.author.username }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="news-modal-content">
+                            {{ article.articleText|raw }}
+                        </div>
+                        <div class="modal-actions">
+                            <div class="social-share">
+                                <span>Share this article:</span>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ craft.app.request.absoluteUrl|url_encode }}" 
+                                   class="share-btn facebook" 
+                                   title="Share on Facebook"
+                                   target="_blank"
+                                   rel="noopener">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url={{ craft.app.request.absoluteUrl|url_encode }}&text={{ article.title|url_encode }}" 
+                                   class="share-btn twitter" 
+                                   title="Share on Twitter"
+                                   target="_blank"
+                                   rel="noopener">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ craft.app.request.absoluteUrl|url_encode }}" 
+                                   class="share-btn linkedin" 
+                                   title="Share on LinkedIn"
+                                   target="_blank"
+                                   rel="noopener">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</section>

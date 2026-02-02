@@ -132,7 +132,7 @@ class ArrayExpressionBuilder implements ExpressionBuilderInterface
      *
      * @param ArrayExpression $expression
      * @param mixed $value
-     * @return mixed
+     * @return JsonExpression
      */
     protected function typecastValue(ArrayExpression $expression, $value)
     {

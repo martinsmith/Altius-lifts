@@ -19,9 +19,6 @@ use yii\web\ServerErrorHttpException;
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
- *
- * @template T of Controller
- * @extends Action<T>
  */
 class CreateAction extends Action
 {
@@ -46,7 +43,7 @@ class CreateAction extends Action
             call_user_func($this->checkAccess, $this->id);
         }
 
-        /** @var \yii\db\ActiveRecord $model */
+        /* @var $model \yii\db\ActiveRecord */
         $model = new $this->modelClass([
             'scenario' => $this->scenario,
         ]);

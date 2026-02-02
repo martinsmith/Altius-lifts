@@ -8,7 +8,6 @@
 namespace craft\fields\data;
 
 use ArrayObject;
-use craft\web\twig\AllowedInSandbox;
 
 /**
  * Multi-select option field data class.
@@ -16,7 +15,6 @@ use craft\web\twig\AllowedInSandbox;
  * @author Pixel & Tonic, Inc. <support@pixelandtonic.com>
  * @since 3.0.0
  */
-#[AllowedInSandbox]
 class MultiOptionsFieldData extends ArrayObject
 {
     /**

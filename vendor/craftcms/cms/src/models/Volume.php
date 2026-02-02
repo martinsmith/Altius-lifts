@@ -241,7 +241,6 @@ class Volume extends Model implements
     {
         $rules = parent::defineRules();
         $rules[] = [['id', 'fieldLayoutId'], 'number', 'integerOnly' => true];
-        $rules[] = [['name', 'handle'], 'trim'];
         $rules[] = [['name', 'handle'], UniqueValidator::class, 'targetClass' => VolumeRecord::class];
         $rules[] = [['name', 'handle', 'fsHandle'], 'required'];
         $rules[] = [

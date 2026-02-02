@@ -56,7 +56,7 @@ class Markdown extends \cebe\markdown\Parser
     /**
      * Render a paragraph block.
      *
-     * @param array $block
+     * @param string $block
      * @return string
      */
     protected function renderParagraph($block)

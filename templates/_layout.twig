@@ -1,0 +1,85 @@
+{% set pageClass = block('pageClass') ?? 'home' %}
+{% set requestSegments = craft.app.request.segments %}
+{% set currentSegment = requestSegments|length ? requestSegments|first : '' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {# SEOMatic handles all meta tags, titles, and structured data #}
+    {% hook 'seomatic' %}
+
+    <meta name="theme-color" content="#c58f31">
+    <meta name="color-scheme" content="light">
+
+    <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="/favicons/manifest.json">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+
+    <style>
+        body { visibility: hidden; }
+        body.loaded { visibility: visible; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .footer-content { display: grid; gap: 2rem; }
+    </style>
+    {% block criticalCss %}{% endblock %}
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
+
+    {% set criticalPages = ['', 'home', 'services', 'contact', 'salon', 'our-services', 'meet-the-team', 'products'] %}
+    {% set isCriticalPage = currentSegment in criticalPages %}
+
+    {% if isCriticalPage %}
+      <link rel="stylesheet" href="/_dist/css/styles.css">
+    {% else %}
+      <link rel="preload" href="/_dist/css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+      <noscript><link rel="stylesheet" href="/_dist/css/styles.css"></noscript>
+    {% endif %}
+
+    <meta name="view-transition" content="same-origin">
+
+    {% block headExtras %}{% endblock %}
+</head>
+{% import '_components/macros/accessibility.twig' as a11y %}
+
+{% set pageDataAttribute = requestSegments|length ? requestSegments|join('-') : 'home' %}
+<body class="{{ pageClass }}-page" data-page="{{ pageDataAttribute }}">
+
+{{ a11y.skipLinks() }}
+
+{% include '_components/header.twig' %}
+
+<main id="main-content" role="main">
+    {% block content %}{% endblock %}
+</main>
+
+{% include '_components/footer.twig' %}
+
+<script type="module" src="/_dist/js/app.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            document.body.classList.add('loaded');
+        }, 50);
+    });
+
+    setTimeout(function() {
+        document.body.classList.add('loaded');
+    }, 500);
+</script>
+
+</body>
+</html>

@@ -95,12 +95,6 @@ class EntryType extends Model implements
     public ?Color $color = null;
 
     /**
-     * @var string UI label format
-     * @since 5.9.0
-     */
-    public string $uiLabelFormat = '{title}';
-
-    /**
      * @var bool Has title field
      */
     public bool $hasTitleField = true;
@@ -122,12 +116,6 @@ class EntryType extends Model implements
      * @var string|null Title format
      */
     public ?string $titleFormat = null;
-
-    /**
-     * @var bool Whether line breaks should be allowed in titles
-     * @since 5.9.0
-     */
-    public bool $allowLineBreaksInTitles = false;
 
     /**
      * @var bool Whether to show the Slug field
@@ -345,7 +333,6 @@ JS, [
     {
         $rules = parent::defineRules();
         $rules[] = [['id', 'fieldLayoutId'], 'number', 'integerOnly' => true];
-        $rules[] = [['name', 'handle'], 'trim'];
         $rules[] = [['name', 'handle'], 'required'];
         $rules[] = [['name', 'handle'], 'string', 'max' => 255];
         $rules[] = [
@@ -464,12 +451,10 @@ JS, [
             'description' => $this->description ?: null,
             'icon' => $this->icon || $this->icon === '0' ? $this->icon : null,
             'color' => $this->color?->value,
-            'uiLabelFormat' => $this->uiLabelFormat,
             'hasTitleField' => $this->hasTitleField,
             'titleTranslationMethod' => $this->titleTranslationMethod,
             'titleTranslationKeyFormat' => $this->titleTranslationKeyFormat ?: null,
             'titleFormat' => $this->titleFormat ?: null,
-            'allowLineBreaksInTitles' => $this->allowLineBreaksInTitles,
             'showSlugField' => $this->showSlugField,
             'slugTranslationMethod' => $this->slugTranslationMethod,
             'slugTranslationKeyFormat' => $this->slugTranslationKeyFormat ?: null,

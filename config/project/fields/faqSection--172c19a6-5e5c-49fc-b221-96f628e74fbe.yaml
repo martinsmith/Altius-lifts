@@ -1,0 +1,123 @@
+columnSuffix: null
+handle: faqSection
+instructions: null
+name: 'Frequently Asked Questions'
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - d5f24c6d-557f-42c5-8e58-90321664514c
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    0:
+                      - name
+                      - Content
+                    1:
+                      - uid
+                      - 76c2ff75-17c0-4262-8bac-f066adb6d896
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - sectionTitle
+                            2:
+                              - label
+                              - 'Section Title'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 100
+                            10:
+                              - dateAdded
+                              - '2025-08-04T08:39:39+00:00'
+                            11:
+                              - uid
+                              - cc65cfc2-7595-4ba2-9b1f-ac490ac67434
+                            14:
+                              - fieldUid
+                              - 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - sectionIntro
+                            2:
+                              - label
+                              - 'Section Intro'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 100
+                            10:
+                              - dateAdded
+                              - '2025-08-04T08:39:39+00:00'
+                            11:
+                              - uid
+                              - 38d4d4ce-bf9c-4884-99f7-0ccc20d7025d
+                            14:
+                              - fieldUid
+                              - 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 100
+                            10:
+                              - dateAdded
+                              - '2025-08-04T08:41:56+00:00'
+                            11:
+                              - uid
+                              - 87a314af-f453-4b8b-be1f-fa136343214f
+                            14:
+                              - fieldUid
+                              - 24b60046-c604-467a-9159-5c28626085cb # FAQs
+            3:
+              - cardThumbAlignment
+              - end
+  viewMode: pane
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock

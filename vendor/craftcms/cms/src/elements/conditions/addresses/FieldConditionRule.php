@@ -7,7 +7,6 @@ use craft\base\conditions\BaseMultiSelectConditionRule;
 use craft\base\ElementInterface;
 use craft\elements\Address;
 use craft\elements\conditions\ElementConditionRuleInterface;
-use craft\elements\conditions\HintableConditionRuleTrait;
 use craft\elements\db\AddressQuery;
 use craft\elements\db\ElementQueryInterface;
 use craft\fields\Addresses;
@@ -21,8 +20,6 @@ use Illuminate\Support\Collection;
  */
 class FieldConditionRule extends BaseMultiSelectConditionRule implements ElementConditionRuleInterface
 {
-    use HintableConditionRuleTrait;
-
     /**
      * @inheritdoc
      */
@@ -51,10 +48,7 @@ class FieldConditionRule extends BaseMultiSelectConditionRule implements Element
     {
         return Collection::make($this->addressFields())
             ->keyBy(fn(Addresses $field) => $field->uid)
-            ->map(
-                fn(Addresses $field) =>
-                $field->getUiLabel() . ($this->showLabelHint() ? " ($field->handle)" : '')
-            )
+            ->map(fn(Addresses $field) => $field->getUiLabel())
             ->all();
     }
 

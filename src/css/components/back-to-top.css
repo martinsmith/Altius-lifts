@@ -1,0 +1,108 @@
+@layer components {
+
+/* Back to Top Button Component - Always visible at bottom of viewport */
+.back-to-top {
+  position: fixed;
+  bottom: var(--space-8);
+  right: var(--space-8);
+  z-index: var(--z-index-fixed);
+  opacity: 0.8;
+  visibility: visible;
+  transition: all 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  & .back-to-top-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--border-radius-full);
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    font-size: var(--text-lg);
+
+    &:hover {
+      background-color: var(--accent-color-dark);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    &:focus {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+
+    &:active {
+      transform: translateY(-1px);
+    }
+
+    & i {
+      transition: transform 0.3s ease;
+    }
+
+    &:hover i {
+      transform: translateY(-2px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    bottom: var(--space-6);
+    right: var(--space-6);
+
+    & .back-to-top-btn {
+      width: 45px;
+      height: 45px;
+      font-size: var(--text-base);
+    }
+  }
+
+  @media (max-width: 576px) {
+    bottom: var(--space-4);
+    right: var(--space-4);
+
+    & .back-to-top-btn {
+      width: 40px;
+      height: 40px;
+      font-size: var(--text-sm);
+    }
+  }
+}
+
+/* Animation for scroll reveal */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.back-to-top.visible {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top,
+  .back-to-top-btn,
+  .back-to-top-btn i {
+    transition: none;
+  }
+  
+  .back-to-top.visible {
+    animation: none;
+  }
+}
+
+} /* End @layer components */

@@ -1,0 +1,53 @@
+@layer components {
+
+/* Contact Info Section Component Styles (extracted from Vue ContactInfoSection.vue) */
+.contact-info-section {
+  padding-block: 6rem;
+  background-color: var(--bg-light); /* Soft sage-tinted grey #f3f4f1 */
+
+  & .contact-grid {
+    display: grid;
+    grid-template-columns: 6fr 4fr;
+    grid-template-rows: auto auto;
+    gap: 2rem 4rem;
+    align-items: start;
+
+    @media (max-width: 1200px) {
+      gap: 2rem 3rem;
+    }
+
+    @media (max-width: 991px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto auto;
+      gap: 3rem;
+    }
+
+    @media (max-width: 576px) {
+      gap: 2rem;
+    }
+  }
+
+  & .contact-form-container {
+    background-color: var(--light-color); /* Soft sage-tinted grey #f3f4f1 */
+    border-radius: 12px;
+    padding: 3rem;
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--primary-color) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--primary-color) 5%, transparent);
+
+    @media (max-width: 768px) {
+      padding: 2rem;
+    }
+
+    @media (max-width: 576px) {
+      padding: 1.5rem;
+    }
+  }
+
+  & .contact-location-card,
+  & .contact-hours-card,
+  & .contact-connect-card {
+    /* All cards inherit contact-card styling */
+  }
+}
+
+} /* End @layer components */

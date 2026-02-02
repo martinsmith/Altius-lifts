@@ -18,13 +18,10 @@ trait ActiveQueryTrait
 {
     /**
      * @var string the name of the ActiveRecord class.
-     *
-     * @phpstan-var class-string<ActiveRecordInterface>
-     * @psalm-var class-string<ActiveRecordInterface>
      */
     public $modelClass;
     /**
-     * @var array|null a list of relations that this query should be performed with
+     * @var array a list of relations that this query should be performed with
      */
     public $with;
     /**
@@ -58,7 +55,7 @@ trait ActiveQueryTrait
      *
      * The following are some usage examples:
      *
-     * ```
+     * ```php
      * // find customers together with their orders and country
      * Customer::find()->with('orders', 'country')->all();
      * // find customers together with their orders and the orders' shipping address
@@ -75,7 +72,7 @@ trait ActiveQueryTrait
      * You can call `with()` multiple times. Each call will add relations to the existing ones.
      * For example, the following two statements are equivalent:
      *
-     * ```
+     * ```php
      * Customer::find()->with('orders', 'country')->all();
      * Customer::find()->with('orders')->with('country')->all();
      * ```
@@ -118,7 +115,7 @@ trait ActiveQueryTrait
             return $rows;
         } else {
             $models = [];
-            /** @var ActiveRecord $class */
+            /* @var $class ActiveRecord */
             $class = $this->modelClass;
             foreach ($rows as $row) {
                 $model = $class::instantiate($row);
@@ -144,15 +141,12 @@ trait ActiveQueryTrait
 
         $primaryModel = reset($models);
         if (!$primaryModel instanceof ActiveRecordInterface) {
-            /** @var ActiveRecordInterface $modelClass */
+            /* @var $modelClass ActiveRecordInterface */
             $modelClass = $this->modelClass;
             $primaryModel = $modelClass::instance();
         }
         $relations = $this->normalizeRelations($primaryModel, $with);
-        /**
-         * @var ActiveQuery $relation
-         * @phpstan-var ActiveQuery<ActiveRecord|array<string, mixed>> $relation
-         */
+        /* @var $relation ActiveQuery */
         foreach ($relations as $name => $relation) {
             if ($relation->asArray === null) {
                 // inherit asArray from primary query

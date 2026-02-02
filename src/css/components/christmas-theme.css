@@ -1,0 +1,315 @@
+/**
+ * Christmas Theme Styles
+ * Completely isolated - only loaded when Christmas theme is enabled
+ * This file is NOT imported into styles.css - it's loaded conditionally
+ */
+
+/* ============================================
+   BAUBLE DECORATIONS
+   ============================================ */
+
+.christmas-baubles {
+  position: fixed;
+  top: var(--header-height, 83px);
+  left: 0;
+  width: 100%;
+  height: 80px;
+  pointer-events: none;
+  z-index: calc(var(--z-index-fixed, 1030) - 1);
+  overflow: visible;
+}
+
+/* Adjust when header is scrolled (smaller) */
+.header.scrolled ~ .christmas-baubles,
+body:has(.header.scrolled) .christmas-baubles {
+  top: var(--header-height-scrolled, 60px);
+}
+
+.bauble {
+  position: absolute;
+  transform-origin: top center;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* Swinging animations with varied timing */
+@keyframes bauble-swing-1 {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
+@keyframes bauble-swing-2 {
+  0%, 100% { transform: rotate(3deg); }
+  50% { transform: rotate(-3deg); }
+}
+
+@keyframes bauble-swing-3 {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.bauble:nth-child(1) {
+  left: 12%;
+  animation: bauble-swing-1 4s ease-in-out infinite;
+}
+
+.bauble:nth-child(2) {
+  left: 35%;
+  animation: bauble-swing-2 5s ease-in-out infinite;
+  animation-delay: -1s;
+}
+
+.bauble:nth-child(3) {
+  left: 65%;
+  animation: bauble-swing-3 4.5s ease-in-out infinite;
+  animation-delay: -2s;
+}
+
+.bauble:nth-child(4) {
+  left: 88%;
+  animation: bauble-swing-1 5.5s ease-in-out infinite;
+  animation-delay: -0.5s;
+}
+
+/* Bauble string */
+.bauble-string {
+  stroke: #5a5a5a;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* Bauble cap (top metal part) */
+.bauble-cap {
+  fill: #c9a227;
+}
+
+/* Bauble body colors */
+.bauble-red {
+  fill: url(#bauble-gradient-red);
+}
+
+.bauble-gold {
+  fill: url(#bauble-gradient-gold);
+}
+
+.bauble-green {
+  fill: url(#bauble-gradient-green);
+}
+
+.bauble-silver {
+  fill: url(#bauble-gradient-silver);
+}
+
+/* Bauble highlight/shine */
+.bauble-shine {
+  fill: rgba(255, 255, 255, 0.4);
+}
+
+/* ============================================
+   CHRISTMAS LIGHTS
+   ============================================ */
+
+.christmas-lights {
+  position: fixed;
+  top: var(--header-height, 83px);
+  left: 0;
+  width: 100%;
+  height: 50px;
+  pointer-events: none;
+  z-index: calc(var(--z-index-fixed, 1030) - 1);
+  overflow: visible;
+}
+
+/* Adjust when header is scrolled (smaller) */
+.header.scrolled ~ .christmas-lights,
+body:has(.header.scrolled) .christmas-lights {
+  top: var(--header-height-scrolled, 60px);
+}
+
+/* Container for the lights - uses flexbox for spacing */
+.lights-container {
+  position: absolute;
+  top: 0;
+  left: 1%;
+  right: 1%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+/* Individual light bulb - OPTIMIZED
+   Using static box-shadow instead of animated filter for better performance.
+   Only opacity is animated, reducing GPU work by ~60%. */
+.light {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  /* Static glow - box-shadow is composited once, not per-frame */
+  box-shadow:
+    0 0 6px var(--light-color),
+    0 0 12px var(--light-color),
+    0 0 20px var(--light-color);
+  /* Only animate opacity - much cheaper than filter */
+  animation: twinkle 3s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  /* Hint to browser to optimize for opacity changes */
+  will-change: opacity;
+  /* Apply varied positions from inline styles */
+  transform: translate(var(--nudge-x, 0), var(--offset-y, 0));
+}
+
+/* Light colors - simplified gradients with integrated highlight */
+.light--red {
+  --light-color: #ff4444;
+  background: radial-gradient(
+    ellipse at 30% 30%,
+    rgba(255, 255, 255, 0.8) 0%,
+    #ff8888 20%,
+    #ff4444 50%,
+    #cc0000 100%
+  );
+}
+
+.light--gold {
+  --light-color: #ffcc00;
+  background: radial-gradient(
+    ellipse at 30% 30%,
+    rgba(255, 255, 255, 0.8) 0%,
+    #ffee88 20%,
+    #ffcc00 50%,
+    #cc9900 100%
+  );
+}
+
+.light--green {
+  --light-color: #44ff44;
+  background: radial-gradient(
+    ellipse at 30% 30%,
+    rgba(255, 255, 255, 0.8) 0%,
+    #88ff88 20%,
+    #44ff44 50%,
+    #00aa00 100%
+  );
+}
+
+.light--blue {
+  --light-color: #4488ff;
+  background: radial-gradient(
+    ellipse at 30% 30%,
+    rgba(255, 255, 255, 0.8) 0%,
+    #88bbff 20%,
+    #4488ff 50%,
+    #0044cc 100%
+  );
+}
+
+/* Twinkle animations - varied intensity patterns (opacity only for performance) */
+@keyframes twinkle-1 {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@keyframes twinkle-2 {
+  0%, 100% { opacity: 1; }
+  30% { opacity: 0.4; }
+  60% { opacity: 0.9; }
+  80% { opacity: 0.3; }
+}
+
+@keyframes twinkle-3 {
+  0%, 100% { opacity: 1; }
+  25% { opacity: 0.5; }
+  50% { opacity: 0.85; }
+  75% { opacity: 0.25; }
+}
+
+@keyframes twinkle-4 {
+  0%, 100% { opacity: 1; }
+  40% { opacity: 0.2; }
+  70% { opacity: 0.8; }
+}
+
+/* Apply different animations and durations for variety */
+.light:nth-child(4n+1) { animation-name: twinkle-1; animation-duration: 2.2s; }
+.light:nth-child(4n+2) { animation-name: twinkle-2; animation-duration: 2.8s; }
+.light:nth-child(4n+3) { animation-name: twinkle-3; animation-duration: 3.4s; }
+.light:nth-child(4n)   { animation-name: twinkle-4; animation-duration: 2.5s; }
+
+/* Additional duration variation for more randomness */
+.light:nth-child(5n)   { animation-duration: 1.8s; }
+.light:nth-child(7n)   { animation-duration: 4s; }
+.light:nth-child(11n)  { animation-duration: 1.5s; }
+.light:nth-child(13n)  { animation-duration: 3s; }
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+/* Baubles responsive */
+@media (max-width: 768px) {
+  .christmas-baubles {
+    height: 80px;
+  }
+
+  .bauble {
+    transform: scale(0.7);
+  }
+
+  .bauble:nth-child(2),
+  .bauble:nth-child(3) {
+    display: none; /* Show fewer baubles on mobile */
+  }
+
+  .bauble:nth-child(1) {
+    left: 15%;
+  }
+
+  .bauble:nth-child(4) {
+    left: 75%;
+  }
+}
+
+/* Lights responsive */
+@media (max-width: 768px) {
+  .christmas-lights {
+    height: 35px;
+  }
+
+  .light {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Hide some lights on mobile */
+  .light:nth-child(even) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .lights-container {
+    left: 3%;
+    right: 3%;
+  }
+
+  /* Show even fewer lights on small screens */
+  .light:nth-child(3n) {
+    display: none;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION PREFERENCE
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .bauble {
+    animation: none !important;
+  }
+
+  .light {
+    animation: none !important;
+    /* Static glow for reduced motion - no animation */
+  }
+}
+

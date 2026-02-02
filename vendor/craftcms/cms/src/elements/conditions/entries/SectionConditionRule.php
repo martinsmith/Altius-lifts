@@ -6,12 +6,10 @@ use Craft;
 use craft\base\conditions\BaseMultiSelectConditionRule;
 use craft\base\ElementInterface;
 use craft\elements\conditions\ElementConditionRuleInterface;
-use craft\elements\conditions\HintableConditionRuleTrait;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\db\EntryQuery;
 use craft\elements\Entry;
-use craft\models\Section;
-use Illuminate\Support\Collection;
+use craft\helpers\ArrayHelper;
 
 /**
  * Entry section condition rule.
@@ -21,8 +19,6 @@ use Illuminate\Support\Collection;
  */
 class SectionConditionRule extends BaseMultiSelectConditionRule implements ElementConditionRuleInterface
 {
-    use HintableConditionRuleTrait;
-
     /**
      * @inheritdoc
      */
@@ -60,12 +56,8 @@ class SectionConditionRule extends BaseMultiSelectConditionRule implements Eleme
      */
     protected function options(): array
     {
-        $sections = new Collection(Craft::$app->getEntries()->getAllSections());
-
-        return $sections
-            ->keyBy('uid')
-            ->map(fn(Section $section) => $section->name . ($this->showLabelHint() ? " ($section->handle)" : ''))
-            ->all();
+        $sections = Craft::$app->getEntries()->getAllSections();
+        return ArrayHelper::map($sections, 'uid', 'name');
     }
 
     /**

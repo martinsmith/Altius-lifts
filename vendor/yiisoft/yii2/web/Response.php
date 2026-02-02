@@ -28,7 +28,7 @@ use yii\helpers\Url;
  * You can modify its configuration by adding an array to your application config under `components`
  * as it is shown in the following example:
  *
- * ```
+ * ```php
  * 'response' => [
  *     'format' => yii\web\Response::FORMAT_JSON,
  *     'charset' => 'UTF-8',
@@ -64,21 +64,22 @@ class Response extends \yii\base\Response
     /**
      * @event \yii\base\Event an event that is triggered at the beginning of [[send()]].
      */
-    public const EVENT_BEFORE_SEND = 'beforeSend';
+    const EVENT_BEFORE_SEND = 'beforeSend';
     /**
      * @event \yii\base\Event an event that is triggered at the end of [[send()]].
      */
-    public const EVENT_AFTER_SEND = 'afterSend';
+    const EVENT_AFTER_SEND = 'afterSend';
     /**
      * @event \yii\base\Event an event that is triggered right after [[prepare()]] is called in [[send()]].
      * You may respond to this event to filter the response content before it is sent to the client.
      */
-    public const EVENT_AFTER_PREPARE = 'afterPrepare';
-    public const FORMAT_RAW = 'raw';
-    public const FORMAT_HTML = 'html';
-    public const FORMAT_JSON = 'json';
-    public const FORMAT_JSONP = 'jsonp';
-    public const FORMAT_XML = 'xml';
+    const EVENT_AFTER_PREPARE = 'afterPrepare';
+    const FORMAT_RAW = 'raw';
+    const FORMAT_HTML = 'html';
+    const FORMAT_JSON = 'json';
+    const FORMAT_JSONP = 'jsonp';
+    const FORMAT_XML = 'xml';
+
     /**
      * @var string the response format. This determines how to convert [[data]] into [[content]]
      * when the latter is not set. The value of this property must be one of the keys declared in the [[formatters]] array.
@@ -102,7 +103,7 @@ class Response extends \yii\base\Response
      */
     public $format = self::FORMAT_HTML;
     /**
-     * @var string|null the MIME type (e.g. `application/json`) from the request ACCEPT header chosen for this response.
+     * @var string the MIME type (e.g. `application/json`) from the request ACCEPT header chosen for this response.
      * This property is mainly set by [[\yii\filters\ContentNegotiator]].
      */
     public $acceptMimeType;
@@ -133,7 +134,7 @@ class Response extends \yii\base\Response
      */
     public $content;
     /**
-     * @var resource|array|callable|null the stream to be sent. This can be a stream handle or an array of stream handle,
+     * @var resource|array|callable the stream to be sent. This can be a stream handle or an array of stream handle,
      * the begin position and the end position. Alternatively it can be set to a callable, which returns
      * (or [yields](https://www.php.net/manual/en/language.generators.syntax.php)) an array of strings that should
      * be echoed and flushed out one by one.
@@ -238,7 +239,7 @@ class Response extends \yii\base\Response
      */
     private $_statusCode = 200;
     /**
-     * @var HeaderCollection|null
+     * @var HeaderCollection
      */
     private $_headers;
 
@@ -494,7 +495,7 @@ class Response extends \yii\base\Response
      * The following is an example implementation of a controller action that allows requesting files from a directory
      * that is not accessible from web:
      *
-     * ```
+     * ```php
      * public function actionFile($filename)
      * {
      *     $storagePath = Yii::getAlias('@app/files');
@@ -747,7 +748,7 @@ class Response extends \yii\base\Response
      *
      * **Example**
      *
-     * ```
+     * ```php
      * Yii::$app->response->xSendFile('/home/user/Pictures/picture1.jpg');
      * ```
      *
@@ -837,14 +838,14 @@ class Response extends \yii\base\Response
      * This method adds a "Location" header to the current response. Note that it does not send out
      * the header until [[send()]] is called. In a controller action you may use this method as follows:
      *
-     * ```
+     * ```php
      * return Yii::$app->getResponse()->redirect($url);
      * ```
      *
      * In other places, if you want to send out the "Location" header immediately, you should use
      * the following code:
      *
-     * ```
+     * ```php
      * Yii::$app->getResponse()->redirect($url)->send();
      * return;
      * ```
@@ -857,7 +858,7 @@ class Response extends \yii\base\Response
      * described above. Otherwise, you should write the following JavaScript code to
      * handle the redirection:
      *
-     * ```
+     * ```javascript
      * $document.ajaxComplete(function (event, xhr, settings) {
      *     var url = xhr && xhr.getResponseHeader('X-Redirect');
      *     if (url) {
@@ -932,7 +933,7 @@ class Response extends \yii\base\Response
      *
      * In a controller action you may use this method like this:
      *
-     * ```
+     * ```php
      * return Yii::$app->getResponse()->refresh();
      * ```
      *
@@ -945,9 +946,6 @@ class Response extends \yii\base\Response
         return $this->redirect(Yii::$app->getRequest()->getUrl() . $anchor);
     }
 
-    /**
-     * @var CookieCollection|null
-     */
     private $_cookies;
 
     /**
@@ -955,7 +953,7 @@ class Response extends \yii\base\Response
      *
      * Through the returned cookie collection, you add or remove cookies as follows,
      *
-     * ```
+     * ```php
      * // add a cookie
      * $response->cookies->add(new Cookie([
      *     'name' => $name,

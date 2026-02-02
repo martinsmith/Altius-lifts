@@ -39,13 +39,14 @@ class CompareValidator extends Validator
      * @since 2.0.11
      * @see type
      */
-    public const TYPE_STRING = 'string';
+    const TYPE_STRING = 'string';
     /**
      * Constant for specifying the comparison [[type]] by numeric values.
      * @since 2.0.11
      * @see type
      */
-    public const TYPE_NUMBER = 'number';
+    const TYPE_NUMBER = 'number';
+
     /**
      * @var string the name of the attribute to be compared with. When both this property
      * and [[compareValue]] are set, the latter takes precedence. If neither is set,
@@ -56,17 +57,8 @@ class CompareValidator extends Validator
      */
     public $compareAttribute;
     /**
-     * @var mixed the constant value to be compared with or an anonymous function
-     * that returns the constant value. When both this property and
-     * [[compareAttribute]] are set, this property takes precedence.
-     * The signature of the anonymous function should be as follows,
-     *
-     * ```
-     * function($model, $attribute) {
-     *     // compute value to compare with
-     *     return $value;
-     * }
-     * ```
+     * @var mixed the constant value to be compared with. When both this property
+     * and [[compareAttribute]] are set, this property takes precedence.
      * @see compareAttribute
      */
     public $compareValue;
@@ -152,7 +144,7 @@ class CompareValidator extends Validator
         }
         if ($this->compareValue !== null) {
             if ($this->compareValue instanceof \Closure) {
-                $this->compareValue = call_user_func($this->compareValue, $model, $attribute);
+                $this->compareValue = call_user_func($this->compareValue);
             }
             $compareLabel = $compareValue = $compareValueOrAttribute = $this->compareValue;
         } else {

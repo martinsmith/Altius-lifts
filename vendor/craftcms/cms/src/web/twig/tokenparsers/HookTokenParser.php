@@ -33,13 +33,14 @@ class HookTokenParser extends AbstractTokenParser
     public function parse(Token $token): HookNode
     {
         $lineno = $token->getLine();
-        $stream = $this->parser->getStream();
+        $parser = $this->parser;
+        $stream = $parser->getStream();
 
         $nodes = [
-            'hook' => $this->parser->parseExpression(),
+            'hook' => $parser->getExpressionParser()->parseExpression(),
         ];
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new HookNode($nodes, [], $lineno);
+        return new HookNode($nodes, [], $lineno, $this->getTag());
     }
 }

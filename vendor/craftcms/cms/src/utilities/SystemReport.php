@@ -75,9 +75,7 @@ class SystemReport extends Utility
         foreach (Craft::$aliases as $alias => $value) {
             if (is_array($value)) {
                 foreach ($value as $a => $v) {
-                    if (!str_starts_with($a, '@appicons/')) {
-                        $aliases[$a] = $v;
-                    }
+                    $aliases[$a] = $v;
                 }
             } else {
                 $aliases[$alias] = $value;

@@ -10,9 +10,7 @@ namespace craft\console\controllers;
 use Craft;
 use craft\console\Controller;
 use craft\db\MigrationManager;
-use craft\enums\LicenseKeyStatus;
 use craft\errors\OperationAbortedException;
-use craft\helpers\App;
 use craft\helpers\Console;
 use Throwable;
 use yii\console\ExitCode;
@@ -53,8 +51,6 @@ class UpController extends Controller
      */
     public function actionIndex(): int
     {
-        $this->showLicensingIssues();
-
         try {
             $projectConfig = Craft::$app->getProjectConfig();
             $pendingChanges = $projectConfig->areChangesPending(force: true);
@@ -96,9 +92,9 @@ class UpController extends Controller
             }
             $this->stdout("\n");
 
-            // Delete compiled templates
-            $this->run('clear-caches/compiled-templates');
-            $this->stdout("\n");
+            $this->stdout('Updating license info ... ');
+            Craft::$app->getUpdates()->getUpdates(true);
+            $this->stdout("done\n", Console::FG_GREEN);
         } catch (Throwable $e) {
             if (!$e instanceof OperationAbortedException) {
                 throw $e;
@@ -111,26 +107,5 @@ class UpController extends Controller
         }
 
         return ExitCode::OK;
-    }
-
-    private function showLicensingIssues(): bool
-    {
-        $this->stdout('Fetching license info ... ');
-        Craft::$app->getUpdates()->getUpdates(true);
-        $this->stdout("done\n", Console::FG_GREEN);
-
-        $issues = App::licensingIssues([LicenseKeyStatus::Astray->value]);
-
-        if (empty($issues)) {
-            return true;
-        }
-
-        $this->stdout("\nThe following licensing issues were detected:\n", Console::FG_RED);
-        foreach ($issues as [$name, $message, $resolveItem]) {
-            $this->stdout(" - $message\n", Console::FG_RED);
-        }
-        $this->stdout("\n");
-
-        return $this->confirm('Continue anyway?');
     }
 }

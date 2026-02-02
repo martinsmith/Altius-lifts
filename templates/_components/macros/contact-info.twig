@@ -1,0 +1,122 @@
+
+{% macro phone(format = 'display') %}
+  {% set phoneNumber = craft.globals.getSet('contactInfo').phone ?? '0161 368 7474' %}
+
+  {% if format == 'tel' %}
+    {{ phoneNumber|replace(' ', '')|replace('(', '')|replace(')', '') }}
+  {% else %}
+    {{ phoneNumber }}
+  {% endif %}
+{% endmacro %}
+{% macro email() %}
+  {{ craft.globals.getSet('contactInfo').email ?? 'info@theleadingedge.co.uk' }}
+{% endmacro %}
+
+{% macro address(format = 'full') %}
+  {% set addressInfo = craft.globals.getSet('contactInfo') %}
+
+  {% if format == 'full' %}
+    {% if addressInfo.address %}
+      {{ addressInfo.address }}
+    {% else %}
+      Hair Haven<br>
+      123 Market Street<br>
+      Hyde, Cheshire SK14 1AA
+    {% endif %}
+  {% elseif format == 'inline' %}
+    {% if addressInfo.addressInline %}
+      {{ addressInfo.addressInline }}
+    {% else %}
+      Hair Haven, 123 Market Street, Hyde, Cheshire SK14 1AA
+    {% endif %}
+  {% endif %}
+{% endmacro %}
+
+{% macro openingHours(format = 'list') %}
+  {% set hours = craft.globals.getSet('contactInfo').openingHours %}
+
+  {% if format == 'list' and hours %}
+    <ul class="opening-hours">
+      {% for day in hours %}
+        <li>
+          <span class="day">{{ day.day }}</span>
+          <span class="time">{{ day.time }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% elseif format == 'structured' and hours %}
+    {% for day in hours %}
+      <div class="opening-day">
+        <dt>{{ day.day }}</dt>
+        <dd>{{ day.time }}</dd>
+      </div>
+    {% endfor %}
+  {% else %}
+    <ul class="opening-hours">
+      <li><span class="day">Monday - Friday</span><span class="time">9:00 AM - 6:00 PM</span></li>
+      <li><span class="day">Saturday</span><span class="time">9:00 AM - 5:00 PM</span></li>
+      <li><span class="day">Sunday</span><span class="time">Closed</span></li>
+    </ul>
+  {% endif %}
+{% endmacro %}
+
+{% macro socialLinks(format = 'icons') %}
+  {% set social = craft.globals.getSet('contactInfo').socialLinks %}
+
+  {% if format == 'icons' %}
+    <div class="social-links">
+      {% if social.facebook %}
+        <a href="{{ social.facebook }}" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      {% endif %}
+      {% if social.instagram %}
+        <a href="{{ social.instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      {% endif %}
+      {% if social.twitter %}
+        <a href="{{ social.twitter }}" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      {% endif %}
+    </div>
+  {% elseif format == 'list' %}
+    <ul class="social-links-list">
+      {% if social.facebook %}
+        <li><a href="{{ social.facebook }}" target="_blank" rel="noopener">Facebook</a></li>
+      {% endif %}
+      {% if social.instagram %}
+        <li><a href="{{ social.instagram }}" target="_blank" rel="noopener">Instagram</a></li>
+      {% endif %}
+      {% if social.twitter %}
+        <li><a href="{{ social.twitter }}" target="_blank" rel="noopener">Twitter</a></li>
+      {% endif %}
+    </ul>
+  {% endif %}
+{% endmacro %}
+
+{% macro contactCard(variant = 'default') %}
+  {% import _self as contact %}
+
+  <div class="contact-card contact-card--{{ variant }}">
+    <h3>Get in Touch</h3>
+
+    <div class="contact-item">
+      <i class="fas fa-phone"></i>
+      <a href="tel:{{ contact.phone('tel') }}">{{ contact.phone() }}</a>
+    </div>
+
+    <div class="contact-item">
+      <i class="fas fa-envelope"></i>
+      {% apply enkode_emails %}<a href="mailto:{{ contact.email() }}">{{ contact.email() }}</a>{% endapply %}
+    </div>
+
+    <div class="contact-item">
+      <i class="fas fa-map-marker-alt"></i>
+      <address>{{ contact.address() }}</address>
+    </div>
+
+    {{ contact.socialLinks() }}
+  </div>
+{% endmacro %}

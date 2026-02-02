@@ -26,7 +26,7 @@ use yii\db\QueryInterface;
  *
  * The following are examples of validation rules using this validator:
  *
- * ```
+ * ```php
  * // a1 needs to exist
  * ['a1', 'exist']
  * // a1 needs to exist, but its value will use a2 to check for the existence
@@ -116,17 +116,13 @@ class ExistValidator extends Validator
 
     /**
      * Validates existence of the current attribute based on relation name
-     * @param ActiveRecord $model the data model to be validated
+     * @param \yii\db\ActiveRecord $model the data model to be validated
      * @param string $attribute the name of the attribute to be validated.
      */
     private function checkTargetRelationExistence($model, $attribute)
     {
         $exists = false;
-
-        /**
-         * @var ActiveQuery $relationQuery
-         * @phpstan-var ActiveQuery<ActiveRecord>
-         */
+        /** @var ActiveQuery $relationQuery */
         $relationQuery = $model->{'get' . ucfirst($this->targetRelation)}();
 
         if ($this->filter instanceof \Closure) {
@@ -303,7 +299,7 @@ class ExistValidator extends Validator
      */
     protected function createQuery($targetClass, $condition)
     {
-        /** @var \yii\db\ActiveRecordInterface $targetClass */
+        /* @var $targetClass \yii\db\ActiveRecordInterface */
         $query = $targetClass::find()->andWhere($condition);
         if ($this->filter instanceof \Closure) {
             call_user_func($this->filter, $query);
@@ -320,8 +316,6 @@ class ExistValidator extends Validator
      * @param array $conditions array of condition, keys to be modified
      * @param string|null $alias set empty string for no apply alias. Set null for apply primary table alias
      * @return array
-     *
-     * @phpstan-param ActiveQuery<ActiveRecord> $query
      */
     private function applyTableAlias($query, $conditions, $alias = null)
     {

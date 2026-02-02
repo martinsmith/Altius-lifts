@@ -1,0 +1,61 @@
+{% set currentPath = craft.app.request.pathInfo %}
+{% set navItems = [
+    { url: '/', label: 'Home', active: currentPath == '' },
+    { url: '/salon', label: 'Salon', active: currentPath starts with 'salon' },
+    { url: '/our-services', label: 'Services', active: currentPath starts with 'our-services' },
+    { url: '/meet-the-team', label: 'Our Team', active: currentPath starts with 'meet-the-team' },
+    { url: '/contact', label: 'Contact', active: currentPath starts with 'contact' },
+    { url: '/careers', label: 'Careers', active: currentPath starts with 'careers' }
+] %}
+
+<header class="header" id="header" role="banner">
+    <div class="container header-container">
+        <div class="logo">
+            <a href="/" aria-label="Hair Haven - Home">
+                <h1>Hair Haven</h1>
+            </a>
+        </div>
+
+        <button class="menu-toggle"
+                id="menu-toggle"
+                aria-label="Toggle navigation menu"
+                aria-expanded="false"
+                aria-controls="nav">
+            <div class="hamburger" id="hamburger">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </div>
+        </button>
+
+        <nav id="nav" role="navigation" aria-label="Main navigation">
+            <ul>
+                {% for item in navItems %}
+                    <li>
+                        <a href="{{ item.url }}"
+                           class="{{ item.active ? 'active' : '' }}"
+                           {% if item.active %}aria-current="page"{% endif %}>
+                            {{ item.label }}
+                        </a>
+                    </li>
+                {% endfor %}
+                <li>
+                    <a href="/offers"
+                       class="btn-book-now"
+                       aria-label="View offers and vouchers">
+                        Offers & Vouchers
+                    </a>
+                </li>
+                <li>
+                    <a href="https://s-iq.co/BookingPortal/dist/?salonid=80f580b6-8b67-4255-84ba-009ea9a49600&tab=contact&showSalons=1"
+                       class="btn-book-now"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Book appointment (opens in new window)">
+                        Book Now
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>

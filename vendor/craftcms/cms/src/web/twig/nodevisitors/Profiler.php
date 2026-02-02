@@ -8,7 +8,6 @@
 namespace craft\web\twig\nodevisitors;
 
 use craft\helpers\Template;
-use craft\web\twig\nodes\BaseNode;
 use craft\web\twig\nodes\ProfileNode;
 use Twig\Environment;
 use Twig\Node\BlockNode;
@@ -41,11 +40,11 @@ class Profiler implements NodeVisitorInterface
     {
         if ($node instanceof ModuleNode) {
             $name = $node->getTemplateName();
-            $node->setNode('display_start', new BaseNode([
+            $node->setNode('display_start', new Node([
                 new ProfileNode(Template::PROFILE_STAGE_BEGIN, Template::PROFILE_TYPE_TEMPLATE, $name),
                 $node->getNode('display_start'),
             ]));
-            $node->setNode('display_end', new BaseNode([
+            $node->setNode('display_end', new Node([
                 new ProfileNode(Template::PROFILE_STAGE_END, Template::PROFILE_TYPE_TEMPLATE, $name),
                 $node->getNode('display_end'),
             ]));

@@ -1,0 +1,85 @@
+{# Contact Form Component - Now using Craft Contact Form Plugin #}
+<style>
+.contact-form .form-field {
+    margin-block-end: var(--space-4);
+}
+.contact-form .form-field label {
+    color: var(--text-white);
+}
+</style>
+
+<div class="form-header">
+    <h2>{{ entry.cb_contactForm.blockTitle }}</h2>
+    <p>{{ entry.cb_contactForm.formIntro }}</p>
+</div>
+
+{# Display success message if form was submitted successfully #}
+{% if craft.app.session.hasFlash('notice') %}
+    <div class="form-alert form-alert-success">
+        <p>{{ craft.app.session.getFlash('notice') }}</p>
+    </div>
+{% endif %}
+
+{# Display error messages if form submission failed #}
+{% if craft.app.session.hasFlash('error') %}
+    <div class="form-alert">
+        <p>{{ craft.app.session.getFlash('error') }}</p>
+    </div>
+{% endif %}
+
+<form method="post" action="" accept-charset="UTF-8" class="contact-form">
+    {{ csrfInput() }}
+    {{ actionInput('contact-form/send') }}
+
+    <div class="form-field">
+        <label for="fromName">Name</label>
+        <input type="text" id="fromName" name="fromName" value="{{ message.fromName ?? '' }}" class="fui-input" required>
+        {% if message is defined and message.getErrors('fromName') %}
+            <div class="error-message show">
+                {% for error in message.getErrors('fromName') %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-field">
+        <label for="fromEmail">Email Address</label>
+        <input type="email" id="fromEmail" name="fromEmail" value="{{ message.fromEmail ?? '' }}" class="fui-input" required>
+        {% if message is defined and message.getErrors('fromEmail') %}
+            <div class="error-message show">
+                {% for error in message.getErrors('fromEmail') %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-field">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" value="{{ message.subject ?? '' }}" class="fui-input" required>
+        {% if message is defined and message.getErrors('subject') %}
+            <div class="error-message show">
+                {% for error in message.getErrors('subject') %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message[body]" rows="6" class="fui-textarea" required>{{ message.message.body ?? '' }}</textarea>
+        {% if message is defined and message.getErrors('message') %}
+            <div class="error-message show">
+                {% for error in message.getErrors('message') %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-submit">
+        <button type="submit" class="btn primary">Send Message</button>
+    </div>
+</form>

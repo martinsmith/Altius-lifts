@@ -26,27 +26,28 @@ class PaginateTokenParser extends AbstractTokenParser
     public function parse(Token $token): PaginateNode
     {
         $lineno = $token->getLine();
-        $stream = $this->parser->getStream();
+        $parser = $this->parser;
+        $stream = $parser->getStream();
 
         $nodes = [
-            'query' => $this->parser->parseExpression(),
+            'query' => $parser->getExpressionParser()->parseExpression(),
         ];
         $stream->expect('as');
-        $targets = $this->parseAssignmentExpression();
+        $targets = $parser->getExpressionParser()->parseAssignmentExpression();
         $stream->expect(Token::BLOCK_END_TYPE);
 
         if (count($targets) > 1) {
-            $infoVariable = $targets->getNode('0');
+            $infoVariable = $targets->getNode(0);
             $nodes['infoVariable'] = new AssignNameExpression($infoVariable->getAttribute('name'), $infoVariable->getTemplateLine());
-            $resultVariable = $targets->getNode('1');
+            $resultVariable = $targets->getNode(1);
         } else {
             $nodes['infoVariable'] = new AssignNameExpression('paginate', $lineno);
-            $resultVariable = $targets->getNode('0');
+            $resultVariable = $targets->getNode(0);
         }
 
         $nodes['resultVariable'] = new AssignNameExpression($resultVariable->getAttribute('name'), $resultVariable->getTemplateLine());
 
-        return new PaginateNode($nodes, [], $lineno);
+        return new PaginateNode($nodes, [], $lineno, $this->getTag());
     }
 
     /**

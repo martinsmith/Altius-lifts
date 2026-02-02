@@ -21,7 +21,6 @@ use yii\db\ForeignKeyConstraint;
 use yii\db\IndexConstraint;
 use yii\db\TableSchema;
 use yii\helpers\ArrayHelper;
-use yii\db\Schema as BaseSchema;
 
 /**
  * Schema is the class for retrieving metadata from an Oracle database.
@@ -31,11 +30,8 @@ use yii\db\Schema as BaseSchema;
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
- *
- * @template T of ColumnSchema
- * @extends BaseSchema<T>
  */
-class Schema extends BaseSchema implements ConstraintFinderInterface
+class Schema extends \yii\db\Schema implements ConstraintFinderInterface
 {
     use ConstraintFinderTrait;
 
@@ -402,9 +398,6 @@ SQL;
      *
      * @param array $column
      * @return ColumnSchema
-     *
-     * @phpstan-return T
-     * @psalm-return T
      */
     protected function createColumn($column)
     {
@@ -516,7 +509,7 @@ SQL;
      * Returns all unique indexes for the given table.
      * Each array element is of the following structure:.
      *
-     * ```
+     * ```php
      * [
      *     'IndexName1' => ['col1' [, ...]],
      *     'IndexName2' => ['col2' [, ...]],

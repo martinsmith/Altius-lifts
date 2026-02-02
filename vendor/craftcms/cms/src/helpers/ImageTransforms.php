@@ -68,7 +68,7 @@ class ImageTransforms
             'width' => $matches['width'] ?? null,
             'height' => $matches['height'] ?? null,
             'mode' => $matches['mode'],
-            'position' => $matches['position'] ?? 'center-center',
+            'position' => $matches['position'],
             'quality' => $matches['quality'] ?? null,
             'interlace' => $matches['interlace'] ?? 'none',
             'fill' => $fill ?? null,
@@ -225,13 +225,9 @@ class ImageTransforms
             return '_' . $transform->handle;
         }
 
-        $position = preg_match('/^(top|center|bottom)-(left|center|right)$/', $transform->position)
-            ? $transform->position
-            : 'center-center';
-
         return '_' . ($transform->width ?: 'AUTO') . 'x' . ($transform->height ?: 'AUTO') .
             '_' . $transform->mode .
-            "_$position" .
+            '_' . $transform->position .
             ($transform->quality ? '_' . $transform->quality : '') .
             '_' . $transform->interlace .
             ($transform->fill ? '_' . ltrim($transform->fill, '#') : '') .
@@ -417,10 +413,10 @@ class ImageTransforms
 
         if ($asset->getHasFocalPoint() && $transform->mode === 'crop') {
             $position = $asset->getFocalPoint();
-        } elseif (preg_match('/^(top|center|bottom)-(left|center|right)$/', $transform->position)) {
-            $position = $transform->position;
-        } else {
+        } elseif (!preg_match('/^(top|center|bottom)-(left|center|right)$/', $transform->position)) {
             $position = 'center-center';
+        } else {
+            $position = $transform->position;
         }
 
         $scaleIfSmaller = $transform->upscale ?? Craft::$app->getConfig()->getGeneral()->upscaleImages;

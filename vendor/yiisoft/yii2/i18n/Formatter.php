@@ -56,27 +56,28 @@ class Formatter extends Component
     /**
      * @since 2.0.13
      */
-    public const UNIT_SYSTEM_METRIC = 'metric';
+    const UNIT_SYSTEM_METRIC = 'metric';
     /**
      * @since 2.0.13
      */
-    public const UNIT_SYSTEM_IMPERIAL = 'imperial';
+    const UNIT_SYSTEM_IMPERIAL = 'imperial';
     /**
      * @since 2.0.13
      */
-    public const FORMAT_WIDTH_LONG = 'long';
+    const FORMAT_WIDTH_LONG = 'long';
     /**
      * @since 2.0.13
      */
-    public const FORMAT_WIDTH_SHORT = 'short';
+    const FORMAT_WIDTH_SHORT = 'short';
     /**
      * @since 2.0.13
      */
-    public const UNIT_LENGTH = 'length';
+    const UNIT_LENGTH = 'length';
     /**
      * @since 2.0.13
      */
-    public const UNIT_WEIGHT = 'mass';
+    const UNIT_WEIGHT = 'mass';
+
     /**
      * @var string|null the text to be displayed when formatting a `null` value.
      * Defaults to `'<span class="not-set">(not set)</span>'`, where `(not set)`
@@ -140,7 +141,7 @@ class Formatter extends Component
      *
      * For example:
      *
-     * ```
+     * ```php
      * 'MM/dd/yyyy' // date in ICU format
      * 'php:m/d/Y' // the same date in PHP format
      * ```
@@ -156,7 +157,7 @@ class Formatter extends Component
      *
      * For example:
      *
-     * ```
+     * ```php
      * 'HH:mm:ss' // time in ICU format
      * 'php:H:i:s' // the same time in PHP format
      * ```
@@ -173,7 +174,7 @@ class Formatter extends Component
      *
      * For example:
      *
-     * ```
+     * ```php
      * 'MM/dd/yyyy HH:mm:ss' // date and time in ICU format
      * 'php:m/d/Y H:i:s' // the same date and time in PHP format
      * ```
@@ -190,7 +191,7 @@ class Formatter extends Component
      * set this property to `\IntlDateFormatter::TRADITIONAL`.
      * The calendar must then be specified in the [[locale]], for example for the persian calendar the configuration for the formatter would be:
      *
-     * ```
+     * ```php
      * 'formatter' => [
      *     'locale' => 'fa_IR@calendar=persian',
      *     'calendar' => \IntlDateFormatter::TRADITIONAL,
@@ -240,7 +241,7 @@ class Formatter extends Component
      *
      * For example to adjust the maximum and minimum value of fraction digits you can configure this property like the following:
      *
-     * ```
+     * ```php
      * [
      *     NumberFormatter::MIN_FRACTION_DIGITS => 0,
      *     NumberFormatter::MAX_FRACTION_DIGITS => 2,
@@ -259,7 +260,7 @@ class Formatter extends Component
      *
      * For example to change the minus sign for negative numbers you can configure this property like the following:
      *
-     * ```
+     * ```php
      * [
      *     NumberFormatter::NEGATIVE_PREFIX => 'MINUS',
      * ]
@@ -277,7 +278,7 @@ class Formatter extends Component
      *
      * For example to choose a custom currency symbol, e.g. [U+20BD](https://unicode-table.com/en/20BD/) instead of `руб.` for Russian Ruble:
      *
-     * ```
+     * ```php
      * [
      *     NumberFormatter::CURRENCY_SYMBOL => '₽',
      * ]
@@ -316,7 +317,7 @@ class Formatter extends Component
      *
      * For example, you can add smaller measure unit:
      *
-     * ```
+     * ```php
      * $this->measureUnits[self::UNIT_LENGTH][self::UNIT_SYSTEM_METRIC] = [
      *     'nanometer' => 0.000001
      * ]
@@ -1260,12 +1261,10 @@ class Formatter extends Component
         if ($value === null) {
             return $this->nullDisplay;
         }
-
         $value = $this->normalizeNumericValue($value);
 
         if ($this->_intlLoaded) {
             $f = $this->createNumberFormatter(NumberFormatter::SCIENTIFIC, $decimals, $options, $textOptions);
-
             if (($result = $f->format($value)) === false) {
                 throw new InvalidArgumentException('Formatting scientific number value failed: ' . $f->getErrorCode() . ' ' . $f->getErrorMessage());
             }
@@ -1277,12 +1276,7 @@ class Formatter extends Component
             return sprintf("%.{$decimals}E", $value);
         }
 
-        // PHP 8.5+ changed sprintf('%.E') behavior: empty precision now defaults to '0' instead of '6'
-        // Specify explicit precision to maintain backward compatibility
-        // @link https://github.com/php/php-src/commit/5ed8b2be5533fbd4db95d9724d268eb9c9741f14
-        $format = PHP_VERSION_ID >= 80500 ? '%.6E' : '%.E';
-
-        return sprintf($format, $value);
+        return sprintf('%.E', $value);
     }
 
     /**
@@ -1678,7 +1672,7 @@ class Formatter extends Component
 
         $message = [];
         foreach ($unitBundle as $key => $value) {
-            if ($key === 'dnam' || $key === 'case') {
+            if ($key === 'dnam') {
                 continue;
             }
             $message[] = "$key{{$value}}";

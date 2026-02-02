@@ -1,0 +1,67 @@
+@layer components {
+
+/* News Content Section - Page Layout */
+.news-content {
+  padding-block: var(--section-padding);
+  background-color: var(--bg-light); /* Soft sage-tinted grey #f3f4f1 */
+
+  @media (max-width: 768px) {
+    padding-block: var(--section-padding-mobile);
+  }
+}
+
+/* News Grid Component Styles (extracted from Vue NewsGrid.vue) */
+.news-section {
+  padding-block: var(--section-padding);
+
+  @media (max-width: 768px) {
+    padding-block: var(--section-padding-mobile);
+  }
+
+  & .news-filters {
+    margin-block-end: 2rem;
+
+    & .category-filter {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+
+      & .filter-item {
+        padding: 0.5rem 1.5rem;
+        background-color: white;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: var(--transition-standard);
+        color: var(--primary-color);
+
+        &:hover {
+          background-color: color-mix(in srgb, var(--accent-color) 35%, white);
+          transform: translateY(-2px);
+        }
+
+        &.active {
+          background-color: var(--primary-color); /* Charcoal grey #404e5c for better contrast */
+          color: white;
+        }
+      }
+    }
+  }
+
+  & .news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-block-end: 3rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+} /* End @layer components */

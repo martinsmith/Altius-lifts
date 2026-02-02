@@ -9,7 +9,7 @@ namespace yii\db\cubrid;
 
 use yii\base\InvalidArgumentException;
 use yii\base\NotSupportedException;
-use yii\db\ColumnSchema;
+use yii\db\Constraint;
 use yii\db\Exception;
 use yii\db\Expression;
 
@@ -65,6 +65,7 @@ class QueryBuilder extends \yii\db\QueryBuilder
      */
     public function upsert($table, $insertColumns, $updateColumns, &$params)
     {
+        /** @var Constraint[] $constraints */
         list($uniqueNames, $insertNames, $updateNames) = $this->prepareUpsertColumns($table, $insertColumns, $updateColumns, $constraints);
         if (empty($uniqueNames)) {
             return $this->insert($table, $insertColumns, $params);
@@ -184,10 +185,7 @@ class QueryBuilder extends \yii\db\QueryBuilder
      */
     public function dropIndex($name, $table)
     {
-        /**
-         * @var Schema $schema
-         * @phpstan-var Schema<ColumnSchema>
-         */
+        /** @var Schema $schema */
         $schema = $this->db->getSchema();
         foreach ($schema->getTableUniques($table) as $unique) {
             if ($unique->name === $name) {

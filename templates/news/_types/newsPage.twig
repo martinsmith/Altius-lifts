@@ -1,0 +1,33 @@
+{% extends "_layout.twig" %}
+
+{% block pageCss %}news{% endblock %}
+{% block pageJs %}news-js{% endblock %}
+{% block pageClass %}news{% endblock %}
+
+{% block content %}
+<div class="news-page">
+
+    {% if entry ?? false %}
+        {% include '_components/sections/page-header.twig' %}
+    {% else %}
+        {% set mockEntry = {
+            cb_pageHeader: {
+                pageTitle: 'Latest News',
+                subHeading: 'Stay updated with the latest happenings at Hair Haven',
+                promoLink: null,
+                buttonClass: null,
+                buttonIcon: null
+            }
+        } %}
+        {% include '_components/sections/page-header.twig' with { entry: mockEntry } %}
+    {% endif %}
+
+    <section class="news-content">
+        <div class="container">
+            {% include '_components/sections/featured-news-item.twig' %}
+            {% include '_components/sections/news-grid.twig' %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}

@@ -107,7 +107,9 @@ class m230617_070415_entrify_matrix_blocks extends Migration
                 $fieldLayout = $fieldLayoutUid ? $fieldsService->getLayoutByUid($fieldLayoutUid) : new FieldLayout();
                 $fieldLayout->type = Entry::class;
                 $entryType->setFieldLayout($fieldLayout);
-                $cardViewItems = [];
+                /** @var PreviewableFieldInterface|null $thumbField */
+                $thumbField = null;
+                $foundPreviewableField = false;
 
                 foreach ($fieldLayout?->getCustomFieldElements() ?? [] as $layoutElement) {
                     $subField = $layoutElement->getField();
@@ -143,14 +145,18 @@ class m230617_070415_entrify_matrix_blocks extends Migration
                         'uid' => $subField->uid,
                     ], updateTimestamp: false);
 
-                    if (!isset($fieldLayout->thumbFieldKey) && $subField instanceof ThumbableFieldInterface) {
-                        $fieldLayout->thumbFieldKey = "layoutElement:$layoutElement->uid";
-                    } elseif ($subField instanceof PreviewableFieldInterface) {
-                        $cardViewItems[] = "layoutElement:$layoutElement->uid";
+                    if (!$thumbField && $subField instanceof ThumbableFieldInterface) {
+                        $layoutElement->providesThumbs = true;
+                        $thumbField = $subField;
+                    } elseif (!$foundPreviewableField && $subField instanceof PreviewableFieldInterface) {
+                        $layoutElement->includeInCards = true;
+                        $foundPreviewableField = true;
                     }
                 }
 
-                $fieldLayout->setCardView($cardViewItems);
+                if (!$foundPreviewableField && $thumbField instanceof PreviewableFieldInterface) {
+                    $thumbField->layoutElement->includeInCards = true;
+                }
             }
 
             // update the field config

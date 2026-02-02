@@ -1,0 +1,192 @@
+@layer components {
+
+/* Features Section Component Styles */
+.features {
+  padding-block: var(--section-padding);
+  background-color: var(--features-bg-color, var(--light-color));
+
+  @media (max-width: 768px) {
+    padding-block: var(--section-padding-mobile);
+  }
+
+  & .features-grid {
+    display: grid;
+    grid-template-columns: var(--grid-columns-cards);
+    gap: var(--grid-gap-standard);
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  /* Four-card layout modifier */
+  &.features--four-cards .features-grid {
+    @media (min-width: 1200px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 992px) and (max-width: 1199px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.8rem;
+    }
+
+    @media (min-width: 769px) and (max-width: 991px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  /* Background color variants */
+  &.features--alt-bg {
+    --features-bg-color: var(--primary-color);
+    color: white;
+
+    & .section-header h2 {
+      color: white;
+    }
+
+    & .section-header p {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Only apply card background if no card variant is specified */
+    &:not([class*="features--card-"]) .feature-card {
+      background-color: rgba(255, 255, 255, 0.95);
+    }
+  }
+
+  &.features--dark-bg {
+    --features-bg-color: var(--dark-color, #2c3e50);
+    color: white;
+
+    & .section-header h2 {
+      color: white;
+    }
+
+    & .section-header p {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Only apply card background if no card variant is specified */
+    &:not([class*="features--card-"]) .feature-card {
+      background-color: rgba(255, 255, 255, 0.95);
+    }
+  }
+
+  &.features--accent-bg {
+    --features-bg-color: var(--accent-color);
+    color: white;
+
+    & .section-header h2 {
+      color: white;
+    }
+
+    & .section-header p {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Only apply card background if no card variant is specified */
+    &:not([class*="features--card-"]) .feature-card {
+      background-color: rgba(255, 255, 255, 0.95);
+    }
+  }
+
+  &.features--white-bg {
+    --features-bg-color: white;
+  }
+
+  &.features--pale-blue-bg {
+    --features-bg-color: var(--bg-light);
+  }
+
+  & .feature-card {
+    background-color: var(--card-bg-color, white);
+    color: var(--card-text-color, var(--primary-color));
+    padding: var(--card-padding-lg) 2rem;
+    border-radius: var(--border-radius-standard);
+    text-align: center;
+    box-shadow: var(--card-shadow-light);
+    transition: var(--transition-standard);
+
+    & .feature-icon {
+      font-size: 2.5rem;
+      color: var(--card-icon-color, var(--accent-color));
+      margin-block-end: 1.5rem;
+    }
+
+    & h3 {
+      font-size: 1.4rem;
+      margin-block-end: 1rem;
+      color: var(--card-heading-color, var(--primary-color));
+    }
+
+    & p {
+      color: var(--card-text-light-color, var(--primary-color-light));
+      line-height: 1.6;
+    }
+  }
+
+  /* Card color variants */
+  &.features--card-dark {
+    --card-bg-color: var(--primary-color);
+    --card-text-color: white;
+    --card-heading-color: white;
+    --card-text-light-color: rgba(255, 255, 255, 0.9);
+    --card-icon-color: var(--accent-color);
+  }
+
+  &.features--card-accent {
+    --card-bg-color: var(--accent-color);
+    --card-text-color: white;
+    --card-heading-color: white;
+    --card-text-light-color: rgba(255, 255, 255, 0.9);
+    --card-icon-color: white;
+  }
+
+  &.features--card-primary {
+    --card-bg-color: var(--primary-color);
+    --card-text-color: white;
+    --card-heading-color: white;
+    --card-text-light-color: rgba(255, 255, 255, 0.9);
+    --card-icon-color: var(--accent-color);
+  }
+
+  &.features--card-light {
+    --card-bg-color: #f8f9fa;
+    --card-text-color: var(--primary-color);
+    --card-heading-color: var(--primary-color);
+    --card-text-light-color: var(--primary-color-light);
+    --card-icon-color: var(--accent-color);
+  }
+
+  &.features--card-transparent {
+    --card-bg-color: rgba(255, 255, 255, 0.1);
+    --card-text-color: inherit;
+    --card-heading-color: inherit;
+    --card-text-light-color: inherit;
+    --card-icon-color: var(--accent-color);
+    
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  &.features--card-pale-blue {
+    --card-bg-color: var(--light-color);
+    --card-text-color: var(--primary-color);
+    --card-heading-color: var(--primary-color);
+    --card-text-light-color: var(--primary-color-light);
+    --card-icon-color: #9fb095; /* Darker sage green - matches footer cards */
+  }
+
+  &.features--card-white {
+    --card-bg-color: white;
+    --card-text-color: var(--primary-color);
+    --card-heading-color: var(--primary-color);
+    --card-text-light-color: var(--primary-color-light);
+    --card-icon-color: #9db58d;
+  }
+}
+
+} /* End @layer components */

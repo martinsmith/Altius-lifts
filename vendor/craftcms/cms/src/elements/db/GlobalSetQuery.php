@@ -157,10 +157,4 @@ class GlobalSetQuery extends ElementQuery
             $this->subQuery->andWhere(['elements.id' => $editableSetIds]);
         }
     }
-
-    public function getCacheTags(): array
-    {
-        // no need to register cache tags for global set queries
-        return [];
-    }
 }

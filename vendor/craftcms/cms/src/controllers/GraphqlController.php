@@ -23,7 +23,6 @@ use craft\services\Gql as GqlService;
 use craft\web\assets\graphiql\GraphiqlAsset;
 use craft\web\Controller;
 use craft\web\ErrorHandler;
-use craft\web\Response;
 use DateTimeZone;
 use Throwable;
 use yii\base\Exception;
@@ -33,7 +32,7 @@ use yii\base\InvalidValueException;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
-use yii\web\Response as YiiResponse;
+use yii\web\Response;
 
 /**
  * The GqlController class is a controller that handles various GraphQL related tasks.
@@ -77,12 +76,12 @@ class GraphqlController extends Controller
     /**
      * Performs a GraphQL query.
      *
-     * @return YiiResponse
+     * @return Response
      * @throws BadRequestHttpException
      * @throws GqlException
      * @throws ForbiddenHttpException
      */
-    public function actionApi(): YiiResponse
+    public function actionApi(): Response
     {
         // Add CORS headers
         $headers = $this->response->getHeaders();
@@ -106,12 +105,12 @@ class GraphqlController extends Controller
 
         if ($this->request->getIsOptions()) {
             // This is just a preflight request, no need to run the actual query yet
-            $this->response->format = YiiResponse::FORMAT_RAW;
+            $this->response->format = Response::FORMAT_RAW;
             $this->response->data = '';
             return $this->response;
         }
 
-        $this->response->format = YiiResponse::FORMAT_JSON;
+        $this->response->format = Response::FORMAT_JSON;
 
         $gqlService = Craft::$app->getGql();
         $schema = $this->_schema($gqlService);
@@ -180,17 +179,15 @@ class GraphqlController extends Controller
         $generalConfig->generateTransformsBeforePageLoad = true;
 
         // Check for the cache-bust header
-        $cacheHeader = $this->request->getHeaders()->get('x-craft-gql-cache');
-        if ($cacheHeader === 'no-cache') {
+        $noCache = $this->request->getHeaders()->get('x-craft-gql-cache', null, true) === 'no-cache';
+        if ($noCache) {
             $cacheSetting = $generalConfig->enableGraphqlCaching;
             $generalConfig->enableGraphqlCaching = false;
         }
 
         $result = [];
-        $hasMutations = false;
 
         foreach ($queries as $key => [$query, $variables, $operationName]) {
-            $query = trim($query);
             try {
                 if (empty($query)) {
                     throw new InvalidValueException('No GraphQL query was supplied');
@@ -216,28 +213,13 @@ class GraphqlController extends Controller
                     ],
                 ];
             }
-
-            if (str_starts_with($query, 'mutation')) {
-                $hasMutations = true;
-            }
         }
 
-        if (isset($cacheSetting)) {
+        if ($noCache) {
             $generalConfig->enableGraphqlCaching = $cacheSetting;
         }
 
-        $this->response->format = Response::FORMAT_GQL;
-        $this->response->data = $singleQuery ? reset($result) : $result;
-
-        // send cache headers
-        $cache = isset($cacheHeader) ? $cacheHeader === 'cache' : !$hasMutations;
-        if ($cache) {
-            $this->response->setCacheHeaders();
-        } else {
-            $this->response->setNoCacheHeaders();
-        }
-
-        return $this->response;
+        return $this->asJson($singleQuery ? reset($result) : $result);
     }
 
     /**
@@ -370,12 +352,12 @@ class GraphqlController extends Controller
     }
 
     /**
-     * @return YiiResponse
+     * @return Response
      * @throws ForbiddenHttpException
      * @throws InvalidConfigException
      * @throws BadRequestHttpException
      */
-    public function actionGraphiql(): YiiResponse
+    public function actionGraphiql(): Response
     {
         $this->requireAdmin(false);
         $this->getView()->registerAssetBundle(GraphiqlAsset::class);
@@ -421,12 +403,12 @@ class GraphqlController extends Controller
     /**
      * Redirects to the GraphQL Schemas/Tokens page in the control panel.
      *
-     * @return YiiResponse
+     * @return Response
      * @throws NotFoundHttpException if this isn't a control panel request
      * @throws ForbiddenHttpException if the logged-in user isn't an admin
      * @since 3.5.0
      */
-    public function actionCpIndex(): YiiResponse
+    public function actionCpIndex(): Response
     {
         $generalConfig = Craft::$app->getConfig()->getGeneral();
         if (!$this->request->getIsCpRequest() || !$generalConfig->enableGql) {
@@ -443,11 +425,11 @@ class GraphqlController extends Controller
     }
 
     /**
-     * @return YiiResponse
+     * @return Response
      * @throws ForbiddenHttpException
      * @since 3.4.0
      */
-    public function actionViewSchemas(): YiiResponse
+    public function actionViewSchemas(): Response
     {
         $this->requireAdmin();
 
@@ -460,12 +442,12 @@ class GraphqlController extends Controller
     /**
      * @param int|null $tokenId
      * @param GqlToken|null $token
-     * @return YiiResponse
+     * @return Response
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      * @since 3.4.0
      */
-    public function actionEditToken(?int $tokenId = null, ?GqlToken $token = null): YiiResponse
+    public function actionEditToken(?int $tokenId = null, ?GqlToken $token = null): Response
     {
         $this->requireAdmin(false);
 
@@ -520,7 +502,7 @@ class GraphqlController extends Controller
     }
 
     /**
-     * @return YiiResponse|null
+     * @return Response|null
      * @throws BadRequestHttpException
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
@@ -528,7 +510,7 @@ class GraphqlController extends Controller
      * @throws Exception
      * @since 3.4.0
      */
-    public function actionSaveToken(): ?YiiResponse
+    public function actionSaveToken(): ?Response
     {
         $this->requirePostRequest();
         $this->requireAdmin(false);
@@ -569,11 +551,11 @@ class GraphqlController extends Controller
     }
 
     /**
-     * @return YiiResponse
+     * @return Response
      * @throws BadRequestHttpException
      * @since 3.4.0
      */
-    public function actionDeleteToken(): YiiResponse
+    public function actionDeleteToken(): Response
     {
         $this->requirePostRequest();
         $this->requireAcceptsJson();
@@ -588,11 +570,11 @@ class GraphqlController extends Controller
 
 
     /**
-     * @return YiiResponse
+     * @return Response
      * @throws ForbiddenHttpException
      * @since 3.4.0
      */
-    public function actionViewTokens(): YiiResponse
+    public function actionViewTokens(): Response
     {
         $this->requireAdmin(false);
         return $this->renderTemplate('graphql/tokens/_index.twig');
@@ -601,12 +583,12 @@ class GraphqlController extends Controller
     /**
      * @param int|null $schemaId
      * @param GqlSchema|null $schema
-     * @return YiiResponse
+     * @return Response
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      * @since 3.4.0
      */
-    public function actionEditSchema(?int $schemaId = null, ?GqlSchema $schema = null): YiiResponse
+    public function actionEditSchema(?int $schemaId = null, ?GqlSchema $schema = null): Response
     {
         $this->requireAdmin();
 
@@ -635,12 +617,12 @@ class GraphqlController extends Controller
 
     /**
      * @param GqlSchema|null $schema
-     * @return YiiResponse
+     * @return Response
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      * @since 3.4.0
      */
-    public function actionEditPublicSchema(?GqlSchema $schema = null): YiiResponse
+    public function actionEditPublicSchema(?GqlSchema $schema = null): Response
     {
         $this->requireAdmin();
 
@@ -661,12 +643,12 @@ class GraphqlController extends Controller
     }
 
     /**
-     * @return YiiResponse|null
+     * @return Response|null
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      * @since 3.4.0
      */
-    public function actionSavePublicSchema(): ?YiiResponse
+    public function actionSavePublicSchema(): ?Response
     {
         $this->requirePostRequest();
         $this->requireAdmin();
@@ -705,7 +687,7 @@ class GraphqlController extends Controller
     }
 
     /**
-     * @return YiiResponse|null
+     * @return Response|null
      * @throws BadRequestHttpException
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
@@ -713,7 +695,7 @@ class GraphqlController extends Controller
      * @throws Exception
      * @since 3.4.0
      */
-    public function actionSaveSchema(): ?YiiResponse
+    public function actionSaveSchema(): ?Response
     {
         $this->requirePostRequest();
         $this->requireAdmin();
@@ -751,11 +733,11 @@ class GraphqlController extends Controller
     }
 
     /**
-     * @return YiiResponse
+     * @return Response
      * @throws BadRequestHttpException
      * @since 3.4.0
      */
-    public function actionDeleteSchema(): YiiResponse
+    public function actionDeleteSchema(): Response
     {
         $this->requirePostRequest();
         $this->requireAcceptsJson();
@@ -769,10 +751,10 @@ class GraphqlController extends Controller
     }
 
     /**
-     * @return YiiResponse
+     * @return Response
      * @throws BadRequestHttpException
      */
-    public function actionFetchToken(): YiiResponse
+    public function actionFetchToken(): Response
     {
         $this->requirePostRequest();
         $this->requireAcceptsJson();
@@ -793,9 +775,9 @@ class GraphqlController extends Controller
     }
 
     /**
-     * @return YiiResponse
+     * @return Response
      */
-    public function actionGenerateToken(): YiiResponse
+    public function actionGenerateToken(): Response
     {
         $this->requirePostRequest();
         $this->requireAcceptsJson();

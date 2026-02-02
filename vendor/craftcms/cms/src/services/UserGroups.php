@@ -215,7 +215,6 @@ class UserGroups extends Component
                 'g.id',
                 'g.name',
                 'g.handle',
-                'g.description',
                 'g.uid',
             ])
             ->from(['g' => Table::USERGROUPS])

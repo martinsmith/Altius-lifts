@@ -18,9 +18,6 @@ require __DIR__ . '/BaseYii.php';
  * @since 2.0
  * @phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
- *
- * @template TUserIdentity of \yii\web\IdentityInterface
- * @extends \yii\BaseYii<TUserIdentity>
  */
 class Yii extends \yii\BaseYii
 {

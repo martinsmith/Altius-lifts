@@ -9,14 +9,11 @@ namespace craft\web\twig\nodevisitors;
 
 use Craft;
 use craft\helpers\Html;
-use craft\web\twig\nodes\BaseNode;
-use craft\web\View;
 use Twig\Environment;
 use Twig\Node\DoNode;
 use Twig\Node\Expression\FunctionExpression;
 use Twig\Node\Node;
 use Twig\Node\TextNode;
-use Twig\TwigFunction;
 use yii\base\InvalidArgumentException;
 
 /**
@@ -27,8 +24,6 @@ use yii\base\InvalidArgumentException;
  */
 class EventTagAdder extends BaseEventTagVisitor
 {
-    private View $view;
-
     /**
      * @var string|null As much of the <body> tag as we’ve found so far
      */
@@ -38,11 +33,6 @@ class EventTagAdder extends BaseEventTagVisitor
      * @var int|null The end position of the last <body> tag we successfully parsed in $_bodyTag
      */
     private ?int $_bodyAttrOffset = null;
-
-    public function __construct(View $view)
-    {
-        $this->view = $view;
-    }
 
     /**
      * @inheritdoc
@@ -177,9 +167,9 @@ class EventTagAdder extends BaseEventTagVisitor
         $startLine = $node->getTemplateLine();
         $splitLine = $startLine + substr_count($preSplitHtml, "\n");
 
-        return new BaseNode([
+        return new Node([
             new TextNode($preSplitHtml, $startLine),
-            new DoNode(new FunctionExpression(new TwigFunction($functionName, [$this->view, $functionName]), new BaseNode(), $splitLine), $splitLine),
+            new DoNode(new FunctionExpression($functionName, new Node(), $splitLine), $splitLine),
             new TextNode($postSplitHtml, $splitLine),
         ], [], $startLine);
     }

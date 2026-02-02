@@ -1,0 +1,169 @@
+{% extends "_layout.twig" %}
+
+{% block pageClass %}services-detail{% endblock %}
+
+{% block content %}
+<div class="services-detail-page">
+    {% include '_components/sections/page-header.twig' %}
+
+
+
+    {# Services Tabs - Dynamic Content from CraftCMS #}
+    <section class="services-tabs">
+        <div class="container">
+            {# Create services array from the new separate fields #}
+            {% set services = [] %}
+            
+
+            {# Service 2 - Only show if serviceTabText2 has content #}
+            {% if entry.serviceTabText2 and (entry.serviceType2 or entry.mx_subServices2|length) %}
+                {% set services = services|merge([{
+                    'type': entry.serviceType2,
+                    'tabText': entry.serviceTabText2,
+                    'icon': entry.serviceIcon2,
+                    'mainIntro': entry.mainServiceIntro2,
+                    'subServices': entry.mx_subServices2
+                }]) %}
+            {% endif %}
+
+             {# Service 1 - Only show if serviceTabText1 has content #}
+            {% if entry.serviceTabText1 and (entry.serviceType1 or entry.mx_subServices1|length) %}
+                {% set services = services|merge([{
+                    'type': entry.serviceType1,
+                    'tabText': entry.serviceTabText1,
+                    'icon': entry.serviceIcon1,
+                    'mainIntro': entry.mainServiceIntro1,
+                    'subServices': entry.mx_subServices1
+                }]) %}
+            {% endif %}           
+
+            
+            {# Service 3 - Only show if serviceTabText3 has content #}
+            {% if entry.serviceTabText3 and (entry.serviceType3 or entry.mx_subServices3|length) %}
+                {% set services = services|merge([{
+                    'type': entry.serviceType3,
+                    'tabText': entry.serviceTabText3,
+                    'icon': entry.serviceIcon3,
+                    'mainIntro': entry.mainServiceIntro3,
+                    'subServices': entry.mx_subServices3
+                }]) %}
+            {% endif %}
+
+
+            {% if services|length %}
+                {# Main Tabs - Dynamic #}
+                <div class="tabs-container">
+                    {% for service in services %}
+                        {% set hashName = service.tabText|lower|replace({' ': '-', '&': 'and', '/': '-', '(': '', ')': '', ',': '', '.': ''})|trim %}
+                        <div class="tab{% if loop.first %} active{% endif %}"
+                             data-tab="main-{{ loop.index }}"
+                             data-hash="{{ hashName }}"
+                             data-service-id="service-{{ loop.index }}"
+                             data-debug="main-tab-{{ loop.index }}">
+                            {% if service.icon %}
+                                <i class="fas {{ service.icon }}"></i>
+                            {% endif %}
+                            <span>{{ service.tabText }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {# Main Service Introduction Sections - Dynamic #}
+                {% for service in services %}
+                    {% if service.mainIntro %}
+                        <div class="main-service-intro"
+                             data-main-tab="main-{{ loop.index }}"
+                             data-debug="main-intro-{{ loop.index }}">
+                            <div class="main-intro-content">
+                                {{ service.mainIntro }}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                {# Sub Tabs and Content - Dynamic #}
+                {% for service in services %}
+                    {# Sub Tabs for this main service #}
+                    {% if service.subServices|length %}
+                        <div class="sub-tabs-wrapper" 
+                             data-main-tab="main-{{ loop.index }}"
+                             data-debug="sub-tabs-wrapper-{{ loop.index }}">
+                            <div class="sub-tabs-container">
+                            
+                                {% for subService in service.subServices %}
+                                    <div class="sub-tab{% if loop.first %} active{% endif %}" 
+                                         data-tab="content-{{ loop.parent.loop.index }}-{{ loop.index }}"
+                                         data-service-id="{{ subService.id }}"
+                                         data-debug="sub-tab-{{ loop.parent.loop.index }}-{{ loop.index }}">
+                                        <span>{{ subService.subTabText }}</span>
+                                    </div>
+                                {% endfor %}
+                                
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                
+                {# Service Content Sections - Dynamic #}
+                {% for service in services %}
+                
+                    {% for subService in service.subServices %}
+                        <div class="service-content-section" 
+                             data-tab="content-{{ loop.parent.loop.index }}-{{ loop.index }}"
+                             data-service-id="{{ subService.id }}"
+                             data-debug="content-{{ loop.parent.loop.index }}-{{ loop.index }}">
+
+                             
+                            <div class="services-content">
+                                <div class="services-intro">
+                                    {% if subService.subTitle %}
+                                        <h3>{{ subService.subTitle }}</h3>
+                                    {% endif %}
+                                    
+                                    {# Sub Service Intro Content #}
+                                    {% if subService.subServiceIntro.introText %}
+                                        <div class="service-description">
+                                            {{ subService.subServiceIntro.introText }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                {# Intro Images #}
+                                {% if subService.subServiceIntro.introImages|length %}
+                                    <div class="services-gallery">
+                                        {% for image in subService.subServiceIntro.introImages %}
+                                            <div class="gallery-item">
+                                                <img src="{{ image.url }}" alt="{{ image.alt ?: image.title }}" />
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                
+                                {# Price List #}
+                                {% if subService.priceList|length %}
+                                    <div class="services-list">
+                                        {% for priceItem in subService.priceList %}
+                                            <div class="service-item">
+                                                <div class="service-info">
+                                                    <h3>{{ priceItem.title }}</h3>
+                                                    {% if priceItem.summary %}
+                                                        <p>{{ priceItem.summary }}</p>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="service-price">{{ priceItem.price }}</div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+    {% if entry.callToAction.sectionTitle %}
+        {% include '_components/sections/call-to-action.twig' %}
+    {% endif %}
+</div>
+{% endblock %}

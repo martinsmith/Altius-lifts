@@ -1,0 +1,89 @@
+@layer components {
+
+/* Brand Navigation Component - Based on service-tabs.css styling */
+.brand-navigation {
+  padding-block-start: var(--section-padding);
+  padding-block-end: var(--space-6);
+
+  @media (max-width: 768px) {
+    padding-block-start: var(--section-padding-mobile);
+    padding-block-end: var(--space-4);
+  }
+}
+
+/* Brand Tabs Container - Matches service tabs styling without icons */
+.brand-tabs-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-block-end: 2rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px color-mix(in srgb, var(--primary-color) 10%, transparent);
+
+  & .brand-tab {
+    flex: 1;
+    min-width: 140px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    background-color: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-inline-end: 1px solid white;
+
+    &:last-child {
+      border-inline-end: none;
+    }
+
+    & span {
+      font-weight: 600;
+      font-size: 1rem;
+      display: block;
+    }
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--accent-color) 80%, white);
+    }
+
+    &.active {
+      background-color: color-mix(in srgb, var(--accent-color) 80%, white);
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      min-width: 120px;
+      padding: 1.2rem 0.8rem;
+
+      & span {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      flex: 1 0 50%;
+      border-block-end: 1px solid white;
+
+      &:nth-child(even) {
+        border-inline-end: none;
+      }
+
+      &:nth-child(5),
+      &:nth-child(6) {
+        border-block-end: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      flex: 1 0 100%;
+      border-inline-end: none;
+      border-block-end: 1px solid white;
+
+      &:last-child {
+        border-block-end: none;
+      }
+    }
+  }
+}
+
+} /* End @layer components */

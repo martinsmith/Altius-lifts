@@ -7,6 +7,7 @@
 
 namespace yii\widgets;
 
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\Widget;
@@ -22,7 +23,7 @@ use yii\helpers\Html;
  * Classes extending from this widget can be used in an [[\yii\widgets\ActiveForm|ActiveForm]]
  * using the [[\yii\widgets\ActiveField::widget()|widget()]] method, for example like this:
  *
- * ```
+ * ```php
  * <?= $form->field($model, 'from_date')->widget('WidgetClassName', [
  *     // configure additional widget properties here
  * ]) ?>

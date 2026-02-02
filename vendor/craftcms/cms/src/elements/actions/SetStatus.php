@@ -85,16 +85,21 @@ JS, [static::class]);
         $elementType = $this->elementType;
         $isLocalized = $elementType::isLocalized() && Craft::$app->getIsMultiSite();
         $elementsService = Craft::$app->getElements();
-        $user = Craft::$app->getUser()->getIdentity();
 
         $elements = $query->all();
         $failCount = 0;
 
+        // Make sure the user has permission to edit each of the elements
         foreach ($elements as $element) {
-            if (!$elementsService->canSave($element, $user)) {
-                continue;
+            if (!$elementsService->canSave($element)) {
+                $this->setMessage(Craft::t('app', 'Couldn’t save {type}.', [
+                    'type' => count($elements) === 1 ? $elementType::lowerDisplayName() : $elementType::pluralLowerDisplayName(),
+                ]));
+                return false;
             }
+        }
 
+        foreach ($elements as $element) {
             switch ($this->status) {
                 case self::ENABLED:
                     // Skip if there's nothing to change

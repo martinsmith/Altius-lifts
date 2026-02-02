@@ -1,0 +1,11 @@
+{% extends "_layout.twig" %}
+
+{% block pageClass %}contact{% endblock %}
+
+{% block content %}
+<div class="contact-page">
+    {% include '_components/sections/page-header.twig' %}
+    {% include '_components/sections/contact-info-section.twig' %}
+    {% include '_components/sections/faq-section.twig' %}
+</div>
+{% endblock %}

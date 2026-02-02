@@ -61,10 +61,10 @@
                         <div class="color-preview" style="background-color: {{ color }}"></div>
                     </div>
                 {% endif %}
-                <span>{{ label }}</span>
+                <span>{{ label|raw }}</span>
             </div>
         {% else %}
-            {{ label }}
+            {{ label|raw }}
         {% endif %}
 
     {% endif %}

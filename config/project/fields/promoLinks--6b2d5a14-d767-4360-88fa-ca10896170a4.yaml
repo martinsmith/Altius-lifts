@@ -1,0 +1,123 @@
+columnSuffix: null
+handle: promoLinks
+instructions: null
+name: 'Promo Links'
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - 018e0ea9-ef88-4902-b057-b929ac5fb61f
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    0:
+                      - name
+                      - Content
+                    1:
+                      - uid
+                      - 4862564c-e8f5-4d59-b9a6-7b94f3afaf37
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 100
+                            10:
+                              - dateAdded
+                              - '2025-07-31T08:53:11+00:00'
+                            11:
+                              - uid
+                              - 2ef27473-865f-4fcf-826f-e7dee11375c2
+                            14:
+                              - fieldUid
+                              - 54b32803-64e0-46aa-bacf-ecddf2f5db7a # Section Link
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - buttonIcon
+                            2:
+                              - label
+                              - 'Button Icon'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 50
+                            10:
+                              - dateAdded
+                              - '2025-07-31T08:53:11+00:00'
+                            11:
+                              - uid
+                              - 9ffa66ae-d7e5-4739-9b98-eb5f4e596b47
+                            14:
+                              - fieldUid
+                              - 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - buttonClass
+                            2:
+                              - label
+                              - 'Button Class'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 50
+                            10:
+                              - dateAdded
+                              - '2025-07-31T08:53:11+00:00'
+                            11:
+                              - uid
+                              - 31ba3265-9529-413f-bf7e-47c54aa3b9ec
+                            14:
+                              - fieldUid
+                              - 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
+            3:
+              - cardThumbAlignment
+              - end
+  viewMode: pane
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock

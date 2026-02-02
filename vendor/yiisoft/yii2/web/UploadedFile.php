@@ -69,7 +69,7 @@ class UploadedFile extends BaseObject
      */
     private $_tempResource;
     /**
-     * @var array[]|null
+     * @var array[]
      */
     private static $_files;
 
@@ -253,7 +253,7 @@ class UploadedFile extends BaseObject
     {
         if (self::$_files === null) {
             self::$_files = [];
-            if (is_array($_FILES)) {
+            if (isset($_FILES) && is_array($_FILES)) {
                 foreach ($_FILES as $key => $info) {
                     self::loadFilesRecursive(
                         $key,
@@ -299,12 +299,7 @@ class UploadedFile extends BaseObject
                     isset($tempResources[$i]) ? $tempResources[$i] : null
                 );
             }
-
-            return;
-        }
-
-        /** @var int $errors */
-        if ($errors != UPLOAD_ERR_NO_FILE) {
+        } elseif ($errors != UPLOAD_ERR_NO_FILE) {
             self::$_files[$key] = [
                 'name' => $names,
                 'tempName' => $tempNames,

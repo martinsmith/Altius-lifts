@@ -1,0 +1,29 @@
+columnSuffix: null
+handle: mx_brandsAndProducts
+instructions: null
+name: 'Brands and Products'
+searchable: false
+settings:
+  createButtonLabel: 'Add a Brand'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 43ebf591-142c-4702-86cf-9a605575688a # Brands and Products
+        -
+          - group
+          - General
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: 50
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: true
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

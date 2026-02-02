@@ -1,0 +1,81 @@
+{# Jobs Grid Component Macro #}
+    <section class="openings-section">
+        <div class="container">
+                <div class="section-header">
+                    <h2>{{ entry.cb_currentOpportunities.sectionTitle }}</h2>
+                    <p>{{ entry.cb_currentOpportunities.sectionSubText }}</p>
+                </div>
+            
+            {% if entry.cb_currentOpportunities.jobDescriptions %}
+                <div class="positions-grid ">
+                    {% for position in entry.cb_currentOpportunities.jobDescriptions %}
+                        <div class="position-card" data-modal-target="position-modal-{{ position.id }}">
+                            <h3>{{ position.title }}</h3>
+                            <div class="position-meta">
+                            {% if position.jobType %}
+                                <span class="type">Full Time</span>
+                            {% else %}
+                                <span class="type">Part Time</span>
+                            {% endif %}
+                            </div>
+                            {% set plainText = position.briefSummary|striptags %}
+                            {% if plainText|length > 110 %}
+                                {% set words = plainText|slice(0, 100)|split(' ') %}
+                               <p>{{ words|slice(0, -1)|join(' ') }} ...</p>
+                            {% else %}
+                                <p>{{ plainText }}</p>
+                                
+                            {% endif %}
+
+
+                            <a href="#" class="btn primary view-details-btn">View Details</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-positions">
+                    <p>{{ entry.noPositions }}</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        {% for position in entry.cb_currentOpportunities.jobDescriptions %}
+            <div id="position-modal-{{ position.id }}" class="modal-overlay job-position-modal" style="display: none;">
+                <div class="modal-content modal-medium">
+                    <button class="modal-close" aria-label="Close modal">&times;</button>
+                    <div class="modal-body">
+                        <h2 class="position-title">{{ position.title }}</h2>
+                        <div class="position-meta">
+                            {% if position.jobType %}
+                                <span class="type">Full Time</span>
+                            {% else %}
+                                <span class="type">Part Time</span>
+                            {% endif %}
+                        </div>
+                        <div class="position-description">
+                            {{ position.briefSummary }}
+                        </div>
+                        <div class="position-responsibilities">
+                            <h4>Key Responsibilities:</h4>
+                            <ul class="responsibilities-list">
+                                {% for responsibility in position.responsibilities %}
+                                    <li>{{ responsibility.responsibility }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="position-requirements">
+                            <h4>Requirements:</h4>
+                            <ul class="requirements-list">
+                                {% for requirement in position.requirements %}
+                                    <li>{{ requirement.requirement }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="modal-actions">
+                            <a href="#application-form" class="btn primary apply-btn">Apply for this Position</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>

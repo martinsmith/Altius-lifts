@@ -25,7 +25,9 @@ class ErrorException extends \ErrorException
      * @see https://github.com/facebook/hhvm/blob/master/hphp/runtime/base/runtime-error.h#L62
      * @since 2.0.6
      */
-    public const E_HHVM_FATAL_ERROR = 16777217; // E_ERROR | (1 << 24)
+    const E_HHVM_FATAL_ERROR = 16777217; // E_ERROR | (1 << 24)
+
+
     /**
      * Constructs the exception.
      * @link https://www.php.net/manual/en/errorexception.construct.php
@@ -65,13 +67,7 @@ class ErrorException extends \ErrorException
             }
 
             $ref = new \ReflectionProperty('Exception', 'trace');
-
-            // @link https://wiki.php.net/rfc/deprecations_php_8_5#deprecate_reflectionsetaccessible
-            // @link https://wiki.php.net/rfc/make-reflection-setaccessible-no-op
-            if (PHP_VERSION_ID < 80100) {
-                $ref->setAccessible(true);
-            }
-
+            $ref->setAccessible(true);
             $ref->setValue($this, $trace);
         }
     }

@@ -1,0 +1,19 @@
+@layer components {
+
+/* Call to Action Component Styles (extracted from Vue CallToAction.vue) */
+.cta-section {
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding-block: 5rem;
+
+  & .cta-content {
+    max-width: 700px;
+    margin: 0 auto;
+
+
+  }
+}
+
+} /* End @layer components */

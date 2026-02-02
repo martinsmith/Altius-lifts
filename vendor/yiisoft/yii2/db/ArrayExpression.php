@@ -15,7 +15,7 @@ use yii\base\InvalidConfigException;
  *
  * Expressions of this type can be used in conditions as well:
  *
- * ```
+ * ```php
  * $query->andWhere(['@>', 'items', new ArrayExpression([1, 2, 3], 'integer')])
  * ```
  *
@@ -25,9 +25,6 @@ use yii\base\InvalidConfigException;
  * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
  * @since 2.0.14
  * @phpcs:disable Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore
- *
- * @implements \ArrayAccess<array-key, mixed>
- * @implements \IteratorAggregate<array-key, mixed>
  */
 class ArrayExpression implements ExpressionInterface, \ArrayAccess, \Countable, \IteratorAggregate
 {
@@ -99,7 +96,7 @@ class ArrayExpression implements ExpressionInterface, \ArrayAccess, \Countable, 
      * Whether a offset exists
      *
      * @link https://www.php.net/manual/en/arrayaccess.offsetexists.php
-     * @param int|string $offset <p>
+     * @param mixed $offset <p>
      * An offset to check for.
      * </p>
      * @return bool true on success or false on failure.
@@ -118,7 +115,7 @@ class ArrayExpression implements ExpressionInterface, \ArrayAccess, \Countable, 
      * Offset to retrieve
      *
      * @link https://www.php.net/manual/en/arrayaccess.offsetget.php
-     * @param int|string $offset <p>
+     * @param mixed $offset <p>
      * The offset to retrieve.
      * </p>
      * @return mixed Can return all value types.
@@ -134,7 +131,7 @@ class ArrayExpression implements ExpressionInterface, \ArrayAccess, \Countable, 
      * Offset to set
      *
      * @link https://www.php.net/manual/en/arrayaccess.offsetset.php
-     * @param int|string $offset <p>
+     * @param mixed $offset <p>
      * The offset to assign the value to.
      * </p>
      * @param mixed $value <p>
@@ -153,7 +150,7 @@ class ArrayExpression implements ExpressionInterface, \ArrayAccess, \Countable, 
      * Offset to unset
      *
      * @link https://www.php.net/manual/en/arrayaccess.offsetunset.php
-     * @param int|string $offset <p>
+     * @param mixed $offset <p>
      * The offset to unset.
      * </p>
      * @return void

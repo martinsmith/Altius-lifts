@@ -8,8 +8,8 @@
 namespace yii\filters;
 
 use Yii;
+use yii\base\Action;
 use yii\base\ActionFilter;
-use yii\base\Component;
 
 /**
  * HttpCache implements client-side caching by utilizing the `Last-Modified` and `ETag` HTTP headers.
@@ -20,7 +20,7 @@ use yii\base\Component;
  * In the following example the filter will be applied to the `index` action and
  * the Last-Modified header will contain the date of the last update to the user table in the database.
  *
- * ```
+ * ```php
  * public function behaviors()
  * {
  *     return [
@@ -42,9 +42,6 @@ use yii\base\Component;
  * @author Da:Sourcerer <webmaster@dasourcerer.net>
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
- *
- * @template T of Component
- * @extends ActionFilter<T>
  */
 class HttpCache extends ActionFilter
 {
@@ -52,7 +49,7 @@ class HttpCache extends ActionFilter
      * @var callable a PHP callback that returns the UNIX timestamp of the last modification time.
      * The callback's signature should be:
      *
-     * ```
+     * ```php
      * function ($action, $params)
      * ```
      *
@@ -66,7 +63,7 @@ class HttpCache extends ActionFilter
      * @var callable a PHP callback that generates the ETag seed string.
      * The callback's signature should be:
      *
-     * ```
+     * ```php
      * function ($action, $params)
      * ```
      *
@@ -111,7 +108,10 @@ class HttpCache extends ActionFilter
 
 
     /**
-     * {@inheritdoc}
+     * This method is invoked right before an action is to be executed (after all possible filters.)
+     * You may override this method to do last-minute preparation for the action.
+     * @param Action $action the action to be executed.
+     * @return bool whether the action should continue to be executed.
      */
     public function beforeAction($action)
     {

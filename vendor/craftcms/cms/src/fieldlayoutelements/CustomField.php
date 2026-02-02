@@ -12,14 +12,11 @@ use craft\base\Actionable;
 use craft\base\CrossSiteCopyableFieldInterface;
 use craft\base\ElementInterface;
 use craft\base\FieldInterface;
-use craft\base\Iconic;
 use craft\base\PreviewableFieldInterface;
 use craft\base\ThumbableFieldInterface;
-use craft\elements\conditions\ElementConditionInterface;
 use craft\elements\conditions\users\UserCondition;
 use craft\elements\User;
 use craft\errors\FieldNotFoundException;
-use craft\fields\ContentBlock;
 use craft\helpers\ArrayHelper;
 use craft\helpers\Cp;
 use craft\helpers\Html;
@@ -45,25 +42,11 @@ class CustomField extends BaseField
     private static UserCondition $defaultEditCondition;
 
     /**
-     * @var ElementConditionInterface[]
-     */
-    private static array $defaultElementEditConditions = [];
-
-    /**
      * @return UserCondition
      */
     private static function defaultEditCondition(): UserCondition
     {
         return self::$defaultEditCondition ??= User::createCondition();
-    }
-
-    /**
-     * @param class-string<ElementInterface> $elementType
-     * @return ElementConditionInterface
-     */
-    private static function defaultElementEditCondition(string $elementType): ElementConditionInterface
-    {
-        return self::$defaultElementEditConditions[$elementType] ??= $elementType::createCondition();
     }
 
     /**
@@ -85,14 +68,6 @@ class CustomField extends BaseField
      * @see setEditCondition()
      */
     private mixed $_editCondition = null;
-
-    /**
-     * @var ElementConditionInterface|class-string<ElementConditionInterface>|array|null
-     * @phpstan-var ElementConditionInterface|class-string<ElementConditionInterface>|array{class:class-string<ElementConditionInterface>}|null
-     * @see getElementEditCondition()
-     * @see setElementEditCondition()
-     */
-    private mixed $_elementEditCondition = null;
 
     /**
      * @inheritdoc
@@ -143,22 +118,6 @@ class CustomField extends BaseField
         }
 
         return $field->handle;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function key(): string
-    {
-        try {
-            $field = $this->getField();
-        } catch (FieldNotFoundException) {
-            $field = null;
-        }
-
-        $prefix = $field instanceof ContentBlock ? 'contentBlock' : 'layoutElement';
-        $uid = $this->uid ?? '{uid}';
-        return "$prefix:$uid";
     }
 
     /**
@@ -228,42 +187,6 @@ class CustomField extends BaseField
         }
 
         return $field instanceof PreviewableFieldInterface;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPreviewOptions(): ?array
-    {
-        try {
-            $field = $this->getField();
-        } catch (FieldNotFoundException) {
-            return null;
-        }
-
-        if ($field instanceof ContentBlock) {
-            $options = [];
-            $label = $this->selectorLabel();
-            $nestedOptions = Cp::cardPreviewOptions($field->getFieldLayout(), false);
-            foreach ($nestedOptions as $key => $option) {
-                $options[] = [
-                    'label' => "$label → {$option['label']}",
-                    'value' => "contentBlock:{uid}.$key",
-                ];
-            }
-            return $options;
-        }
-
-        if (!$this->previewable()) {
-            return null;
-        }
-
-        return [
-            [
-                'label' => $this->selectorLabel() ?? $this->attribute(),
-                'value' => 'layoutElement:{uid}',
-            ],
-        ];
     }
 
     /**
@@ -401,7 +324,7 @@ class CustomField extends BaseField
      */
     public function hasConditions(): bool
     {
-        return parent::hasConditions() || $this->getEditCondition() || $this->getElementEditCondition();
+        return parent::hasConditions() || $this->getEditCondition();
     }
 
     /**
@@ -432,40 +355,6 @@ class CustomField extends BaseField
     }
 
     /**
-     * Returns the element edit condition for this layout element.
-     *
-     * @return ElementConditionInterface|null
-     * @since 5.9.0
-     */
-    public function getElementEditCondition(): ?ElementConditionInterface
-    {
-        if (isset($this->_elementEditCondition) && !$this->_elementEditCondition instanceof ElementConditionInterface) {
-            if (is_string($this->_elementEditCondition)) {
-                $this->_elementEditCondition = ['class' => $this->_elementEditCondition];
-            }
-            $this->_elementEditCondition = array_merge(
-                ['fieldLayouts' => [$this->getLayout()]],
-                $this->_elementEditCondition,
-            );
-            $this->_elementEditCondition = $this->normalizeCondition($this->_elementEditCondition);
-        }
-
-        return $this->_elementEditCondition;
-    }
-
-    /**
-     * Sets the element edit condition for this layout element.
-     *
-     * @param ElementConditionInterface|class-string<ElementConditionInterface>|array|null $elementEditCondition
-     * @phpstan-param ElementConditionInterface|class-string<ElementConditionInterface>|array{class:class-string<ElementConditionInterface>}|null $elementEditCondition
-     * @since 5.9.0
-     */
-    public function setElementEditCondition(mixed $elementEditCondition): void
-    {
-        $this->_elementEditCondition = $elementEditCondition;
-    }
-
-    /**
      * @inheritdoc
      */
     public function fields(): array
@@ -474,7 +363,6 @@ class CustomField extends BaseField
             ...parent::fields(),
             'fieldUid' => 'fieldUid',
             'editCondition' => fn() => $this->getEditCondition()?->getConfig(),
-            'elementEditCondition' => fn() => $this->getElementEditCondition()?->getConfig(),
         ];
     }
 
@@ -572,10 +460,6 @@ class CustomField extends BaseField
             $field = $this->getField();
         } catch (FieldNotFoundException) {
             return null;
-        }
-
-        if ($field instanceof Iconic) {
-            return $field->getIcon();
         }
 
         return $field::icon();
@@ -677,50 +561,26 @@ class CustomField extends BaseField
         $editCondition->name = 'editCondition';
         $editCondition->forProjectConfig = true;
 
-        $editConditionsHtml = Cp::fieldHtml($editCondition->getBuilderHtml(), [
-            'label' => Craft::t('app', 'Current User Condition'),
-            'instructions' => Craft::t('app', 'Only make editable for users who match the following rules:'),
-        ]);
-
-        // Do we know the element type?
-        /** @var class-string<ElementInterface>|string|null $elementType */
-        $elementType = $this->elementType ?? $this->getLayout()->type;
-
-        if ($elementType && is_subclass_of($elementType, ElementInterface::class)) {
-            $elementEditCondition = $this->getElementEditCondition();
-            if (!$elementEditCondition) {
-                $elementEditCondition = clone self::defaultElementEditCondition($elementType);
-                $elementEditCondition->setFieldLayouts([$this->getLayout()]);
-            }
-            $elementEditCondition->mainTag = 'div';
-            $elementEditCondition->id = 'element-edit-condition';
-            $elementEditCondition->name = 'elementEditCondition';
-            $elementEditCondition->forProjectConfig = true;
-
-            $editConditionsHtml .= Cp::fieldHtml($elementEditCondition->getBuilderHtml(), [
-                'label' => Craft::t('app', '{type} Condition', [
-                    'type' => $elementType::displayName(),
-                ]),
-                'instructions' => Craft::t('app', 'Only make editable when editing {type} that match the following rules:', [
-                    'type' => $elementType::pluralLowerDisplayName(),
-                ]),
-            ]);
-        }
-
-        return $html . Html::beginTag('fieldset', ['class' => 'pane']) .
+        $html .= Html::beginTag('fieldset', ['class' => 'pane']) .
             Html::tag('legend', Craft::t('app', 'Editability Conditions')) .
-            Html::tag('div', $editConditionsHtml) .
+            Html::beginTag('div') .
+            Cp::fieldHtml($editCondition->getBuilderHtml(), [
+                'label' => Craft::t('app', 'Current User Condition'),
+                'instructions' => Craft::t('app', 'Only make editable for users who match the following rules:'),
+            ]) .
+            Html::endTag('div') .
             Html::endTag('fieldset');
+
+        return $html;
     }
 
     /**
      * Returns whether the field can be edited by the current user.
      *
-     * @param ElementInterface|null $element
      * @return bool
      * @since 5.7.0
      */
-    public function editable(?ElementInterface $element): bool
+    public function editable(): bool
     {
         $editCondition = $this->getEditCondition();
 
@@ -731,12 +591,6 @@ class CustomField extends BaseField
             }
         }
 
-        $elementEditCondition = $this->getElementEditCondition();
-
-        if ($elementEditCondition && $element && !$elementEditCondition->matchElement($element)) {
-            return false;
-        }
-
         return true;
     }
 
@@ -745,6 +599,8 @@ class CustomField extends BaseField
      */
     public function formHtml(?ElementInterface $element = null, bool $static = false): ?string
     {
+        $static = $static || !$this->editable();
+
         $view = Craft::$app->getView();
         $isDeltaRegistrationActive = $view->getIsDeltaRegistrationActive();
         $view->setIsDeltaRegistrationActive(
@@ -896,24 +752,14 @@ class CustomField extends BaseField
         try {
             $field = $this->getField();
         } catch (FieldNotFoundException) {
-            $field = null;
+            return [];
         }
 
-        if ($field instanceof Actionable) {
-            $field->static = $static;
-            $items = $field->getActionMenuItems();
-        } else {
-            $items = [];
+        if (!$field instanceof Actionable) {
+            return [];
         }
 
-        $user = Craft::$app->getUser()->getIdentity();
-        if ($user?->admin && !$user->getPreference('showFieldHandles')) {
-            $items[] = $this->copyAttributeAction([
-                'label' => Craft::t('app', 'Copy field handle'),
-                'promptLabel' => Craft::t('app', 'Field Handle'),
-            ]);
-        }
-
-        return $items;
+        $field->static = $static;
+        return $field->getActionMenuItems();
     }
 }

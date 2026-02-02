@@ -1,0 +1,29 @@
+columnSuffix: null
+handle: mx_products
+instructions: null
+name: Products
+searchable: false
+settings:
+  createButtonLabel: 'Add a Product'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 68525dcd-7e0b-4ad5-b369-8366276b3c96 # Product List
+        -
+          - group
+          - General
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

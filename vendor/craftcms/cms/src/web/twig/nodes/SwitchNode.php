@@ -8,7 +8,6 @@
 namespace craft\web\twig\nodes;
 
 use Twig\Compiler;
-use Twig\Node\Expression\Binary\OrBinary;
 use Twig\Node\Node;
 
 /**
@@ -41,7 +40,10 @@ class SwitchNode extends Node
             }
 
             foreach ($case->getNode('values') as $value) {
-                $this->compileCaseValues($value, $compiler);
+                $compiler
+                    ->write('case ')
+                    ->subcompile($value)
+                    ->raw(":\n");
             }
 
             $compiler
@@ -66,20 +68,5 @@ class SwitchNode extends Node
         $compiler
             ->outdent()
             ->write("}\n");
-    }
-
-    private function compileCaseValues(Node $node, Compiler $compiler): void
-    {
-        if ($node instanceof OrBinary) {
-            foreach ($node as $n) {
-                $this->compileCaseValues($n, $compiler);
-            }
-            return;
-        }
-
-        $compiler
-            ->write('case ')
-            ->subcompile($node)
-            ->raw(":\n");
     }
 }

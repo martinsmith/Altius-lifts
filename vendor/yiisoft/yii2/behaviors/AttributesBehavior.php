@@ -11,7 +11,6 @@ use Closure;
 use yii\base\Behavior;
 use yii\base\Event;
 use yii\db\ActiveRecord;
-use yii\db\BaseActiveRecord;
 
 /**
  * AttributesBehavior automatically assigns values specified to one or multiple attributes of an ActiveRecord
@@ -22,7 +21,7 @@ use yii\db\BaseActiveRecord;
  * value of enclosed arrays with a PHP callable whose return value will be used to assign to the current attribute.
  * For example,
  *
- * ```
+ * ```php
  * use yii\behaviors\AttributesBehavior;
  *
  * public function behaviors()
@@ -61,9 +60,6 @@ use yii\db\BaseActiveRecord;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Bogdan Stepanenko <bscheshirwork@gmail.com>
  * @since 2.0.13
- *
- * @template T of BaseActiveRecord
- * @extends Behavior<T>
  */
 class AttributesBehavior extends Behavior
 {
@@ -77,7 +73,7 @@ class AttributesBehavior extends Behavior
      * (e.g. `new Expression('NOW()')`), scalar, string or an arbitrary value. If the former, the return value of the
      * function will be assigned to the attributes.
      *
-     * ```
+     * ```php
      * [
      *   'attribute1' => [
      *       ActiveRecord::EVENT_BEFORE_INSERT => new Expression('NOW()'),
@@ -107,7 +103,7 @@ class AttributesBehavior extends Behavior
      * The rest of the attributes are processed at the end.
      * If the [[attributes]] for this attribute do not specify this event, it is ignored
      *
-     * ```
+     * ```php
      * [
      *     ActiveRecord::EVENT_BEFORE_VALIDATE => ['attribute1', 'attribute2'],
      *     ActiveRecord::EVENT_AFTER_VALIDATE => ['attribute2', 'attribute1'],

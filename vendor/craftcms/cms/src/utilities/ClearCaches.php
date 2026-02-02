@@ -126,9 +126,7 @@ class ClearCaches extends Utility
             [
                 'key' => 'data',
                 'label' => Craft::t('app', 'Data caches'),
-                'info' => Craft::t('app', 'Anything cached with {method}', [
-                    'method' => '`Craft::$app->getCache()->set()`',
-                ]),
+                'info' => Craft::t('app', 'Anything cached with `Craft::$app->getCache()->set()`'),
                 'action' => [Craft::$app->getCache(), 'flush'],
             ],
             [

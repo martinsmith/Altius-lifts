@@ -1,0 +1,86 @@
+{#
+  Contact Card Component - Location Section
+  Optimized for CraftCMS v5.8 with lazy eager-loading
+#}
+
+{# Use lazy eager-loading for location image #}
+{% set locationImage = entry.location.locationImage.eagerly().one() %}
+
+<div class="contact-card">
+    <div class="icon">
+        <i class="fas {{ entry.location.blockIcon }}"></i>
+    </div>
+    <h3>{{ entry.location.blockTitle }}</h3>
+    <div class="address-text">
+        {{ entry.location.address|nl2br }}
+    </div>
+    {% if locationImage %}
+        <div class="map-container">
+            <div class="map-image" style="background-image: url('{{ locationImage.getUrl({ width: 600, height: 400, mode: 'crop', format: 'webp', quality: 85 }) }}')">
+            </div>
+            {% if entry.location.mapLink %}
+                <a href="{{ entry.location.mapLink }}" class="btn primary">
+                    {{ entry.location.mapLink.label ?? 'View Map' }}
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<div class="contact-card">
+    <div class="icon">
+        <i class="fas {{ entry.openingHours.blockIcon }}"></i>
+    </div>
+    <h3>{{ entry.openingHours.blockTitle }}</h3>
+    <ul class="hours-list">
+        {% for day in entry.openingHours.openingTimes %}
+            <li>
+                <span class="day">{{ day.day }}:</span>
+                <span class="time">{{ day.openTime }}</span>
+                <span class="time">{{ day.closedTime }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{#
+  Contact Card Component - Connect Section
+  Optimized for CraftCMS v5.8 with proper error handling
+#}
+
+<div class="contact-card">
+    <div class="icon">
+        <i class="fas {{ entry.connect.blockIcon }}"></i>
+    </div>
+    <h3>{{ entry.connect.blockTitle }}</h3>
+    <ul class="contact-list">
+        {% if entry.connect.cb_phone.phoneNumber %}
+            <li>
+                <i class="fas {{ entry.connect.cb_phone.phoneIcon ?? 'fa-phone' }}"></i>
+                <a href="tel:{{ entry.connect.cb_phone.phoneNumber|replace({' ': '', '(': '', ')': '', '-': ''}) }}">
+                    {{ entry.connect.cb_phone.phoneNumber }}
+                </a>
+            </li>
+        {% endif %}
+        {% if entry.connect.cb_emailAddress.emailAddress %}
+            <li>
+                <i class="fas {{ entry.connect.cb_emailAddress.emailIcon ?? 'fa-envelope' }}"></i>
+                {% apply enkode_emails %}<a href="mailto:{{ entry.connect.cb_emailAddress.emailAddress }}">
+                    {{ entry.connect.cb_emailAddress.emailAddress }}
+                </a>{% endapply %}
+            </li>
+        {% endif %}
+    </ul>
+    {% if entry.connect.socialLinks|length %}
+        <div class="social-icons">
+            {% for link in entry.connect.socialLinks %}
+                <a href="{{ link.link }}"
+                   aria-label="{{ link.platform ?? 'Social media link' }}"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    <i class="fab {{ link.icon }}"></i>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

@@ -41,19 +41,20 @@ class DateValidator extends Validator
      * @since 2.0.8
      * @see type
      */
-    public const TYPE_DATE = 'date';
+    const TYPE_DATE = 'date';
     /**
      * Constant for specifying the validation [[type]] as a datetime value, used for validation with intl short format.
      * @since 2.0.8
      * @see type
      */
-    public const TYPE_DATETIME = 'datetime';
+    const TYPE_DATETIME = 'datetime';
     /**
      * Constant for specifying the validation [[type]] as a time value, used for validation with intl short format.
      * @since 2.0.8
      * @see type
      */
-    public const TYPE_TIME = 'time';
+    const TYPE_TIME = 'time';
+
     /**
      * @var string the type of the validator. Indicates, whether a date, time or datetime value should be validated.
      * This property influences the default value of [[format]] and also sets the correct behavior when [[format]] is one of the intl
@@ -87,7 +88,7 @@ class DateValidator extends Validator
      *
      * Here are some example values:
      *
-     * ```
+     * ```php
      * 'MM/dd/yyyy' // date in ICU format
      * 'php:m/d/Y' // the same date in PHP format
      * 'MM/dd/yyyy HH:mm' // not only dates but also times can be validated

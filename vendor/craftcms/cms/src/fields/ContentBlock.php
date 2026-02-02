@@ -16,6 +16,7 @@ use craft\base\FieldLayoutProviderInterface;
 use craft\base\NestedElementInterface;
 use craft\behaviors\EventBehavior;
 use craft\db\Query;
+use craft\db\Table as DbTable;
 use craft\elements\ContentBlock as ContentBlockElement;
 use craft\elements\db\ContentBlockQuery;
 use craft\elements\db\EagerLoadPlan;
@@ -34,7 +35,6 @@ use craft\helpers\Gql;
 use craft\helpers\Html;
 use craft\helpers\Json as JsonHelper;
 use craft\models\FieldLayout;
-use craft\web\assets\cp\CpAsset;
 use DateTime;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Collection;
@@ -408,12 +408,9 @@ class ContentBlock extends Field implements
 
     private function settingsHtml(bool $readOnly): string
     {
-        $bundle = Craft::$app->getView()->registerAssetBundle(CpAsset::class);
-
         return Craft::$app->getView()->renderTemplate('_components/fieldtypes/ContentBlock/settings.twig', [
             'field' => $this,
             'readOnly' => $readOnly,
-            'baseIconsUrl' => "$bundle->baseUrl/images/content-block",
         ]);
     }
 
@@ -504,9 +501,6 @@ class ContentBlock extends Field implements
                     ->fieldId($this->id)
                     ->ownerId(array_map(fn(ElementInterface $e) => $e->id, $sameSiteElements))
                     ->siteId($element->siteId)
-                    // explicitly fetch revisions if the owner element is a revision
-                    // (see https://github.com/craftcms/cms/pull/18161)
-                    ->revisions($element->getIsRevision())
                     ->indexBy('ownerId')
                     ->collect();
 
@@ -556,7 +550,7 @@ class ContentBlock extends Field implements
                     CancelableEvent $event,
                     ContentBlockQuery $query,
                 ) use ($owner) {
-                    $query->owner($owner);
+                    $query->ownerId = $owner->id;
 
                     // Clear out id=false if this query was populated previously
                     if ($query->id === false) {
@@ -780,6 +774,41 @@ JS, [
     /**
      * @inheritdoc
      */
+//    public function getEagerLoadingMap(array $sourceElements): array|null|false
+//    {
+//        // Get the source element IDs
+//        $sourceElementIds = array_map(fn(elementInterface $element) => $element->id, $sourceElements);
+//
+//        // Return any relation data on these elements, defined with this field
+//        $map = (new Query())
+//            ->select([
+//                'source' => 'elements_owners.ownerId',
+//                'target' => 'contentblocks.id',
+//            ])
+//            ->from(['contentblocks' => DbTable::CONTENTBLOCKS])
+//            ->innerJoin(['elements_owners' => DbTable::ELEMENTS_OWNERS], [
+//                'and',
+//                '[[elements_owners.elementId]] = [[contentblocks.id]]',
+//                ['elements_owners.ownerId' => $sourceElementIds],
+//            ])
+//            ->where(['contentblocks.fieldId' => $this->id])
+//            ->orderBy(['elements_owners.sortOrder' => SORT_ASC])
+//            ->all();
+//
+//        return [
+//            'elementType' => ContentBlockElement::class,
+//            'map' => $map,
+//            'criteria' => [
+//                'fieldId' => $this->id,
+//                'allowOwnerDrafts' => true,
+//                'allowOwnerRevisions' => true,
+//            ],
+//        ];
+//    }
+
+    /**
+     * @inheritdoc
+     */
     public function getContentGqlType(): Type|array
     {
         return [
@@ -843,8 +872,9 @@ JS, [
 
         /** @var ContentBlockElement[] $contentBlocks */
         $contentBlocks = ContentBlockElement::find()
-            ->primaryOwner($element)
+            ->primaryOwnerId($element->id)
             ->status(null)
+            ->siteId($element->siteId)
             ->all();
 
         foreach ($contentBlocks as $contentBlock) {

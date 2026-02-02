@@ -13,8 +13,6 @@ use yii\base\InlineAction;
 use yii\base\InvalidRouteException;
 use yii\helpers\Console;
 use yii\helpers\Inflector;
-use yii\base\Controller as BaseController;
-use yii\base\Module;
 
 /**
  * Controller is the base class of console command classes.
@@ -30,8 +28,6 @@ use yii\base\Module;
  * where `<route>` is a route to a controller action and the params will be populated as properties of a command.
  * See [[options()]] for details.
  *
- * @property Request $request The request object.
- * @property Response $response The response object.
  * @property-read string $help The help information for this controller.
  * @property-read string $helpSummary The one-line short summary describing this controller.
  * @property-read array $passedOptionValues The properties corresponding to the passed options.
@@ -39,20 +35,18 @@ use yii\base\Module;
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
- *
- * @template T of Module
- * @extends BaseController<T>
  */
-class Controller extends BaseController
+class Controller extends \yii\base\Controller
 {
     /**
      * @deprecated since 2.0.13. Use [[ExitCode::OK]] instead.
      */
-    public const EXIT_CODE_NORMAL = 0;
+    const EXIT_CODE_NORMAL = 0;
     /**
      * @deprecated since 2.0.13. Use [[ExitCode::UNSPECIFIED_ERROR]] instead.
      */
-    public const EXIT_CODE_ERROR = 1;
+    const EXIT_CODE_ERROR = 1;
+
     /**
      * @var bool whether to run the command interactively.
      */
@@ -195,15 +189,6 @@ class Controller extends BaseController
      * @param array $params the parameters to be bound to the action
      * @return array the valid parameters that the action can run with.
      * @throws Exception if there are unknown options or missing arguments
-     *
-     * @phpstan-param Action<$this> $action
-     * @psalm-param Action<$this> $action
-     *
-     * @phpstan-param array<array-key, mixed> $params
-     * @psalm-param array<array-key, mixed> $params
-     *
-     * @phpstan-return mixed[]
-     * @psalm-return mixed[]
      */
     public function bindActionParams($action, $params)
     {
@@ -373,7 +358,7 @@ class Controller extends BaseController
      *
      * An example of how to use the prompt method with a validator function.
      *
-     * ```
+     * ```php
      * $code = $this->prompt('Enter 4-Chars-Pin', ['required' => true, 'validator' => function($input, &$error) {
      *     if (strlen($input) !== 4) {
      *         $error = 'The Pin must be exactly 4 chars!';
@@ -399,7 +384,7 @@ class Controller extends BaseController
      *
      * A typical usage looks like the following:
      *
-     * ```
+     * ```php
      * if ($this->confirm("Are you sure?")) {
      *     echo "user typed yes\n";
      * } else {
@@ -526,7 +511,7 @@ class Controller extends BaseController
      * You may override this method to return customized summary.
      * The default implementation returns first line from the PHPDoc comment.
      *
-     * @return string the one-line short summary describing this controller.
+     * @return string
      */
     public function getHelpSummary()
     {
@@ -538,7 +523,7 @@ class Controller extends BaseController
      *
      * You may override this method to return customized help.
      * The default implementation returns help information retrieved from the PHPDoc comment.
-     * @return string the help information for this controller.
+     * @return string
      */
     public function getHelp()
     {
@@ -549,9 +534,6 @@ class Controller extends BaseController
      * Returns a one-line short summary describing the specified action.
      * @param Action $action action to get summary for
      * @return string a one-line short summary describing the specified action.
-     *
-     * @phpstan-param Action<$this> $action
-     * @psalm-param Action<$this> $action
      */
     public function getActionHelpSummary($action)
     {
@@ -566,9 +548,6 @@ class Controller extends BaseController
      * Returns the detailed help information for the specified action.
      * @param Action $action action to get help for
      * @return string the detailed help information for the specified action.
-     *
-     * @phpstan-param Action<$this> $action
-     * @psalm-param Action<$this> $action
      */
     public function getActionHelp($action)
     {
@@ -591,9 +570,6 @@ class Controller extends BaseController
      *
      * @param Action $action the action instance
      * @return array the help information of the action arguments
-     *
-     * @phpstan-param Action<$this> $action
-     * @psalm-param Action<$this> $action
      */
     public function getActionArgsHelp($action)
     {
@@ -667,9 +643,6 @@ class Controller extends BaseController
      *
      * @param Action $action
      * @return array the help information of the action options
-     *
-     * @phpstan-param Action<$this> $action
-     * @psalm-param Action<$this> $action
      */
     public function getActionOptionsHelp($action)
     {
@@ -725,9 +698,6 @@ class Controller extends BaseController
     /**
      * @param Action $action
      * @return \ReflectionFunctionAbstract
-     *
-     * @phpstan-param Action<$this> $action
-     * @psalm-param Action<$this> $action
      */
     protected function getActionMethodReflection($action)
     {
@@ -746,9 +716,6 @@ class Controller extends BaseController
      * Parses the comment block into tags.
      * @param \ReflectionClass|\ReflectionProperty|\ReflectionFunctionAbstract $reflection the comment block
      * @return array the parsed tags
-     *
-     * @phpstan-param \ReflectionClass<object>|\ReflectionProperty|\ReflectionFunctionAbstract $reflection
-     * @psalm-param \ReflectionClass<object>|\ReflectionProperty|\ReflectionFunctionAbstract $reflection
      */
     protected function parseDocCommentTags($reflection)
     {
@@ -777,9 +744,6 @@ class Controller extends BaseController
      *
      * @param \ReflectionClass|\ReflectionProperty|\ReflectionFunctionAbstract $reflection
      * @return string
-     *
-     * @phpstan-param \ReflectionClass<$this>|\ReflectionProperty|\ReflectionFunctionAbstract $reflection
-     * @psalm-param \ReflectionClass<$this>|\ReflectionProperty|\ReflectionFunctionAbstract $reflection
      */
     protected function parseDocCommentSummary($reflection)
     {
@@ -796,9 +760,6 @@ class Controller extends BaseController
      *
      * @param \ReflectionClass|\ReflectionProperty|\ReflectionFunctionAbstract $reflection
      * @return string
-     *
-     * @phpstan-param \ReflectionClass<$this>|\ReflectionProperty|\ReflectionFunctionAbstract $reflection
-     * @psalm-param \ReflectionClass<$this>|\ReflectionProperty|\ReflectionFunctionAbstract $reflection
      */
     protected function parseDocCommentDetail($reflection)
     {

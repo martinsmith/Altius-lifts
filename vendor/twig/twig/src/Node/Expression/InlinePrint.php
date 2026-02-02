@@ -24,7 +24,9 @@ final class InlinePrint extends AbstractExpression
      */
     public function __construct(Node $node, int $lineno)
     {
-        trigger_deprecation('twig/twig', '3.16', \sprintf('The "%s" class is deprecated with no replacement.', static::class));
+        if (!$node instanceof AbstractExpression) {
+            trigger_deprecation('twig/twig', '3.15', 'Not passing a "%s" instance to the "node" argument of "%s" is deprecated ("%s" given).', AbstractExpression::class, static::class, get_class($node));
+        }
 
         parent::__construct(['node' => $node], [], $lineno);
     }

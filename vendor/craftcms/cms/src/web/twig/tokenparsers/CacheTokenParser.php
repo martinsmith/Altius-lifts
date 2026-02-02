@@ -34,7 +34,8 @@ class CacheTokenParser extends AbstractTokenParser
     public function parse(Token $token): CacheNode
     {
         $lineno = $token->getLine();
-        $stream = $this->parser->getStream();
+        $parser = $this->parser;
+        $stream = $parser->getStream();
 
         $nodes = [];
 
@@ -52,34 +53,34 @@ class CacheTokenParser extends AbstractTokenParser
         if ($stream->test(Token::NAME_TYPE, 'using')) {
             $stream->next();
             $stream->expect(Token::NAME_TYPE, 'key');
-            $nodes['key'] = $this->parser->parseExpression();
+            $nodes['key'] = $parser->getExpressionParser()->parseExpression();
         }
 
         if ($stream->test(Token::NAME_TYPE, 'for')) {
             $stream->next();
-            $nodes['durationNum'] = $this->parser->parseExpression();
+            $nodes['durationNum'] = $parser->getExpressionParser()->parseExpression();
             $attributes['durationUnit'] = $stream->expect(Token::NAME_TYPE, DateTimeHelper::RELATIVE_TIME_UNITS)->getValue();
         } elseif ($stream->test(Token::NAME_TYPE, 'until')) {
             $stream->next();
-            $nodes['expiration'] = $this->parser->parseExpression();
+            $nodes['expiration'] = $parser->getExpressionParser()->parseExpression();
         }
 
         if ($stream->test(Token::NAME_TYPE, 'if')) {
             $stream->next();
-            $nodes['conditions'] = $this->parser->parseExpression();
+            $nodes['conditions'] = $parser->getExpressionParser()->parseExpression();
         } elseif ($stream->test(Token::NAME_TYPE, 'unless')) {
             $stream->next();
-            $nodes['ignoreConditions'] = $this->parser->parseExpression();
+            $nodes['ignoreConditions'] = $parser->getExpressionParser()->parseExpression();
         }
 
         $stream->expect(Token::BLOCK_END_TYPE);
-        $nodes['body'] = $this->parser->subparse([
+        $nodes['body'] = $parser->subparse([
             $this,
             'decideCacheEnd',
         ], true);
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new CacheNode($nodes, $attributes, $lineno);
+        return new CacheNode($nodes, $attributes, $lineno, $this->getTag());
     }
 
     /**

@@ -72,7 +72,6 @@ use craft\events\SetEagerLoadedElementsEvent;
 use craft\events\SetElementRouteEvent;
 use craft\fieldlayoutelements\BaseField;
 use craft\fieldlayoutelements\CustomField;
-use craft\fields\ContentBlock as ContentBlockField;
 use craft\gql\interfaces\Element as ElementGqlType;
 use craft\helpers\App;
 use craft\helpers\ArrayHelper;
@@ -98,10 +97,12 @@ use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use ReflectionClass;
+use Throwable;
 use Traversable;
 use Twig\Markup;
 use UnitEnum;
 use yii\base\ArrayableTrait;
+use yii\base\ErrorHandler;
 use yii\base\Event;
 use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
@@ -784,11 +785,18 @@ abstract class Element extends Component implements ElementInterface
      * @event ElementStructureEvent The event that is triggered before the element is moved in a structure.
      *
      * You may set [[\yii\base\ModelEvent::$isValid]] to `false` to prevent the element from getting moved.
+     *
+     * @deprecated in 4.5.0. [[\craft\services\Structures::EVENT_BEFORE_INSERT_ELEMENT]] or
+     * [[\craft\services\Structures::EVENT_BEFORE_MOVE_ELEMENT|EVENT_BEFORE_MOVE_ELEMENT]]
+     * should be used instead.
      */
     public const EVENT_BEFORE_MOVE_IN_STRUCTURE = 'beforeMoveInStructure';
 
     /**
      * @event ElementStructureEvent The event that is triggered after the element is moved in a structure.
+     * @deprecated in 4.5.0. [[\craft\services\Structures::EVENT_AFTER_INSERT_ELEMENT]] or
+     * [[\craft\services\Structures::EVENT_AFTER_MOVE_ELEMENT|EVENT_AFTER_MOVE_ELEMENT]]
+     * should be used instead.
      */
     public const EVENT_AFTER_MOVE_IN_STRUCTURE = 'afterMoveInStructure';
 
@@ -811,11 +819,6 @@ abstract class Element extends Component implements ElementInterface
      * ```
      */
     public const EVENT_RENDER = 'render';
-
-    /**
-     * @see sources()
-     */
-    private static array $sources = [];
 
     /**
      * @inheritdoc
@@ -975,32 +978,21 @@ abstract class Element extends Component implements ElementInterface
     /**
      * @inheritdoc
      */
-    public static function multiPageSources(): bool
-    {
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public static function sources(string $context): array
     {
-        if (!isset(self::$sources[static::class][$context])) {
-            // Memoize the results immediately, in case sources() gets called again via the event
-            self::$sources[static::class][$context] = static::defineSources($context);
+        $sources = static::defineSources($context);
 
-            // Fire a 'registerSources' event
-            if (Event::hasHandlers(static::class, self::EVENT_REGISTER_SOURCES)) {
-                $event = new RegisterElementSourcesEvent([
-                    'context' => $context,
-                    'sources' => self::$sources[static::class][$context],
-                ]);
-                Event::trigger(static::class, self::EVENT_REGISTER_SOURCES, $event);
-                self::$sources[static::class][$context] = $event->sources;
-            }
+        // Fire a 'registerSources' event
+        if (Event::hasHandlers(static::class, self::EVENT_REGISTER_SOURCES)) {
+            $event = new RegisterElementSourcesEvent([
+                'context' => $context,
+                'sources' => $sources,
+            ]);
+            Event::trigger(static::class, self::EVENT_REGISTER_SOURCES, $event);
+            return $event->sources;
         }
 
-        return self::$sources[static::class][$context];
+        return $sources;
     }
 
     /**
@@ -1371,8 +1363,8 @@ abstract class Element extends Component implements ElementInterface
             return '';
         }
 
-        // See if there are any provisional changes we should show
-        ElementHelper::loadProvisionalChanges($elements);
+        // See if there are any provisional drafts we should swap these out with
+        ElementHelper::swapInProvisionalDrafts($elements);
 
         if ($request->getParam('prevalidate')) {
             foreach ($elements as $element) {
@@ -1632,13 +1624,13 @@ abstract class Element extends Component implements ElementInterface
     /**
      * @inheritdoc
      */
-    public static function cardAttributes(?FieldLayout $fieldLayout = null): array
+    public static function cardAttributes(): array
     {
         $cardAttributes = static::defineCardAttributes();
 
         // Fire a 'registerCardAttributes' event
         if (Event::hasHandlers(static::class, self::EVENT_REGISTER_CARD_ATTRIBUTES)) {
-            $event = new RegisterElementCardAttributesEvent(['cardAttributes' => $cardAttributes, 'fieldLayout' => $fieldLayout]);
+            $event = new RegisterElementCardAttributesEvent(['cardAttributes' => $cardAttributes]);
             Event::trigger(static::class, self::EVENT_REGISTER_CARD_ATTRIBUTES, $event);
             return $event->cardAttributes;
         }
@@ -2596,13 +2588,17 @@ abstract class Element extends Component implements ElementInterface
             return (string)$this->title;
         }
 
-        if (!$this->id || $this->getIsUnpublishedDraft()) {
-            return Craft::t('app', 'New {type}', [
-                'type' => static::lowerDisplayName(),
-            ]);
-        }
+        try {
+            if (!$this->id || $this->getIsUnpublishedDraft()) {
+                return Craft::t('app', 'New {type}', [
+                    'type' => static::lowerDisplayName(),
+                ]);
+            }
 
-        return sprintf('%s %s', static::displayName(), $this->id);
+            return sprintf('%s %s', static::displayName(), $this->id);
+        } catch (Throwable $e) {
+            ErrorHandler::convertExceptionToError($e);
+        }
     }
 
     /**
@@ -2743,7 +2739,6 @@ abstract class Element extends Component implements ElementInterface
         }
 
         unset(
-            $names['applyingDraft'],
             $names['awaitingFieldValues'],
             $names['duplicateOf'],
             $names['elementQueryResult'],
@@ -2755,7 +2750,6 @@ abstract class Element extends Component implements ElementInterface
             $names['isNewSite'],
             $names['previewing'],
             $names['propagateAll'],
-            $names['propagateRequired'],
             $names['propagating'],
             $names['propagatingFrom'],
             $names['resaving'],
@@ -2941,12 +2935,6 @@ abstract class Element extends Component implements ElementInterface
             'on' => [self::SCENARIO_DEFAULT, self::SCENARIO_LIVE],
             'when' => fn() => $this->shouldValidateTitle(),
         ];
-        $rules[] = [
-            ['title'],
-            function() {
-                $this->title = StringHelper::convertLineBreaks($this->title);
-            },
-        ];
 
         if (static::hasUris()) {
             try {
@@ -3001,7 +2989,7 @@ abstract class Element extends Component implements ElementInterface
             $fieldLayout = $this->getFieldLayout()
         ) {
             $scenario = $this->getScenario();
-            $layoutElements = $fieldLayout->getEditableCustomFieldElements($this);
+            $layoutElements = $fieldLayout->getVisibleCustomFieldElements($this);
 
             foreach ($layoutElements as $layoutElement) {
                 $field = $layoutElement->getField();
@@ -3545,7 +3533,6 @@ abstract class Element extends Component implements ElementInterface
                         'html' => Cp::elementChipHtml($owner, [
                             'showDraftName' => false,
                             'class' => 'chromeless',
-                            'hyperlink' => true,
                         ]),
                     ],
                 ];
@@ -3641,12 +3628,21 @@ abstract class Element extends Component implements ElementInterface
     {
         $this->viewMode = 'cards';
         $html = '';
-        $cardElements = $this->getFieldLayout()?->getCardBodyElements($this) ?? [];
 
-        foreach ($cardElements as $item) {
-            $html .= Html::tag('div', $item['html'], [
-                'class' => 'card-attribute-preview',
-            ]);
+        foreach ($this->getFieldLayout()?->getCardBodyElements($this) ?? [] as $item) {
+            if ($item instanceof BaseField) {
+                $itemHtml = $item->previewHtml($this);
+            } elseif (is_array($item) && isset($item['html'])) {
+                $itemHtml = $item['html'];
+            } else {
+                $itemHtml = $this->getAttributeHtml($item['value']);
+            }
+
+            if ($itemHtml !== '') {
+                $html .= Html::tag('div', $itemHtml, [
+                    'class' => 'card-attribute-preview',
+                ]);
+            }
         }
 
         return $html;
@@ -3695,9 +3691,11 @@ abstract class Element extends Component implements ElementInterface
      */
     public function canSave(User $user): bool
     {
-        $authorized = $this->canSaveNestedElement($user);
-        if ($authorized !== null) {
-            return $authorized;
+        if ($this instanceof NestedElementInterface) {
+            $authorized = $this->getField()?->canSaveElement($this, $user);
+            if ($authorized !== null) {
+                return $authorized;
+            }
         }
 
         // Fire an 'authorizeSave' event
@@ -3708,30 +3706,6 @@ abstract class Element extends Component implements ElementInterface
         }
 
         return false;
-    }
-
-    private function canSaveNestedElement(User $user): ?bool
-    {
-        if (!$this instanceof NestedElementInterface) {
-            return null;
-        }
-
-        $field = $this->getField();
-        if (!$field) {
-            return null;
-        }
-
-        $authorized = $field->canSaveElement($this, $user);
-        if (!$authorized) {
-            return $authorized; // could be false or null
-        }
-
-        if (!isset($field->layoutElement)) {
-            return true;
-        }
-
-        $owner = $this->getOwner();
-        return $owner ? $field->layoutElement->editable($owner) : true;
     }
 
     /**
@@ -4995,14 +4969,16 @@ JS, [
 
     /**
      * @inheritdoc
-     * @param string|int $offset
+     * @phpstan-ignore-next-line
      */
     public function offsetExists($offset): bool
     {
         return (
             $offset === 'title' ||
+            /** @phpstan-ignore-next-line */
             ($this->hasEagerLoadedElements($offset) && !($this->_lazyEagerLoadedElements[$offset] ?? false)) ||
             parent::offsetExists($offset) ||
+            /** @phpstan-ignore-next-line */
             $this->fieldByHandle($offset)
         );
     }
@@ -5914,14 +5890,6 @@ JS, [
      */
     protected function attributeHtml(string $attribute): string
     {
-        if (str_starts_with($attribute, 'contentBlock:')) {
-            return $this->contentBlockAttributeHtml($attribute);
-        }
-
-        if (str_starts_with($attribute, 'generatedField:')) {
-            return $this->generatedFieldAttributeHtml($attribute);
-        }
-
         switch ($attribute) {
             case 'id':
                 return (string)$this->getCanonicalId();
@@ -6062,7 +6030,7 @@ JS, [
                             } catch (FieldNotFoundException) {
                             }
                         }
-                        $field ??= $this->_getFieldFromAlternativeLayouts($uid) ?? null;
+                        $field ??= null;
                     }
 
                     if ($field instanceof PreviewableFieldInterface) {
@@ -6088,78 +6056,6 @@ JS, [
         }
     }
 
-    private function contentBlockAttributeHtml(string $attribute): string
-    {
-        $parts = explode('.', $attribute);
-        $uid = StringHelper::removeLeft(array_shift($parts), 'contentBlock:');
-        $layoutElement = $this->getFieldLayout()?->getElementByUid($uid);
-
-        if (!$layoutElement instanceof CustomField) {
-            return '';
-        }
-
-        try {
-            $field = $layoutElement->getField();
-        } catch (FieldNotFoundException) {
-            return '';
-        }
-
-        if (!$field instanceof ContentBlockField) {
-            return '';
-        }
-
-        $block = $this->getFieldValue($field->handle);
-        return $block->getAttributeHtml(implode('.', $parts));
-    }
-
-    private function generatedFieldAttributeHtml(string $attribute): string
-    {
-        $uid = StringHelper::removeLeft($attribute, 'generatedField:');
-        return $this->getGeneratedFieldValues()[$uid] ?? '';
-    }
-
-    /**
-     * Find field instance that matches the instance UID from another layout.
-     *
-     * @param $layoutElementUid
-     * @return FieldInterface|null
-     */
-    private function _getFieldFromAlternativeLayouts($layoutElementUid): ?FieldInterface
-    {
-        $currentLayout = $this->getFieldLayout();
-
-        // get all field layouts for this element type sans the layout used by this element
-        $fieldLayouts = Collection::make(Craft::$app->getFields()->getLayoutsByType(static::class))
-            ->filter(fn($fieldLayout) => $fieldLayout->uid !== $currentLayout?->uid);
-
-        if ($fieldLayouts->isEmpty()) {
-            return null;
-        }
-
-        // find the layout that has this element UID and get its handle
-        $handle = null;
-        foreach ($fieldLayouts as $fieldLayout) {
-            foreach ($fieldLayout->getCustomFields() as $field) {
-                if ($field->layoutElement->uid === $layoutElementUid) {
-                    // get its handle
-                    $handle = $field->layoutElement->handle;
-                    break 2;
-                }
-            }
-        }
-
-        // and now find the layout element by handle in this element's layout
-        if ($handle) {
-            foreach ($currentLayout->getCustomFields() as $field) {
-                if ($field->layoutElement->handle === $handle) {
-                    return $field;
-                }
-            }
-        }
-
-        return null;
-    }
-
     /**
      * Returns the HTML that should be shown for a given attribute’s inline input.
      *
@@ -6174,7 +6070,7 @@ JS, [
         $field = null;
         if (preg_match('/^field:(.+)/', $attribute, $matches)) {
             $fieldUid = $matches[1];
-            $field = $this->getFieldLayout()?->getFieldByUid($fieldUid);
+            $field = Craft::$app->getFields()->getFieldByUid($fieldUid);
         } elseif (preg_match('/^fieldInstance:(.+)/', $attribute, $matches)) {
             $instanceUid = $matches[1];
             $layoutElement = $this->getFieldLayout()?->getElementByUid($instanceUid);
@@ -6184,31 +6080,23 @@ JS, [
                 } catch (FieldNotFoundException) {
                 }
             }
-
-            $field ??= $this->_getFieldFromAlternativeLayouts($instanceUid) ?? null;
         }
 
         if ($field !== null) {
             if ($field instanceof InlineEditableFieldInterface) {
-                $layoutElement = $field->layoutElement;
-                // if the layout element should be visible and editable in the "normal" edit form
-                // proceed with showing the input html, otherwise show the standard attribute html
-                /** @var CustomField $layoutElement */
-                if ($layoutElement && $layoutElement->showInForm($this) && $layoutElement->editable($this)) {
-                    // Was this field value eager-loaded?
-                    if ($field instanceof EagerLoadingFieldInterface && $this->hasEagerLoadedElements($field->handle)) {
-                        $value = $this->getEagerLoadedElements($field->handle);
-                    } else {
-                        // The field might not actually belong to this element
-                        try {
-                            $value = $this->getFieldValue($field->handle);
-                        } catch (InvalidFieldException) {
-                            return '';
-                        }
+                // Was this field value eager-loaded?
+                if ($field instanceof EagerLoadingFieldInterface && $this->hasEagerLoadedElements($field->handle)) {
+                    $value = $this->getEagerLoadedElements($field->handle);
+                } else {
+                    // The field might not actually belong to this element
+                    try {
+                        $value = $this->getFieldValue($field->handle);
+                    } catch (InvalidFieldException) {
+                        return '';
                     }
-
-                    return $field->getInlineInputHtml($value, $this);
                 }
+
+                return $field->getInlineInputHtml($value, $this);
             }
 
             return $this->getAttributeHtml($attribute);

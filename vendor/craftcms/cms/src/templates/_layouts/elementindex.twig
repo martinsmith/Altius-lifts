@@ -22,7 +22,6 @@
     {% endif %}
 
     {% set docTitle = "#{title} - #{selectedSite.uiLabel}" %}
-    {% set siteMenuItems = siteMenuItems(selectableSites, selectedSite) %}
 
     {% set crumbs = (crumbs ?? [])|unshift({
         id: 'site-crumb',
@@ -30,7 +29,7 @@
         iconAltText: 'Site'|t('app'),
         label: selectedSite.name|t('site'),
         menu: {
-            items: siteMenuItems,
+            items: siteMenuItems(selectableSites, selectedSite),
             label: 'Select site'|t('app')
         }
     }) %}
@@ -81,16 +80,15 @@
 
 {% block initJs %}
     Craft.elementIndex = Craft.createElementIndex('{{ elementType|e("js") }}', $('#page-container'), {
-        canHaveDrafts: {{ canHaveDrafts ? 'true' : 'false' }},
-        context: '{{ context }}',
-        criteria: Craft.defaultIndexCriteria,
-        defaultSource: {{ (defaultSource ?? null)|json_encode|raw }},
-        defaultSourcePath: {{ (defaultSourcePath ?? null)|json_encode|raw }},
         elementTypeName: '{{ elementDisplayName|e("js") }}',
         elementTypePluralName: '{{ elementPluralDisplayName|e("js") }}',
-        page: {{ (page ?? null)|json_encode|raw }},
+        context: '{{ context }}',
         storageKey: 'elementindex.{{ elementType|e("js") }}',
+        criteria: Craft.defaultIndexCriteria,
         toolbarSelector: '#toolbar',
+        defaultSource: {{ (defaultSource ?? null)|json_encode|raw }},
+        defaultSourcePath: {{ (defaultSourcePath ?? null)|json_encode|raw }},
+        canHaveDrafts: {{ canHaveDrafts ? 'true' : 'false' }},
     });
 {% endblock %}
 

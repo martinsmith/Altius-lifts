@@ -13,7 +13,6 @@ use craft\db\Query;
 use craft\db\Table;
 use craft\elements\db\EagerLoadPlan;
 use craft\helpers\Db;
-use craft\web\twig\AllowedInSandbox;
 use yii\base\InvalidConfigException;
 
 /**
@@ -78,7 +77,6 @@ trait NestedElementTrait
     /**
      * @var int|null Field ID
      */
-    #[AllowedInSandbox]
     public ?int $fieldId = null;
 
     /**
@@ -370,8 +368,8 @@ trait NestedElementTrait
         $field = null;
 
         try {
-            $field = $this->getOwner()?->getFieldLayout()?->getFieldById($this->fieldId);
-        } catch (InvalidConfigException) {
+            $field = $this->getOwner()?->getFieldLayout()->getFieldById($this->fieldId);
+        } catch (InvalidConfigException $e) {
             // carry on as we might still be able to get the field by ID
         }
 

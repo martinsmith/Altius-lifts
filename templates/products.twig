@@ -1,0 +1,23 @@
+{% extends "_layout.twig" %}
+
+{% block pageClass %}products{% endblock %}
+
+{% block content %}
+<div class="products-page">
+    {% include '_components/sections/page-header.twig' %}
+    
+    {# Brand Navigation Grid - Anchor links to brand sections #}
+    {% include '_components/sections/brand-navigation.twig' %}
+    
+    {# Brand Product Sections - Main content area #}
+    {% include '_components/sections/product-sections.twig' %}
+
+    {# Back to Top Button - Always visible #}
+    {% include '_components/ui/back-to-top.twig' %}
+    
+    {# Call to Action Section (if configured) #}
+    {% if entry.callToAction.sectionTitle %}
+        {% include '_components/sections/call-to-action.twig' %}
+    {% endif %}
+</div>
+{% endblock %}

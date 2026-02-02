@@ -1,0 +1,330 @@
+@layer components {
+
+/* Modern Header Component with Nesting */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: var(--z-index-fixed);
+  padding-block: var(--header-padding-block);
+  background-color: #9db58d; /* Hair Haven brand sage green */
+  will-change: transform, padding;
+  transform: translateZ(0); /* Force GPU acceleration */
+
+  &.scrolled {
+    padding-block: var(--header-padding-block-scrolled);
+    background-color: #9db58d; /* Hair Haven brand sage green */
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--primary-color) 10%, transparent);
+  }
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.logo {
+  z-index: 101;
+  flex-shrink: 0;
+}
+
+.logo a {
+  color: white; /* Override default link color for better contrast */
+  text-decoration: none;
+}
+
+.logo a:hover {
+  color: white;
+  opacity: 0.9;
+}
+
+.logo h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  color: white;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 769px) {
+  .logo h1 {
+    font-size: 2.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+}
+
+nav {
+  padding-top: 0;
+}
+
+@media (min-width: 769px) {
+  nav {
+    padding-top: 1rem;
+  }
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin-left: 2rem;
+}
+
+@media (min-width: 769px) {
+  nav ul li:nth-last-child(2),
+  nav ul li:nth-last-child(1) {
+    margin-top: -0.25rem;
+  }
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 5px;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+nav ul li a:hover {
+  color: var(--primary-color);
+}
+
+nav ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after,
+nav ul li a.router-link-active::after,
+nav ul li a.active::after {
+  width: 100%;
+  background-color: white;
+}
+
+/* Book Now Button Styling - Light accent button */
+nav ul li .btn-book-now {
+  background-color: #E1ECC3;
+  color: var(--primary-color);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--border-radius-standard);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  transition: var(--transition-standard);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #E1ECC3;
+  box-shadow: var(--shadow-sm);
+  vertical-align: baseline;
+  line-height: 1;
+}
+
+nav ul li .btn-book-now:hover {
+  background-color: white;
+  border-color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  color: var(--primary-color);
+}
+
+nav ul li .btn-book-now::after {
+  display: none;
+}
+
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  z-index: 101;
+  background: none;
+  border: none;
+  padding: var(--space-2);
+  border-radius: var(--border-radius-standard);
+  transition: background-color 0.2s ease;
+}
+
+.menu-toggle:hover {
+  background-color: color-mix(in srgb, var(--accent-color) 10%, transparent);
+}
+
+.menu-toggle:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.hamburger {
+  width: 28px;
+  height: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: white;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(8.5px) rotate(45deg);
+  background: white;
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-8.5px) rotate(-45deg);
+  background: white;
+}
+
+/* Mobile menu backdrop overlay */
+.menu-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.menu-backdrop.active {
+  display: block;
+  opacity: 1;
+}
+
+@media (max-width: 1200px) {
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    padding: var(--space-2);
+    margin-inline-end: calc(var(--space-2) * -1);
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 320px;
+    max-width: 85vw;
+    height: 100vh;
+    background: linear-gradient(to bottom, white 0%, color-mix(in srgb, var(--accent-color) 3%, white) 100%);
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  nav.active {
+    right: 0;
+  }
+
+  nav ul {
+    flex-direction: column;
+    padding: 100px 2rem 2rem;
+    gap: 0;
+  }
+
+  nav ul li {
+    margin: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--primary-color) 10%, transparent);
+  }
+
+  nav ul li:last-child {
+    border-bottom: none;
+  }
+
+  nav ul li a {
+    display: block;
+    font-size: 1.1rem;
+    padding: 1rem 0;
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  nav ul li a:not(.btn-book-now):hover {
+    color: var(--accent-color);
+    padding-inline-start: 0.5rem;
+  }
+
+  nav ul li a.active {
+    color: var(--accent-color);
+    font-weight: 600;
+  }
+
+  nav ul li a::after {
+    display: none;
+  }
+
+  /* Mobile styling for CTA buttons */
+  nav ul li .btn-book-now {
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-base);
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-weight: 600;
+    border-radius: var(--border-radius-lg);
+  }
+
+  nav ul li .btn-book-now:hover {
+    padding-inline-start: var(--space-6);
+  }
+
+  /* Add icons to mobile menu items */
+  nav ul li a:not(.btn-book-now)::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    margin-inline-end: var(--space-3);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  nav ul li a:not(.btn-book-now):hover::before,
+  nav ul li a.active::before {
+    opacity: 1;
+  }
+}
+
+} /* End @layer components */

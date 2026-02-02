@@ -8,7 +8,6 @@
 namespace craft\fields\data;
 
 use craft\base\Serializable;
-use craft\web\twig\AllowedInSandbox;
 
 /**
  * Class IconData
@@ -16,7 +15,6 @@ use craft\web\twig\AllowedInSandbox;
  * @author Pixel & Tonic, Inc. <support@pixelandtonic.com>
  * @since 5.8.0
  */
-#[AllowedInSandbox]
 class IconData implements Serializable
 {
     /**

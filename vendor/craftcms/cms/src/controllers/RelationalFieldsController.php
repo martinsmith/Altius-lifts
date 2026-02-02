@@ -59,7 +59,7 @@ class RelationalFieldsController extends Controller
             }
         }
 
-        ElementHelper::loadProvisionalChanges($elements);
+        ElementHelper::swapInProvisionalDrafts($elements);
 
         $html = $this->getView()->renderTemplate('_includes/forms/elementSelect.twig', [
             'elements' => $elements,

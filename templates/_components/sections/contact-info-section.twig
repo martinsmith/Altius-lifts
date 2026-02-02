@@ -1,0 +1,149 @@
+{# Contact Info Section Component Macro #}
+    <section class="contact-info-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-form-container">
+                    {% include '_components/forms/contact-form.twig' %}
+                </div>
+                <div class="contact-location-card">
+                    <div class="contact-card">
+                        <div class="icon">
+                            <i class="fas {{ entry.location.blockIcon }}"></i>
+                        </div>
+                        <h3>{{ entry.location.blockTitle }}</h3>
+                        <div class="address-text">
+                            {{ entry.location.address|nl2br }}
+                        </div>
+                        <div class="map-container">
+                            <div id="map" class="map">Map</div>
+                            <a href="{{ entry.location.mapLink }}" class="btn primary">{{ entry.location.mapLink.label }}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-connect-card">
+                    <div class="contact-card">
+                        <div class="icon">
+                            <i class="fas {{ entry.connect.blockIcon }}"></i>
+                        </div>
+                        <h3>{{ entry.connect.blockTitle }}</h3>
+                        <ul class="contact-list">
+                            <li>
+                                <i class="fas {{ entry.connect.cb_phone.phoneIcon }}"></i>
+                                    <a href="tel:{{ entry.connect.cb_phone.phoneNumber }}">{{ entry.connect.cb_phone.phoneNumber }}</a>
+                            </li>
+                            <li>
+                                <i class="fas {{ entry.connect.cb_emailAddress.emailIcon }}"></i>
+                                    {% apply enkode_emails %}<a href="mailto:{{ entry.connect.cb_emailAddress.emailAddress }}">{{ entry.connect.cb_emailAddress.emailAddress }}</a>{% endapply %}
+                            </li>
+                        </ul>
+                        <div class="social-icons">
+                            {% for link in entry.connect.socialLinks %}
+                                <a href="{{ link.link }}" aria-label="{{ link.platform }}" target="_blank">
+                                    <i class="fab {{ link.icon }}"></i>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-hours-card">
+                    <div class="contact-card">
+                        <div class="icon">
+                            <i class="fas {{ entry.openingHours.blockIcon }}"></i>
+                        </div>
+                        <h3>{{ entry.openingHours.blockTitle }}</h3>
+                        <ul class="hours-list">
+                            {% for day in entry.openingHours.openingTimes %}
+                                <li>
+                                    <span class="day">{{ day.day }}:</span>
+                                    <span class="time">{{ day.openTime }}</span>
+                                    <span class="time">{{ day.closedTime }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<script>
+    let map; // Declare map globally
+
+    // Define initMap as a global function
+    window.initMap = async function () {
+        try {
+            const mapElement = document.getElementById("map");
+            if (!mapElement) {
+                console.warn('Map element not found');
+                return;
+            }
+            const leadingedge = { lng: -2.075980455303257, lat: 53.44544274953438 };
+
+            // Load the required libraries
+            const { Map } = await google.maps.importLibrary("maps");
+            const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+            map = new Map(mapElement, {
+                zoom: 14,
+                center: leadingedge,
+                disableDefaultUI: true,
+                zoomControl: true,
+                fullscreenControl: true,
+                mapId: 'LEADINGEDGE'
+            });
+
+            const marker = new AdvancedMarkerElement({
+                position: leadingedge,
+                map: map
+            });
+
+        } catch (error) {
+            console.error('Error initializing Google Map:', error);
+        }
+    };
+
+    // Load the Google Maps API script dynamically
+    function loadGoogleMapsScript() {
+        // Check if map element exists on this page
+        if (!document.getElementById("map")) {
+            return;
+        }
+
+        // Check if Google Maps API is already loaded
+        if (typeof google !== 'undefined' && google.maps) {
+            initMap();
+            return;
+        }
+
+        // Check if script is already being loaded (avoid conflicts with Formie or other plugins)
+        const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
+        if (existingScript) {
+            // If script exists but Google Maps isn't ready yet, wait for it
+            const checkGoogleMaps = setInterval(() => {
+                if (typeof google !== 'undefined' && google.maps) {
+                    clearInterval(checkGoogleMaps);
+                    initMap();
+                }
+            }, 100);
+
+            // Stop checking after 10 seconds
+            setTimeout(() => clearInterval(checkGoogleMaps), 10000);
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBut8hi8XSsYppInld931M_gDhaqJ2nkrI&loading=async&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        script.onerror = function() {
+            console.error('Failed to load Google Maps API');
+        };
+        document.head.appendChild(script);
+    }
+
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        loadGoogleMapsScript();
+    });
+</script>

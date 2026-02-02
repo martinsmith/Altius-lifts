@@ -1,0 +1,114 @@
+color: null
+description: null
+fieldLayouts:
+  723eb4b0-ff1d-477c-bbf2-e6586483c314:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-07-30T09:09:44+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 75d5ff91-e0e7-479a-b047-041d2c3e1649 # Page Header
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5b835718-9d6b-4c51-893f-161126d9a6ea
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-07-30T09:24:57+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 5f596b25-ec1e-469a-8c81-e040276faa25 # Offer Cards
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3de49ed2-27fb-480f-b008-2064c6d71e51
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-07-31T08:53:16+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 6b2d5a14-d767-4360-88fa-ca10896170a4 # Promo Links
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 83829829-11c1-4325-a453-3c8ee9de7960
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-07-30T09:18:16+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 71202746-fb78-4408-b9b3-1c3d1e39ffb8 # Call to Action
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 646ab71d-5150-4f8a-9eb8-e32e17562be6
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: f9039ad7-f6c8-41bd-8b82-84ab40140fb8
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-11-10T14:28:14+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: f425b0e8-1203-40a7-9f6f-108688342507 # SEO Information
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 980ba8b6-70ef-434c-928e-0867a85944a7
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: a23b6269-f173-4cb8-b927-c5504790a09b
+        userCondition: null
+handle: page_ent_offers
+hasTitleField: false
+icon: null
+name: Offers
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: Offers
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

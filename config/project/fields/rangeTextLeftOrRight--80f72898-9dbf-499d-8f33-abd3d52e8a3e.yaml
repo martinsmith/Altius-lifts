@@ -1,0 +1,12 @@
+columnSuffix: null
+handle: rangeTextLeftOrRight
+instructions: null
+name: 'Range Text Left or Right'
+searchable: false
+settings:
+  default: false
+  offLabel: Left
+  onLabel: Right
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

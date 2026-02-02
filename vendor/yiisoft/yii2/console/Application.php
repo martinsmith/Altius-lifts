@@ -9,7 +9,6 @@ namespace yii\console;
 
 use Yii;
 use yii\base\InvalidRouteException;
-use yii\base\Module;
 
 // define STDIN, STDOUT and STDERR if the PHP SAPI did not define them (e.g. creating console application in web env)
 // https://www.php.net/manual/en/features.commandline.io-streams.php
@@ -63,7 +62,8 @@ class Application extends \yii\base\Application
     /**
      * The option name for specifying the application configuration file path.
      */
-    public const OPTION_APPCONFIG = 'appconfig';
+    const OPTION_APPCONFIG = 'appconfig';
+
     /**
      * @var string the default route of this application. Defaults to 'help',
      * meaning the `help` command.
@@ -75,10 +75,7 @@ class Application extends \yii\base\Application
      */
     public $enableCoreCommands = true;
     /**
-     * @var Controller|null the currently active controller instance
-     *
-     * @phpstan-var Controller<Module>|null
-     * @psalm-var Controller<Module>|null
+     * @var Controller the currently active controller instance
      */
     public $controller;
 
@@ -167,7 +164,7 @@ class Application extends \yii\base\Application
      * For example, to run `public function actionTest($a, $b)` assuming that the controller has options the following
      * code should be used:
      *
-     * ```
+     * ```php
      * \Yii::$app->runAction('controller/test', ['option' => 'value', $a, $b]);
      * ```
      *

@@ -1,0 +1,226 @@
+
+{% macro skipLinks() %}
+  <div class="skip-links" aria-label="Skip navigation">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#nav" class="skip-link">Skip to navigation</a>
+    <a href="#footer" class="skip-link">Skip to footer</a>
+  </div>
+{% endmacro %}
+{% macro button(text, options = {}) %}
+  {% set defaults = {
+    type: 'button',
+    class: 'btn',
+    id: null,
+    ariaLabel: null,
+    ariaDescribedBy: null,
+    ariaExpanded: null,
+    ariaControls: null,
+    disabled: false
+  } %}
+  {% set config = defaults|merge(options) %}
+  
+  <button type="{{ config.type }}"
+          class="{{ config.class }}"
+          {% if config.id %}id="{{ config.id }}"{% endif %}
+          {% if config.ariaLabel %}aria-label="{{ config.ariaLabel }}"{% endif %}
+          {% if config.ariaDescribedBy %}aria-describedby="{{ config.ariaDescribedBy }}"{% endif %}
+          {% if config.ariaExpanded is not null %}aria-expanded="{{ config.ariaExpanded ? 'true' : 'false' }}"{% endif %}
+          {% if config.ariaControls %}aria-controls="{{ config.ariaControls }}"{% endif %}
+          {% if config.disabled %}disabled{% endif %}>
+    {{ text }}
+  </button>
+{% endmacro %}
+
+
+{% macro formField(field, options = {}) %}
+  {% set defaults = {
+    type: 'text',
+    required: false,
+    class: 'form-field',
+    placeholder: null,
+    helpText: null,
+    errorMessage: null
+  } %}
+  {% set config = defaults|merge(options) %}
+  {% set fieldId = field.handle ~ '-field' %}
+  {% set helpId = fieldId ~ '-help' %}
+  {% set errorId = fieldId ~ '-error' %}
+  
+  <div class="form-group {{ config.errorMessage ? 'has-error' : '' }}">
+    <label for="{{ fieldId }}" class="form-label">
+      {{ field.name }}
+      {% if config.required %}
+        <span class="required" aria-label="required">*</span>
+      {% endif %}
+    </label>
+    
+    {% if field.type == 'textarea' %}
+      <textarea id="{{ fieldId }}"
+                name="{{ field.handle }}"
+                class="{{ config.class }}"
+                {% if config.required %}required aria-required="true"{% endif %}
+                {% if config.placeholder %}placeholder="{{ config.placeholder }}"{% endif %}
+                {% if config.helpText %}aria-describedby="{{ helpId }}"{% endif %}
+                {% if config.errorMessage %}aria-describedby="{{ errorId }}" aria-invalid="true"{% endif %}>
+      </textarea>
+    {% else %}
+      <input type="{{ config.type }}"
+             id="{{ fieldId }}"
+             name="{{ field.handle }}"
+             class="{{ config.class }}"
+             {% if config.required %}required aria-required="true"{% endif %}
+             {% if config.placeholder %}placeholder="{{ config.placeholder }}"{% endif %}
+             {% if config.helpText %}aria-describedby="{{ helpId }}"{% endif %}
+             {% if config.errorMessage %}aria-describedby="{{ errorId }}" aria-invalid="true"{% endif %}>
+    {% endif %}
+    
+    {% if config.helpText %}
+      <div id="{{ helpId }}" class="form-help">{{ config.helpText }}</div>
+    {% endif %}
+    
+    {% if config.errorMessage %}
+      <div id="{{ errorId }}" class="form-error" role="alert">{{ config.errorMessage }}</div>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{# Generate accessible heading with proper hierarchy #}
+{% macro heading(text, level = 2, options = {}) %}
+  {% set defaults = {
+    class: '',
+    id: null,
+    visualLevel: level
+  } %}
+  {% set config = defaults|merge(options) %}
+  
+  <h{{ level }}{% if config.id %} id="{{ config.id }}"{% endif %}{% if config.class %} class="{{ config.class }}"{% endif %}>
+    {{ text }}
+  </h{{ level }}>
+{% endmacro %}
+
+{# Generate accessible image with proper alt text #}
+{% macro image(asset, options = {}) %}
+  {% set defaults = {
+    decorative: false,
+    class: '',
+    loading: 'lazy',
+    sizes: null
+  } %}
+  {% set config = defaults|merge(options) %}
+  
+  {% if config.decorative %}
+    <img src="{{ asset.url }}"
+         alt=""
+         role="presentation"
+         {% if config.class %}class="{{ config.class }}"{% endif %}
+         loading="{{ config.loading }}">
+  {% else %}
+    {% set altText = asset.alt ?? asset.title ?? 'Image' %}
+    <img src="{{ asset.url }}"
+         alt="{{ altText }}"
+         {% if config.class %}class="{{ config.class }}"{% endif %}
+         loading="{{ config.loading }}"
+         {% if config.sizes %}sizes="{{ config.sizes }}"{% endif %}>
+  {% endif %}
+{% endmacro %}
+
+{# Generate accessible modal dialog #}
+{% macro modal(id, title, content, options = {}) %}
+  {% set defaults = {
+    class: 'modal',
+    closeLabel: 'Close'
+  } %}
+  {% set config = defaults|merge(options) %}
+  
+  <div id="{{ id }}" 
+       class="{{ config.class }}" 
+       role="dialog" 
+       aria-modal="true" 
+       aria-labelledby="{{ id }}-title"
+       aria-hidden="true">
+    <div class="modal-backdrop" aria-hidden="true"></div>
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 id="{{ id }}-title" class="modal-title">{{ title }}</h2>
+        <button type="button" 
+                class="modal-close" 
+                aria-label="{{ config.closeLabel }}"
+                data-modal-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-content">
+        {{ content }}
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{# Generate accessible breadcrumb navigation #}
+{% macro breadcrumbs(items) %}
+  {% if items|length > 1 %}
+    <nav aria-label="Breadcrumb" class="breadcrumbs">
+      <ol class="breadcrumb-list">
+        {% for item in items %}
+          <li class="breadcrumb-item">
+            {% if not loop.last %}
+              <a href="{{ item.url }}">{{ item.title }}</a>
+            {% else %}
+              <span aria-current="page">{{ item.title }}</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ol>
+    </nav>
+  {% endif %}
+{% endmacro %}
+
+{# Generate accessible pagination #}
+{% macro pagination(pageInfo, options = {}) %}
+  {% set defaults = {
+    prevLabel: 'Previous',
+    nextLabel: 'Next',
+    class: 'pagination'
+  } %}
+  {% set config = defaults|merge(options) %}
+  
+  {% if pageInfo.totalPages > 1 %}
+    <nav aria-label="Pagination" class="{{ config.class }}">
+      <ul class="pagination-list">
+        {% if pageInfo.prevUrl %}
+          <li class="pagination-item">
+            <a href="{{ pageInfo.prevUrl }}" 
+               class="pagination-link" 
+               aria-label="{{ config.prevLabel }} page">
+              {{ config.prevLabel }}
+            </a>
+          </li>
+        {% endif %}
+        
+        {% for page in 1..pageInfo.totalPages %}
+          <li class="pagination-item">
+            {% if page == pageInfo.currentPage %}
+              <span class="pagination-link current" aria-current="page">{{ page }}</span>
+            {% else %}
+              <a href="{{ pageInfo.getPageUrl(page) }}" 
+                 class="pagination-link"
+                 aria-label="Go to page {{ page }}">
+                {{ page }}
+              </a>
+            {% endif %}
+          </li>
+        {% endfor %}
+        
+        {% if pageInfo.nextUrl %}
+          <li class="pagination-item">
+            <a href="{{ pageInfo.nextUrl }}" 
+               class="pagination-link" 
+               aria-label="{{ config.nextLabel }} page">
+              {{ config.nextLabel }}
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endmacro %}

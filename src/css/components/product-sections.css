@@ -1,0 +1,262 @@
+@layer components {
+
+/* Product Sections Container - Contains product sections and back to top button */
+.product-sections-container {
+  position: relative;
+}
+
+/* Product Sections Component - Two-column layout with image galleries */
+.product-sections {
+  padding-block-start: var(--space-6);
+  padding-block-end: var(--section-padding);
+  background-color: white;
+
+  @media (max-width: 768px) {
+    padding-block-start: var(--space-4);
+    padding-block-end: var(--section-padding-mobile);
+  }
+}
+
+/* Brand Section Styling */
+.brand-section {
+  margin-block-end: calc(var(--space-10) * 2);
+  padding-block-end: var(--space-10);
+  border-bottom: 2px solid var(--border-color);
+
+  &:not(:first-child) {
+    margin-block-start: var(--space-10);
+  }
+
+  &:last-child {
+    margin-block-end: 0;
+    padding-block-end: 0;
+    border-bottom: none;
+  }
+}
+
+  & .brand-header {
+    text-align: center;
+    margin-block-end: var(--space-8);
+
+    & h2 {
+      font-size: var(--heading-h2);
+      color: var(--primary-color);
+      margin-block-end: var(--space-4);
+      font-family: var(--font-family-primary);
+
+      @media (max-width: 768px) {
+        font-size: var(--heading-h3);
+      }
+    }
+
+    & .separator {
+      width: 80px;
+      height: 3px;
+      background-color: var(--accent-color);
+      margin: 0 auto;
+      border-radius: 2px;
+    }
+  }
+}
+
+/* Product Showcase - Two-column layout */
+.product-showcase {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-8);
+  margin-block-end: var(--space-10);
+  padding: var(--space-8);
+  background-color: color-mix(in srgb, var(--bg-light) 70%, white);
+  border-radius: var(--border-radius-standard);
+  box-shadow: var(--shadow-md);
+
+  &:last-child {
+    margin-block-end: 0;
+  }
+
+  @media (max-width: 992px) {
+    gap: var(--space-8);
+    padding: var(--space-6);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    padding: var(--space-6);
+  }
+
+  @media (max-width: 576px) {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+}
+
+/* Product Images Section */
+.product-images {
+  /* Remove flex display to move closer to left edge */
+}
+
+/* No Image Placeholder */
+.product-no-image {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius-standard);
+  border: 2px dashed var(--border-color);
+
+  & p {
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0;
+  }
+}
+
+/* Single Image Display */
+.product-single-image {
+  width: 100%;
+  max-width: 400px;
+  border-radius: var(--border-radius-standard);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+
+  & img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+}
+
+/* Product Gallery - Multiple images */
+.product-gallery {
+  width: 100%;
+  max-width: 400px;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--space-4);
+
+  & .gallery-thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+
+    & .thumbnail {
+      border-radius: var(--border-radius-standard);
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+
+      &.active {
+        border-color: var(--accent-color);
+      }
+
+      &:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      & img {
+        width: 100%;
+        height: 60px;
+        object-fit: cover;
+        display: block;
+      }
+    }
+  }
+
+  & .gallery-main {
+    border-radius: var(--border-radius-standard);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+
+    & .main-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+
+    & .gallery-main {
+      order: 1;
+
+      & .main-image {
+        height: 250px;
+      }
+    }
+
+    & .gallery-thumbnails {
+      order: 2;
+      flex-direction: row;
+      justify-content: center;
+      margin-block-start: var(--space-4);
+
+      & .thumbnail img {
+        height: 50px;
+      }
+    }
+  }
+}
+
+/* Product Details Section */
+.product-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  & h3 {
+    font-size: var(--heading-h4);
+    color: var(--primary-color);
+    margin-block-end: var(--space-4);
+    font-family: var(--font-family-primary);
+
+    @media (max-width: 768px) {
+      font-size: var(--heading-h5);
+    }
+  }
+
+  & .product-description {
+    margin-block-end: var(--space-6);
+
+    & p {
+      color: var(--text-secondary);
+      line-height: var(--line-height-relaxed);
+      font-size: var(--text-base);
+
+      @media (max-width: 768px) {
+        font-size: var(--text-sm);
+      }
+    }
+  }
+
+  & .product-price {
+    margin-block-end: var(--space-6);
+
+    & .price {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--accent-color);
+
+      @media (max-width: 768px) {
+        font-size: var(--text-xl);
+      }
+    }
+  }
+
+
+
+} /* End @layer components */

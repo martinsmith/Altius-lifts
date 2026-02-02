@@ -1,0 +1,107 @@
+{# Promotions Grid Component - Include Version #}
+{# Expected variables: title, description, promotions, cardHeight #}
+
+{# Create offer type mapping for CSS classes and default colors #}
+{% set offerTypeMap = {
+    'Refer a Friend': 'friend-offer',
+    'NHS Discount': 'nhs-offer',
+    'Student Discount': 'student-offer'
+} %}
+
+{# Default colors for each offer type #}
+{% set defaultColors = {
+    'friend-offer': '#C8A882',
+    'nhs-offer': '#404E5C',
+    'student-offer': '#D0D171'
+} %}
+
+<section class="promotions-section">
+    <div class="container">
+        <div class="promotions-grid">
+            {% for offer in entry.offerCards %}
+                {% set offerClass = offerTypeMap[offer.offerType] ?? 'friend-offer' %}
+                {# Get custom color or use default #}
+                {% set customColor = offer.highlightColour ? offer.highlightColour : defaultColors[offerClass] %}
+                <div class="promotion-item" data-promotion-id="{{ offer.id }}">
+                    <div class="flip-card" style="height: {{ cardHeight|default('550px') }};">
+                        <div class="flip-card-inner">
+                            {# Front Side #}
+                            <div class="flip-card-front">
+                                <div class="promotion-card {{ offerClass }}" style="--custom-highlight-color: {{ customColor }};">
+                                    {% if offer.offerIcon %}
+                                        <div class="card-icon">
+                                            <i class="fas {{ offer.offerIcon }}"></i>
+                                        </div>
+                                    {% endif %}
+                                    <h2>{{ offer.title }}</h2>
+                                    {% if offer.offerType %}
+                                        <div class="offer-highlight">
+                                            <span>{{ offer.offerType }}</span>
+                                        </div>
+                                    {% endif %}
+                                    <p class="promotion-description">{{ offer.offerText }}</p>
+                                    <button class="terms-toggle" data-flip-card>
+                                        Terms & Conditions <i class="fas fa-sync"></i>
+                                    </button>
+                                    {% if offer.cardLink %}
+                                        <div class="promotion-actions">
+                                            <a href="{{ offer.cardLink.getUrl() }}" class="btn primary">{{ offer.cardLink.getLabel() ?? 'Learn More' }}</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            {# Back Side #}
+                            <div class="flip-card-back">
+                                <div class="promotion-card {{ offerClass }}" style="--custom-highlight-color: {{ customColor }};">
+                                    <h3>Terms & Conditions</h3>
+                                    <ul class="terms-content">
+                                        {% for term in offer.offerTCs %}
+                                            <li>{{ term.term }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    <button class="flip-back-btn" data-flip-card>
+                                        <i class="fas fa-arrow-left"></i> Back to Offer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+// Flip card functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Use event delegation for flip card buttons
+    document.addEventListener('click', function(e) {
+        // Check if clicked element is a flip card button or contains one
+        let button = null;
+        if (e.target.classList.contains('terms-toggle') || e.target.classList.contains('flip-back-btn')) {
+            button = e.target;
+        } else if (e.target.closest('.terms-toggle')) {
+            button = e.target.closest('.terms-toggle');
+        } else if (e.target.closest('.flip-back-btn')) {
+            button = e.target.closest('.flip-back-btn');
+        }
+        
+        if (button) {
+            e.preventDefault();
+            
+            // Find the flip card container
+            const flipCard = button.closest('.flip-card');
+            
+            if (flipCard) {
+                const flipCardInner = flipCard.querySelector('.flip-card-inner');
+                
+                if (flipCardInner) {
+                    flipCardInner.classList.toggle('flipped');
+                }
+            }
+        }
+    });
+});
+</script>

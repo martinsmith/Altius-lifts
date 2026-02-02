@@ -183,7 +183,7 @@ class PlainText extends Field implements InlineEditableFieldInterface, SortableF
                 $value = StringHelper::unescapeShortcodes(StringHelper::shortcodesToEmoji($value));
             }
 
-            $value = trim(StringHelper::convertLineBreaks($value));
+            $value = trim(preg_replace('/\R/u', "\n", $value));
         }
 
         return $value !== '' ? $value : null;

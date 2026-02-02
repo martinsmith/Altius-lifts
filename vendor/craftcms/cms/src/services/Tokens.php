@@ -122,45 +122,35 @@ class Tokens extends Component
     {
         // Take the opportunity to delete any expired tokens
         $this->deleteExpiredTokens();
+        $result = (new Query())
+            ->select(['id', 'route', 'usageLimit', 'usageCount'])
+            ->from([Table::TOKENS])
+            ->where(['token' => $token])
+            ->one();
 
-        $mutex = Craft::$app->getMutex();
-        $lockKey = "token:$token";
-        if (!$mutex->acquire($lockKey, 5)) {
+        if (!$result) {
+            // Remove it from the request  so it doesn’t get added to generated URLs
+            Craft::$app->getRequest()->setToken(null);
+
             return false;
         }
 
-        try {
-            $result = (new Query())
-                ->select(['id', 'route', 'usageLimit', 'usageCount'])
-                ->from([Table::TOKENS])
-                ->where(['token' => $token])
-                ->one();
+        // Usage limit enforcement (for future requests)
+        if ($result['usageLimit']) {
+            // Does it have any more life after this?
+            if ($result['usageCount'] < $result['usageLimit'] - 1) {
+                // Increment its count
+                $this->incrementTokenUsageCountById($result['id']);
+            } else {
+                // Just delete it
+                $this->deleteTokenById($result['id']);
 
-            if (!$result) {
-                // Remove it from the request  so it doesn’t get added to generated URLs
+                // Remove it from the request as well so it doesn’t get added to generated URLs
                 Craft::$app->getRequest()->setToken(null);
-                return false;
             }
-
-            // Usage limit enforcement (for future requests)
-            if ($result['usageLimit']) {
-                // Does it have any more life after this?
-                if ($result['usageCount'] < $result['usageLimit'] - 1) {
-                    // Increment its count
-                    $this->incrementTokenUsageCountById($result['id']);
-                } else {
-                    // Just delete it
-                    $this->deleteTokenById($result['id']);
-
-                    // Remove it from the request as well so it doesn’t get added to generated URLs
-                    Craft::$app->getRequest()->setToken(null);
-                }
-            }
-
-            return (array)Json::decodeIfJson($result['route']);
-        } finally {
-            $mutex->release($lockKey);
         }
+
+        return (array)Json::decodeIfJson($result['route']);
     }
 
     /**

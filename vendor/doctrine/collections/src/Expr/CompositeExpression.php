@@ -10,8 +10,6 @@ use function count;
 
 /**
  * Expression of Expressions combined by AND or OR operation.
- *
- * @final since 2.5
  */
 class CompositeExpression implements Expression
 {

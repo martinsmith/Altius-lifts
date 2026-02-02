@@ -7,6 +7,7 @@
 
 namespace yii\caching;
 
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\Connection;
 use yii\di\Instance;
@@ -48,7 +49,7 @@ class DbDependency extends Dependency
      */
     protected function generateDependencyData($cache)
     {
-        /** @var Connection $db */
+        /* @var $db Connection */
         $db = Instance::ensure($this->db, Connection::className());
         if ($this->sql === null) {
             throw new InvalidConfigException('DbDependency::sql must be set.');

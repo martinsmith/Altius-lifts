@@ -1,0 +1,62 @@
+{% set productImages = entry.homepageProductsSection.productImages
+    .eagerly()
+    .withTransforms([
+        { width: 400, height: 400, mode: 'crop', format: 'webp', quality: 85 },
+        { width: 800, height: 800, mode: 'crop', format: 'webp', quality: 85 }
+    ])
+    .all() %}
+{% cache using key (entry.id ~ '-products-showcase-v2') for 2 hours %}
+<section class="products-showcase">
+    <div class="container">
+        {% if entry.homepageProductsSection.sectionTitle or entry.homepageProductsSection.sectionSubText %}
+            <div class="section-header">
+                {% if entry.homepageProductsSection.sectionTitle %}
+                    <h2>{{ entry.homepageProductsSection.sectionTitle }}</h2>
+                {% endif %}
+                {% if entry.homepageProductsSection.sectionSubText %}
+                    <p>{{ entry.homepageProductsSection.sectionSubText }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if productImages|length %}
+            <div class="products-grid">
+                {% for product in productImages %}
+                    <div class="product-item">
+                        {% if entry.homepageProductsSection.productsLink and entry.homepageProductsSection.productsLink.label %}
+                            <a href="{{ entry.homepageProductsSection.productsLink }}">
+                                <img src="{{ product.getUrl({ width: 400, height: 400, mode: 'crop', format: 'webp', quality: 85 }) }}"
+                                     srcset="{{ product.getUrl({ width: 400, height: 400, mode: 'crop', format: 'webp', quality: 85 }) }} 400w,
+                                             {{ product.getUrl({ width: 800, height: 800, mode: 'crop', format: 'webp', quality: 85 }) }} 800w"
+                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                     alt="{{ product.alt ?? product.title ?? 'Product image' }}"
+                                     loading="lazy"
+                                     decoding="async">
+                            </a>
+                        {% else %}
+                            <img src="{{ product.getUrl({ width: 400, height: 400, mode: 'crop', format: 'webp', quality: 85 }) }}"
+                                 srcset="{{ product.getUrl({ width: 400, height: 400, mode: 'crop', format: 'webp', quality: 85 }) }} 400w,
+                                         {{ product.getUrl({ width: 800, height: 800, mode: 'crop', format: 'webp', quality: 85 }) }} 800w"
+                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                 alt="{{ product.alt ?? product.title ?? 'Product image' }}"
+                                 loading="lazy"
+                                 decoding="async">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if entry.homepageProductsSection.productsLink and entry.homepageProductsSection.productsLink.label %}
+            <div class="section-cta">
+                <a href="{{ entry.homepageProductsSection.productsLink }}" class="btn primary">
+                    {% if entry.homepageProductsSection.buttonIcon %}
+                        <i class="fas {{ entry.homepageProductsSection.buttonIcon }} btn-icon"></i>
+                    {% endif %}
+                    {{ entry.homepageProductsSection.productsLink.label }}
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endcache %}

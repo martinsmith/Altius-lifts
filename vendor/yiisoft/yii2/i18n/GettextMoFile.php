@@ -201,7 +201,7 @@ class GettextMoFile extends GettextFile
      * Reads one or several bytes.
      * @param resource $fileHandle to read from
      * @param int $byteCount to be read
-     * @return string|null bytes
+     * @return string bytes
      */
     protected function readBytes($fileHandle, $byteCount = 1)
     {
@@ -251,7 +251,7 @@ class GettextMoFile extends GettextFile
      * @param resource $fileHandle file handle
      * @param int $length of the string
      * @param int|null $offset of the string in the file. If null, it reads from the current position.
-     * @return string|null the result
+     * @return string the result
      */
     protected function readString($fileHandle, $length, $offset = null)
     {

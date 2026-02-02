@@ -1,0 +1,57 @@
+@layer components {
+
+/* Sub Tabs Row Component Styles (extracted from Vue SubTabsRow.vue) */
+.sub-tabs-wrapper {
+  margin-block: var(--spacing-8);
+  
+  &.hidden {
+    display: none !important;
+  }
+  
+  &.visible {
+    display: block !important;
+  }
+}
+
+.sub-tabs-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+
+  & .sub-tab {
+    padding: 0.8rem 1.2rem;
+    background-color: white;
+    border: 1px solid var(--bg-light);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    & span {
+      font-size: 0.95rem;
+      color: var(--primary-color);
+    }
+
+    &:hover {
+      border-color: var(--accent-color);
+      transform: translateY(-2px);
+    }
+
+    &.active {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+
+      & span {
+        color: white;
+      }
+    }
+
+    @media (max-width: 576px) {
+      width: 100%;
+      text-align: center;
+      border-radius: 4px;
+    }
+  }
+}
+
+} /* End @layer components */

@@ -7,14 +7,12 @@
 
 namespace yii\filters\auth;
 
-use yii\base\Component;
-
 /**
  * HttpHeaderAuth is an action filter that supports HTTP authentication through HTTP Headers.
  *
  * You may use HttpHeaderAuth by attaching it as a behavior to a controller or module, like the following:
  *
- * ```
+ * ```php
  * public function behaviors()
  * {
  *     return [
@@ -32,9 +30,6 @@ use yii\base\Component;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Benoît Boure <benoit.boure@gmail.com>
  * @since 2.0.14
- *
- * @template T of Component
- * @extends AuthMethod<T>
  */
 class HttpHeaderAuth extends AuthMethod
 {

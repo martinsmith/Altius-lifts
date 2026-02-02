@@ -25,14 +25,15 @@ class RequireEditionTokenParser extends AbstractTokenParser
     public function parse(Token $token): RequireEditionNode
     {
         $lineno = $token->getLine();
-        $stream = $this->parser->getStream();
+        $parser = $this->parser;
+        $stream = $parser->getStream();
 
         $nodes = [
-            'editionName' => $this->parser->parseExpression(),
+            'editionName' => $parser->getExpressionParser()->parseExpression(),
         ];
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new RequireEditionNode($nodes, [], $lineno);
+        return new RequireEditionNode($nodes, [], $lineno, $this->getTag());
     }
 
     /**

@@ -8,7 +8,6 @@
 namespace craft\base;
 
 use craft\elements\db\EagerLoadInfo;
-use craft\web\twig\AllowedInSandbox;
 use DateTime;
 
 /**
@@ -34,7 +33,6 @@ trait ElementTrait
     /**
      * @var int|null The element’s ID
      */
-    #[AllowedInSandbox]
     public ?int $id = null;
 
     /**
@@ -61,15 +59,8 @@ trait ElementTrait
     public bool $isProvisionalDraft = false;
 
     /**
-     * @var bool Whether provisional changes have been loaded onto this element.
-     * @since 5.9.0
-     */
-    public bool $hasProvisionalChanges = false;
-
-    /**
      * @var string|null The element’s UID
      */
-    #[AllowedInSandbox]
     public ?string $uid = null;
 
     /**
@@ -91,49 +82,41 @@ trait ElementTrait
     /**
      * @var bool Whether the element is enabled
      */
-    #[AllowedInSandbox]
     public bool $enabled = true;
 
     /**
      * @var bool Whether the element is archived
      */
-    #[AllowedInSandbox]
     public bool $archived = false;
 
     /**
      * @var int|null The site ID the element is associated with
      */
-    #[AllowedInSandbox]
     public ?int $siteId = null;
 
     /**
      * @var string|null The element’s title
      */
-    #[AllowedInSandbox]
     public ?string $title = null;
 
     /**
      * @var string|null The element’s slug
      */
-    #[AllowedInSandbox]
     public ?string $slug = null;
 
     /**
      * @var string|null The element’s URI
      */
-    #[AllowedInSandbox]
     public ?string $uri = null;
 
     /**
      * @var DateTime|null The date that the element was created
      */
-    #[AllowedInSandbox]
     public ?DateTime $dateCreated = null;
 
     /**
      * @var DateTime|null The date that the element was last updated
      */
-    #[AllowedInSandbox]
     public ?DateTime $dateUpdated = null;
 
     /**
@@ -146,7 +129,6 @@ trait ElementTrait
      * @var DateTime|null The date that the element was trashed
      * @since 3.2.0
      */
-    #[AllowedInSandbox]
     public ?DateTime $dateDeleted = null;
 
     /**
@@ -183,7 +165,6 @@ trait ElementTrait
     /**
      * @var bool Whether the element has been soft-deleted.
      */
-    #[AllowedInSandbox]
     public bool $trashed = false;
 
     /**
@@ -208,13 +189,6 @@ trait ElementTrait
      * @since 3.2.0
      */
     public bool $propagateAll = false;
-
-    /**
-     * @var bool Whether all required element attributes should be propagated across all its supported sites, but only if otherwise
-     * they wouldn’t validate.
-     * @since 5.9.0
-     */
-    public bool $propagateRequired = false;
 
     /**
      * @var int[] The site IDs that the element was just propagated to for the first time.
@@ -250,12 +224,6 @@ trait ElementTrait
      * @since 3.7.5
      */
     public bool $firstSave = false;
-
-    /**
-     * @var bool Whether the element is a draft that is about to be applied to the canonical element.
-     * @since 5.9.0
-     */
-    public bool $applyingDraft = false;
 
     /**
      * @var bool Whether recent changes to the canonical element are being merged into this element.

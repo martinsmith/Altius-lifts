@@ -96,11 +96,11 @@ class UrlHelper
         if ($query === '') {
             return '';
         }
-        // Decode a few select chars
+        // Decode the param names and a few select chars in param values
         $params = [];
         foreach (explode('&', $query) as $param) {
             [$n, $v] = array_pad(explode('=', $param, 2), 2, '');
-            $n = str_replace(['%2F', '%7B', '%7D'], ['/', '{', '}'], $n);
+            $n = urldecode($n);
             $v = str_replace(['%2F', '%7B', '%7D'], ['/', '{', '}'], $v);
             $params[] = $v !== '' ? "$n=$v" : $n;
         }
@@ -572,29 +572,6 @@ class UrlHelper
     public static function cpHost(): string
     {
         return static::hostInfo(static::baseCpUrl());
-    }
-
-    /**
-     * Returns a CP referral URL.
-     *
-     * @return string|null
-     * @since 5.9.0
-     */
-    public static function cpReferralUrl(): ?string
-    {
-        $referrer = Craft::$app->getRequest()->getReferrer();
-
-        // Make sure it didn't refer itself
-        if ($referrer === Craft::$app->getRequest()->getFullUri()) {
-            return null;
-        }
-
-        // Make sure the CP referred it
-        if (!str_starts_with($referrer, self::baseCpUrl())) {
-            return null;
-        }
-
-        return $referrer;
     }
 
     /**

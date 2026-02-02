@@ -8,7 +8,6 @@
 namespace craft\behaviors;
 
 use Craft;
-use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\elements\User;
 use yii\base\Behavior;
@@ -16,8 +15,7 @@ use yii\base\Behavior;
 /**
  * BaseRevisionBehavior is the base implementation of draft & revision behaviors.
  *
- * @template T of Element
- * @extends Behavior<T>
+ * @property ElementInterface $owner
  * @property User|null $creator
  * @property-read int $sourceId
  * @author Pixel & Tonic, Inc. <support@pixelandtonic.com>

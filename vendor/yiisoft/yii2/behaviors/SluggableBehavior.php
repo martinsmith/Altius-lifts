@@ -22,7 +22,7 @@ use yii\validators\UniqueValidator;
  *
  * To use SluggableBehavior, insert the following code to your ActiveRecord class:
  *
- * ```
+ * ```php
  * use yii\behaviors\SluggableBehavior;
  *
  * public function behaviors()
@@ -45,7 +45,7 @@ use yii\validators\UniqueValidator;
  *
  * If your attribute name is different, you may configure the [[slugAttribute]] property like the following:
  *
- * ```
+ * ```php
  * public function behaviors()
  * {
  *     return [
@@ -60,9 +60,6 @@ use yii\validators\UniqueValidator;
  * @author Alexander Kochetov <creocoder@gmail.com>
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
- *
- * @template T of BaseActiveRecord
- * @extends AttributeBehavior<T>
  */
 class SluggableBehavior extends AttributeBehavior
 {
@@ -81,7 +78,7 @@ class SluggableBehavior extends AttributeBehavior
      * If `null` then the `$attribute` property will be used to generate a slug.
      * The signature of the function should be as follows,
      *
-     * ```
+     * ```php
      * function ($event)
      * {
      *     // return slug
@@ -117,7 +114,7 @@ class SluggableBehavior extends AttributeBehavior
      * @var callable|null slug unique value generator. It is used in case [[ensureUnique]] enabled and generated
      * slug is not unique. This should be a PHP callable with following signature:
      *
-     * ```
+     * ```php
      * function ($baseSlug, $iteration, $model)
      * {
      *     // return uniqueSlug
@@ -242,7 +239,8 @@ class SluggableBehavior extends AttributeBehavior
      */
     protected function validateSlug($slug)
     {
-        /** @var UniqueValidator $validator */
+        /* @var $validator UniqueValidator */
+        /* @var $model BaseActiveRecord */
         $validator = Yii::createObject(array_merge(
             [
                 'class' => UniqueValidator::className(),
@@ -250,7 +248,6 @@ class SluggableBehavior extends AttributeBehavior
             $this->uniqueValidator
         ));
 
-        /** @var BaseActiveRecord $model */
         $model = clone $this->owner;
         $model->clearErrors();
         $model->{$this->slugAttribute} = $slug;

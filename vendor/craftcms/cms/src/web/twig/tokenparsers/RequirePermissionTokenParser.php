@@ -25,14 +25,15 @@ class RequirePermissionTokenParser extends AbstractTokenParser
     public function parse(Token $token): RequirePermissionNode
     {
         $lineno = $token->getLine();
-        $stream = $this->parser->getStream();
+        $parser = $this->parser;
+        $stream = $parser->getStream();
 
         $nodes = [
-            'permissionName' => $this->parser->parseExpression(),
+            'permissionName' => $parser->getExpressionParser()->parseExpression(),
         ];
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new RequirePermissionNode($nodes, [], $lineno);
+        return new RequirePermissionNode($nodes, [], $lineno, $this->getTag());
     }
 
     /**

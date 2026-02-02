@@ -1,0 +1,778 @@
+// Single JavaScript Entry Point - Optimized Architecture
+import './fouc-prevention.js';
+import './news-pagination.js';
+import { FormValidation } from './utils/form-validation.js';
+
+// Component initialization system
+class ComponentManager {
+    constructor() {
+        this.components = new Map();
+        this.initialized = false;
+    }
+
+    // Register a component
+    register(selector, initFunction) {
+        this.components.set(selector, initFunction);
+    }
+
+    // Initialize all components found on the page
+    init() {
+        if (this.initialized) return;
+
+        this.components.forEach((initFunction, selector) => {
+            const elements = document.querySelectorAll(selector);
+            if (elements.length > 0) {
+                console.log(`Initializing component: ${selector}`);
+                initFunction(elements);
+            }
+        });
+
+        this.initialized = true;
+    }
+}
+
+// Create global component manager
+const componentManager = new ComponentManager();
+
+// Register all components
+componentManager.register('.contact-form', (elements) => {
+    elements.forEach(form => {
+        const formSuccess = document.querySelector('.form-success');
+        const formAlert = document.querySelector('.form-alert');
+        
+        const validationRules = {
+            name: { required: true },
+            email: { required: true, email: true },
+            phone: { required: true },
+            service: { required: true },
+            date: { required: true },
+            time: { required: true }
+        };
+
+        FormValidation.setupRealTimeValidation(form, validationRules);
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const { isValid } = FormValidation.validateForm(form, validationRules);
+            
+            if (isValid) {
+                setTimeout(() => {
+                    form.style.display = 'none';
+                    if (formSuccess) formSuccess.style.display = 'block';
+                }, 1000);
+            } else {
+                if (formAlert) {
+                    formAlert.style.display = 'block';
+                    setTimeout(() => {
+                        formAlert.style.display = 'none';
+                    }, 3000);
+                }
+            }
+        });
+
+        // Reset form functionality
+        const resetBtn = document.querySelector('.reset-form-btn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                form.reset();
+                form.style.display = 'block';
+                FormValidation.clearFormErrors(form);
+                if (formSuccess) formSuccess.style.display = 'none';
+                if (formAlert) formAlert.style.display = 'none';
+            });
+        }
+    });
+});
+
+componentManager.register('#careers-form', (elements) => {
+    elements.forEach(form => {
+        const validationRules = {
+            name: { required: true },
+            email: { required: true, email: true },
+            phone: { required: true },
+            position: { required: true },
+            experience: { required: true },
+            message: { required: true, minLength: 10 }
+        };
+
+        FormValidation.setupRealTimeValidation(form, validationRules);
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const { isValid } = FormValidation.validateForm(form, validationRules);
+            
+            if (isValid) {
+                alert('Thank you for your application! We will be in touch soon.');
+                form.reset();
+                FormValidation.clearFormErrors(form);
+            } else {
+                alert('Please fill in all required fields correctly.');
+            }
+        });
+    });
+});
+
+componentManager.register('.testimonials-slider', (elements) => {
+    elements.forEach(slider => {
+        const testimonialWrappers = slider.querySelectorAll('.testimonial-wrapper');
+        const prevButton = slider.querySelector('.arrow.prev');
+        const nextButton = slider.querySelector('.arrow.next');
+        
+        if (testimonialWrappers.length <= 1) return;
+        
+        let currentTestimonialIndex = 0;
+        let testimonialInterval = null;
+        const rotationInterval = 6000;
+        let isTransitioning = false;
+        
+        function showTestimonial(index) {
+            if (isTransitioning || testimonialWrappers.length === 0) return;
+            
+            isTransitioning = true;
+            
+            const currentWrapper = testimonialWrappers[currentTestimonialIndex];
+            currentWrapper.style.opacity = '0';
+            currentWrapper.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                currentTestimonialIndex = index;
+                const newWrapper = testimonialWrappers[currentTestimonialIndex];
+                newWrapper.style.transform = 'translateY(20px)';
+                newWrapper.style.opacity = '1';
+                
+                setTimeout(() => {
+                    newWrapper.style.transform = 'translateY(0)';
+                    isTransitioning = false;
+                }, 50);
+            }, 500);
+        }
+        
+        function nextTestimonial() {
+            if (isTransitioning) return;
+            const nextIndex = (currentTestimonialIndex + 1) % testimonialWrappers.length;
+            showTestimonial(nextIndex);
+        }
+        
+        function previousTestimonial() {
+            if (isTransitioning) return;
+            const prevIndex = (currentTestimonialIndex - 1 + testimonialWrappers.length) % testimonialWrappers.length;
+            showTestimonial(prevIndex);
+        }
+        
+        function startAutoRotation() {
+            if (testimonialInterval) clearInterval(testimonialInterval);
+            testimonialInterval = setInterval(nextTestimonial, rotationInterval);
+        }
+        
+        function stopAutoRotation() {
+            if (testimonialInterval) {
+                clearInterval(testimonialInterval);
+                testimonialInterval = null;
+            }
+        }
+        
+        if (nextButton) {
+            nextButton.addEventListener('click', () => {
+                stopAutoRotation();
+                nextTestimonial();
+                setTimeout(startAutoRotation, 3000);
+            });
+        }
+        
+        if (prevButton) {
+            prevButton.addEventListener('click', () => {
+                stopAutoRotation();
+                previousTestimonial();
+                setTimeout(startAutoRotation, 3000);
+            });
+        }
+        
+        slider.addEventListener('mouseenter', stopAutoRotation);
+        slider.addEventListener('mouseleave', startAutoRotation);
+        
+        startAutoRotation();
+        
+        window.addEventListener('beforeunload', stopAutoRotation);
+    });
+});
+
+// Team member modal functionality
+componentManager.register('.team-member', (elements) => {
+    elements.forEach(member => {
+        const modalTarget = member.getAttribute('data-modal-target');
+        
+        member.addEventListener('click', function() {
+            const modal = document.getElementById(modalTarget);
+            if (modal) {
+                openModal(modal);
+            }
+        });
+    });
+});
+
+// Job position modal functionality (careers page)
+componentManager.register('.position-card', (elements) => {
+    elements.forEach(card => {
+        const modalTarget = card.getAttribute('data-modal-target');
+        
+        card.addEventListener('click', function(e) {
+            // Prevent the "View Details" button from triggering twice
+            if (e.target.classList.contains('view-details-btn')) {
+                e.preventDefault();
+            }
+            
+            const modal = document.getElementById(modalTarget);
+            if (modal) {
+                openModal(modal);
+            }
+        });
+    });
+});
+
+// News article modal functionality (news page)
+componentManager.register('.news-card', (elements) => {
+    elements.forEach(card => {
+        const modalTarget = card.getAttribute('data-modal-target');
+        
+        card.addEventListener('click', function(e) {
+            // Prevent the "Read More" button from triggering twice
+            if (e.target.classList.contains('btn')) {
+                e.preventDefault();
+            }
+            
+            const modal = document.getElementById(modalTarget);
+            if (modal) {
+                // Check image aspect ratio before opening modal
+                checkImageAspectRatio(modal);
+                openModal(modal);
+            }
+        });
+    });
+});
+
+// Featured news article modal functionality (news page)
+componentManager.register('.featured-news', (elements) => {
+    elements.forEach(featuredItem => {
+        const modalTarget = featuredItem.getAttribute('data-modal-target');
+        
+        featuredItem.addEventListener('click', function(e) {
+            // Prevent the "Read More" button from triggering twice
+            if (e.target.classList.contains('btn')) {
+                e.preventDefault();
+            }
+            
+            const modal = document.getElementById(modalTarget);
+            if (modal) {
+                // Check image aspect ratio before opening modal
+                checkImageAspectRatio(modal);
+                openModal(modal);
+            }
+        });
+    });
+});
+
+// Image aspect ratio detection function
+function checkImageAspectRatio(modal) {
+    const image = modal.querySelector('.news-modal-image');
+    if (!image) return;
+    
+    // Remove any existing portrait-image class
+    modal.classList.remove('portrait-image');
+    
+    // Function to check aspect ratio once image is loaded
+    function checkRatio() {
+        const aspectRatio = image.naturalWidth / image.naturalHeight;
+        
+        // If aspect ratio is less than 0.7 (very tall/portrait), apply special layout
+        if (aspectRatio < 0.7) {
+            modal.classList.add('portrait-image');
+            console.log('Portrait image detected, applying vertical layout');
+        } else {
+            console.log('Landscape image detected, using side-by-side layout');
+        }
+    }
+    
+    // Check if image is already loaded
+    if (image.complete && image.naturalHeight !== 0) {
+        checkRatio();
+    } else {
+        // Wait for image to load
+        image.addEventListener('load', checkRatio);
+        
+        // Fallback timeout in case image fails to load
+        setTimeout(() => {
+            if (image.naturalHeight === 0) {
+                console.log('Image failed to load, using default layout');
+            }
+        }, 3000);
+    }
+}
+
+// Modal management functionality
+componentManager.register('.modal-overlay', (elements) => {
+    elements.forEach(modal => {
+        // Close button functionality
+        const closeButton = modal.querySelector('.modal-close');
+        if (closeButton) {
+            closeButton.addEventListener('click', function() {
+                closeModal(modal);
+            });
+        }
+        
+        // Overlay click to close (but not when clicking modal content)
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal(modal);
+            }
+        });
+    });
+});
+
+// Apply button functionality - close modal when applying for position
+componentManager.register('.apply-btn', (elements) => {
+    elements.forEach(applyBtn => {
+        applyBtn.addEventListener('click', function(e) {
+            // Find the parent modal and close it
+            const modal = this.closest('.modal-overlay');
+            if (modal) {
+                closeModal(modal);
+            }
+            // Allow the anchor link to work (navigate to #application-form)
+            // The default behavior will handle the navigation
+        });
+    });
+});
+
+// Modal utility functions
+function openModal(modal) {
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+    
+    // Trigger reflow to ensure display change is applied
+    modal.offsetHeight;
+    
+    // Add active class for animation
+    modal.classList.add('active');
+    
+    // Focus management for accessibility
+    const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (firstFocusable) {
+        firstFocusable.focus();
+    }
+    
+    // Store the previously focused element (store the actual element, not as a selector)
+    modal.previousFocusElement = document.activeElement;
+}
+
+function closeModal(modal) {
+    modal.classList.remove('active');
+    document.body.classList.remove('modal-open');
+    
+    // Wait for animation to complete before hiding
+    setTimeout(() => {
+        modal.style.display = 'none';
+        
+        // Restore focus to previously focused element
+        if (modal.previousFocusElement && modal.previousFocusElement.focus) {
+            modal.previousFocusElement.focus();
+        }
+    }, 300);
+}
+
+// Note: Flip card functionality is now handled inline in the offers-grid.twig template
+// to ensure compatibility and avoid module loading issues
+
+// Global ESC key handler for modals
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' || e.keyCode === 27) {
+        const activeModal = document.querySelector('.modal-overlay.active');
+        if (activeModal) {
+            closeModal(activeModal);
+        }
+    }
+});
+
+// Header functionality
+// Services tabs functionality - Simplified and reliable
+componentManager.register('.services-tabs', (elements) => {
+    console.log('Services tabs component starting, found elements:', elements.length);
+    elements.forEach(servicesSection => {
+        console.log('Processing services section:', servicesSection);
+        const mainTabs = servicesSection.querySelectorAll('.tabs-container .tab');
+        const mainIntroSections = servicesSection.querySelectorAll('.main-service-intro');
+        const subTabsWrappers = servicesSection.querySelectorAll('.sub-tabs-wrapper');
+        const subTabs = servicesSection.querySelectorAll('.sub-tab');
+        const contentSections = servicesSection.querySelectorAll('.service-content-section');
+
+        console.log('Found main tabs:', mainTabs.length);
+        console.log('Found main intro sections:', mainIntroSections.length);
+        console.log('Found sub tabs wrappers:', subTabsWrappers.length);
+
+        // Initialize - show first main tab's content
+        function initializeTabs() {
+            // Hide all main intro sections, sub-tabs wrappers and content sections
+            mainIntroSections.forEach(intro => {
+                intro.classList.add('hidden');
+                intro.classList.remove('visible');
+            });
+
+            subTabsWrappers.forEach(wrapper => {
+                wrapper.classList.add('hidden');
+                wrapper.classList.remove('visible');
+            });
+
+            contentSections.forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('visible');
+            });
+
+            // Check for URL hash first
+            const urlHash = window.location.hash.substring(1); // Remove the # symbol
+            let targetTab = null;
+
+            if (urlHash) {
+                // Find tab with matching hash
+                targetTab = Array.from(mainTabs).find(tab =>
+                    tab.getAttribute('data-hash') === urlHash
+                );
+                console.log('URL hash found:', urlHash, 'Matching tab:', targetTab);
+            }
+
+            // If no hash or hash doesn't match, use first tab
+            if (!targetTab && mainTabs.length > 0) {
+                targetTab = mainTabs[0];
+                console.log('Using first tab as default');
+            }
+
+            if (targetTab) {
+                // Remove active class from all tabs and add to target
+                mainTabs.forEach(tab => tab.classList.remove('active'));
+                targetTab.classList.add('active');
+
+                const targetMainTabId = targetTab.getAttribute('data-tab');
+                console.log('Initializing with tab ID:', targetMainTabId);
+
+                // Show corresponding main intro section
+                const targetMainIntro = servicesSection.querySelector(`.main-service-intro[data-main-tab="${targetMainTabId}"]`);
+                console.log('Found target main intro:', targetMainIntro);
+                if (targetMainIntro) {
+                    targetMainIntro.classList.remove('hidden');
+                    targetMainIntro.classList.add('visible');
+                    console.log('Initialized main intro for:', targetMainTabId);
+                }
+
+                // Show corresponding sub-tabs wrapper
+                const targetSubTabsWrapper = servicesSection.querySelector(`.sub-tabs-wrapper[data-main-tab="${targetMainTabId}"]`);
+                if (targetSubTabsWrapper) {
+                    targetSubTabsWrapper.classList.remove('hidden');
+                    targetSubTabsWrapper.classList.add('visible');
+
+                    // Show first content section for this main tab
+                    const firstSubTab = targetSubTabsWrapper.querySelector('.sub-tab');
+                    if (firstSubTab) {
+                        const firstContentId = firstSubTab.getAttribute('data-tab');
+                        const firstContent = servicesSection.querySelector(`[data-tab="${firstContentId}"].service-content-section`);
+                        if (firstContent) {
+                            firstContent.classList.remove('hidden');
+                            firstContent.classList.add('visible');
+                        }
+                    }
+                }
+
+                // Update URL hash if not already set
+                if (!urlHash && targetTab.getAttribute('data-hash')) {
+                    window.history.replaceState(null, null, '#' + targetTab.getAttribute('data-hash'));
+                }
+            }
+        }
+
+        // Show content section
+        function showContentSection(targetTabId) {
+            contentSections.forEach(section => {
+                if (section.getAttribute('data-tab') === targetTabId) {
+                    section.classList.remove('hidden');
+                    section.classList.add('visible');
+                } else {
+                    section.classList.add('hidden');
+                    section.classList.remove('visible');
+                }
+            });
+        }
+
+        // Show main intro section
+        function showMainIntroSection(targetMainTabId) {
+            console.log('showMainIntroSection called with:', targetMainTabId);
+            console.log('mainIntroSections found:', mainIntroSections.length);
+            mainIntroSections.forEach(intro => {
+                console.log('Checking intro with data-main-tab:', intro.getAttribute('data-main-tab'));
+                if (intro.getAttribute('data-main-tab') === targetMainTabId) {
+                    intro.classList.remove('hidden');
+                    intro.classList.add('visible');
+                    console.log('Showing intro for:', targetMainTabId);
+                } else {
+                    intro.classList.add('hidden');
+                    intro.classList.remove('visible');
+                }
+            });
+        }
+
+        // Show sub-tabs wrapper
+        function showSubTabsWrapper(targetMainTabId) {
+            subTabsWrappers.forEach(wrapper => {
+                if (wrapper.getAttribute('data-main-tab') === targetMainTabId) {
+                    wrapper.classList.remove('hidden');
+                    wrapper.classList.add('visible');
+                } else {
+                    wrapper.classList.add('hidden');
+                    wrapper.classList.remove('visible');
+                }
+            });
+
+            return servicesSection.querySelector(`.sub-tabs-wrapper[data-main-tab="${targetMainTabId}"]`);
+        }
+
+        // Main tab click handlers
+        mainTabs.forEach(mainTab => {
+            mainTab.addEventListener('click', function() {
+                const targetTabId = this.getAttribute('data-tab');
+                const targetHash = this.getAttribute('data-hash');
+
+                // Update main tab active states
+                mainTabs.forEach(tab => tab.classList.remove('active'));
+                this.classList.add('active');
+
+                // Update URL hash
+                if (targetHash) {
+                    window.history.pushState(null, null, '#' + targetHash);
+                }
+
+                // Show corresponding main intro section
+                showMainIntroSection(targetTabId);
+
+                // Show corresponding sub-tabs wrapper
+                const targetSubTabsWrapper = showSubTabsWrapper(targetTabId);
+                if (targetSubTabsWrapper) {
+                    // Reset sub-tabs - activate first one
+                    const subTabsInWrapper = targetSubTabsWrapper.querySelectorAll('.sub-tab');
+                    subTabsInWrapper.forEach((subTab, index) => {
+                        if (index === 0) {
+                            subTab.classList.add('active');
+                            // Show first content section for this main tab
+                            const firstContentId = subTab.getAttribute('data-tab');
+                            showContentSection(firstContentId);
+                        } else {
+                            subTab.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Sub-tab click handlers
+        subTabs.forEach(subTab => {
+            subTab.addEventListener('click', function() {
+                const targetTabId = this.getAttribute('data-tab');
+                const parentWrapper = this.closest('.sub-tabs-wrapper');
+                
+                // Update sub-tab active states within this wrapper
+                if (parentWrapper) {
+                    const siblingSubTabs = parentWrapper.querySelectorAll('.sub-tab');
+                    siblingSubTabs.forEach(tab => tab.classList.remove('active'));
+                }
+                this.classList.add('active');
+                
+                // Show corresponding content section
+                showContentSection(targetTabId);
+            });
+        });
+
+        // Handle browser back/forward navigation
+        window.addEventListener('hashchange', function() {
+            const urlHash = window.location.hash.substring(1);
+            if (urlHash) {
+                const targetTab = Array.from(mainTabs).find(tab =>
+                    tab.getAttribute('data-hash') === urlHash
+                );
+                if (targetTab) {
+                    // Simulate tab click without updating URL again
+                    const targetTabId = targetTab.getAttribute('data-tab');
+
+                    // Update main tab active states
+                    mainTabs.forEach(tab => tab.classList.remove('active'));
+                    targetTab.classList.add('active');
+
+                    // Show corresponding main intro section
+                    showMainIntroSection(targetTabId);
+
+                    // Show corresponding sub-tabs wrapper
+                    const targetSubTabsWrapper = showSubTabsWrapper(targetTabId);
+                    if (targetSubTabsWrapper) {
+                        // Reset sub-tabs - activate first one
+                        const subTabsInWrapper = targetSubTabsWrapper.querySelectorAll('.sub-tab');
+                        subTabsInWrapper.forEach((subTab, index) => {
+                            if (index === 0) {
+                                subTab.classList.add('active');
+                                // Show first content section for this main tab
+                                const firstContentId = subTab.getAttribute('data-tab');
+                                showContentSection(firstContentId);
+                            } else {
+                                subTab.classList.remove('active');
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+        // Initialize the tabs
+        initializeTabs();
+    });
+});
+
+componentManager.register('#header', (elements) => {
+    const header = elements[0];
+    const menuToggle = document.getElementById('menu-toggle');
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    // Header scroll effect with throttling
+    let ticking = false;
+    
+    function updateHeader() {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        ticking = false;
+    }
+    
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
+        }
+    });
+
+    // Mobile menu toggle
+    if (menuToggle && nav && hamburger) {
+        menuToggle.addEventListener('click', function() {
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Close menu when clicking on nav links
+        const navLinks = nav.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!nav.contains(event.target) && !menuToggle.contains(event.target)) {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+    }
+});
+
+// Products page functionality
+componentManager.register('.brand-navigation', (elements) => {
+    elements.forEach(navigation => {
+        const brandTabs = navigation.querySelectorAll('.brand-tab');
+
+        brandTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetSelector = this.getAttribute('data-scroll-target');
+                const targetElement = document.querySelector(targetSelector);
+
+                if (targetElement) {
+                    // Remove active class from all tabs
+                    brandTabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+
+                    // Smooth scroll to target
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    });
+});
+
+// Product gallery functionality
+componentManager.register('.product-gallery', (elements) => {
+    elements.forEach(gallery => {
+        const mainImage = gallery.querySelector('.main-image');
+        const thumbnails = gallery.querySelectorAll('.thumbnail');
+
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                const newImageSrc = this.getAttribute('data-image');
+
+                if (newImageSrc && mainImage) {
+                    // Remove active class from all thumbnails
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked thumbnail
+                    this.classList.add('active');
+
+                    // Update main image with fade effect
+                    mainImage.style.opacity = '0.5';
+                    setTimeout(() => {
+                        mainImage.src = newImageSrc;
+                        mainImage.style.opacity = '1';
+                    }, 150);
+                }
+            });
+        });
+    });
+});
+
+// Back to top button functionality
+componentManager.register('.back-to-top', (elements) => {
+    elements.forEach(backToTop => {
+        const button = backToTop.querySelector('.back-to-top-btn');
+
+        // Handle button click
+        if (button) {
+            button.addEventListener('click', function() {
+                const targetSelector = this.getAttribute('data-scroll-target');
+                const targetElement = document.querySelector(targetSelector);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                } else {
+                    // Fallback to top of page
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        }
+    });
+});
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing application components...');
+    
+    // Initialize components
+    componentManager.init();
+});
+
+// Export for potential external use
+export { componentManager, FormValidation };

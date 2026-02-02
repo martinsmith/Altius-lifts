@@ -723,7 +723,7 @@ class Html extends \yii\helpers\Html
     }
 
     /**
-     * Normalizes an element ID into only alphanumeric characters, underscores, and hyphens, or generates one at random.
+     * Normalizes an element ID into only alphanumeric characters, underscores, and dashes, or generates one at random.
      *
      * @param string $id
      * @return string
@@ -737,12 +737,7 @@ class Html extends \yii\helpers\Html
             return $id;
         }
 
-        // remove any non-alphanumeric characters that are already preceded/followed by a hyphen
-        $id = preg_replace('/(?<=-)[^A-Za-z0-9_.-]+|[^A-Za-z0-9_.-]+(?=-)/', '', $id);
-
-        // convert any remaining consecutive non-alphanumeric characters to hyphens
-        $id = trim(preg_replace('/[^A-Za-z0-9_.-]+/', '-', $id), '-');
-
+        $id = trim(preg_replace('/[^A-Za-z0-9_.]+/', '-', $id), '-');
         return $id ?: StringHelper::randomString(10);
     }
 

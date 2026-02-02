@@ -1,0 +1,14 @@
+
+    <section class="cta-section{% if entry.callToAction.textColor %} cta-dark-text{% endif %}" {% if entry.callToAction.backgroundImage.one() %}style="background-image: {% if entry.callToAction.textColor %}linear-gradient(135deg, rgba(53, 79, 82, 0.1) 0%, rgba(47, 62, 70, 0.1) 100%){% else %}linear-gradient(135deg, rgba(53, 79, 82, 0.1) 0%, rgba(47, 62, 70, 0.1) 100%){% endif %}, url({{ entry.callToAction.backgroundImage.one().url() }});"{% endif %}>
+        <div class="container">
+            <div class="cta-content">
+                <div class="section-header">
+                    <h2>{{ entry.callToAction.sectionTitle }}</h2>
+                    <p>{{ entry.callToAction.sectionSubTitle }}</p>
+                </div>
+            {% if entry.callToAction.sectionButton %}
+                <a href="{{ entry.callToAction.sectionButton }}" class="btn primary">{{ entry.callToAction.sectionButton.label }}</a>
+            {% endif %}
+            </div>
+        </div>
+    </section>

@@ -1,0 +1,33 @@
+{# Brand Navigation Grid Component - Anchor links to brand sections #}
+<section class="brand-navigation" id="brand-navigation">
+    <div class="container">
+        {# Get the products page entry and extract brands from CraftCMS #}
+        {% set productsEntry = craft.entries.section('products').one() %}
+        {% set brands = [] %}
+
+        {% if productsEntry and productsEntry.mx_brandsAndProducts|length %}
+            {% for brand in productsEntry.mx_brandsAndProducts.all() %}
+                {% set brandAnchor = brand.title|lower|replace({' ': '-', '\'': '', '&': 'and', '.': '', ',': '', '(': '', ')': ''}) %}
+                {% set brands = brands|merge([{
+                    'name': brand.title,
+                    'anchor': brandAnchor,
+                    'featured': true
+                }]) %}
+            {% endfor %}
+        {% endif %}
+
+
+
+        {% if brands|length %}
+            <div class="brand-tabs-container">
+                {% for brand in brands %}
+                    <div class="brand-tab"
+                         data-brand="{{ brand.anchor }}"
+                         data-scroll-target="#{{ brand.anchor }}">
+                        <span>{{ brand.name }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>

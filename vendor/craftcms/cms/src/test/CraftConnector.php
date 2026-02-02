@@ -121,7 +121,6 @@ class CraftConnector extends Yii2
         parent::resetApplication($closeSession);
         Db::reset();
         Session::reset();
-        unset($_SERVER['CRAFT_SITE'], $_SERVER['CRAFT_SITE_UPPER']);
     }
 
     /**

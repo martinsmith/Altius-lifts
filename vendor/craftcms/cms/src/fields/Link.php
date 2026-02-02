@@ -119,7 +119,7 @@ class Link extends Field implements InlineEditableFieldInterface, RelationalFiel
     /**
      * @return array<string,class-string<BaseLinkType>>
      */
-    public static function types(): array
+    private static function types(): array
     {
         if (!isset(self::$_types)) {
             /** @var class-string<BaseLinkType>[] $types */

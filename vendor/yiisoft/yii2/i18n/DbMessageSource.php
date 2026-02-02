@@ -42,7 +42,8 @@ class DbMessageSource extends MessageSource
      * Prefix which would be used when generating cache key.
      * @deprecated This constant has never been used and will be removed in 2.1.0.
      */
-    public const CACHE_KEY_PREFIX = 'DbMessageSource';
+    const CACHE_KEY_PREFIX = 'DbMessageSource';
+
     /**
      * @var Connection|array|string the DB connection object or the application component ID of the DB connection.
      *

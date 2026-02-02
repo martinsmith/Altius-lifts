@@ -71,9 +71,7 @@ class Command extends \yii\db\Command
      * or `false` if there's a single statement.
      * @param string $sql
      * @param array $params
-     * @return array[]|false
-     *
-     * @phpstan-return list<array{string, array}>|false
+     * @return string[]|false
      */
     private function splitStatements($sql, $params)
     {

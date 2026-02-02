@@ -1,0 +1,26 @@
+    {# Set default values for optional parameters #}
+    {% set backgroundVariant = backgroundVariant ?? 'default' %}
+    {% set customClass = customClass ?? '' %}
+    
+    {# Build CSS classes based on parameters #}
+    {% set sectionClasses = ['about-section'] %}
+    {% if backgroundVariant != 'default' %}
+        {% set sectionClasses = sectionClasses|merge(['about-section--' ~ backgroundVariant ~ '-bg']) %}
+    {% endif %}
+    {% if customClass %}
+        {% set sectionClasses = sectionClasses|merge([customClass]) %}
+    {% endif %}
+
+    <section class="{{ sectionClasses|join(' ') }}">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="{{ entry.cb_introSection.introPhoto.one().url() }}" alt="{{ entry.cb_introSection.introPhoto.one().title }}">
+                </div>
+                
+                <div class="about-text">
+                    {{ entry.cb_introSection.introText }}
+                </div>
+            </div>
+        </div>
+    </section>

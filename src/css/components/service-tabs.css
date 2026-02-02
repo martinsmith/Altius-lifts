@@ -1,0 +1,89 @@
+@layer components {
+
+/* Services Tabs Section - Standard section spacing */
+.services-tabs {
+  padding-block: var(--section-padding);
+  background-color: var(--light-color); /* #f3f4f1 - matches features section */
+
+  @media (max-width: 768px) {
+    padding-block: var(--section-padding-mobile);
+  }
+}
+
+/* Service Tabs Component Styles (extracted from Vue ServiceTabs.vue) */
+.tabs-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-block-end: 2rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px color-mix(in srgb, var(--primary-color) 10%, transparent);
+
+  & .tab {
+    flex: 1;
+    min-width: 120px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    background-color: #d4dcd0; /* Complementary muted sage-grey for inactive tabs */
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-inline-end: 1px solid color-mix(in srgb, var(--primary-color) 10%, transparent);
+
+    &:last-child {
+      border-inline-end: none;
+    }
+
+    & i {
+      display: block!important;
+      font-size: 1.8rem;
+      margin-block-end: 0.8rem;
+    }
+
+    & span {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    &:hover {
+      background-color: var(--accent-color); /* #E1ECC3 - light yellow-green */
+      color: var(--primary-color);
+    }
+
+    &.active {
+      background-color: #9db58d; /* Hair Haven brand sage green - matches header */
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 768px) {
+      min-width: 120px;
+      padding: 1.2rem 0.8rem;
+
+      & i {
+        font-size: 1.5rem;
+        margin-block-end: 0.5rem;
+      }
+
+      & span {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      flex: 1 0 50%;
+      border-block-end: 1px solid color-mix(in srgb, var(--primary-color) 10%, transparent);
+
+      &:nth-child(even) {
+        border-inline-end: none;
+      }
+
+      &:nth-child(3),
+      &:nth-child(4) {
+        border-block-end: none;
+      }
+    }
+  }
+}
+
+} /* End @layer components */

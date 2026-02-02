@@ -24,6 +24,7 @@ use craft\elements\db\AddressQuery;
 use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\ElementCollection;
+use craft\elements\Entry;
 use craft\elements\NestedElementManager;
 use craft\elements\User;
 use craft\enums\ElementIndexViewMode;
@@ -39,7 +40,6 @@ use craft\helpers\Gql;
 use craft\helpers\StringHelper;
 use craft\services\Elements;
 use craft\validators\ArrayValidator;
-use craft\web\assets\cp\CpAsset;
 use GraphQL\Type\Definition\Type;
 use yii\base\InvalidConfigException;
 use yii\db\Expression;
@@ -365,12 +365,9 @@ class Addresses extends Field implements
 
     private function settingsHtml(bool $readOnly): string
     {
-        $bundle = Craft::$app->getView()->registerAssetBundle(CpAsset::class);
-
         return Craft::$app->getView()->renderTemplate('_components/fieldtypes/Addresses/settings.twig', [
             'field' => $this,
             'readOnly' => $readOnly,
-            'baseIconsUrl' => "$bundle->baseUrl/images/view-modes",
         ]);
     }
 
@@ -422,7 +419,8 @@ class Addresses extends Field implements
             /** @var Address[] $oldAddressesById */
             $oldAddressesById = Address::find()
                 ->fieldId($this->id)
-                ->owner($element)
+                ->ownerId($element->id)
+                ->siteId($element->siteId)
                 ->drafts(null)
                 ->revisions(null)
                 ->status(null)
@@ -528,22 +526,22 @@ class Addresses extends Field implements
             $addresses[] = $address;
         }
 
-        /** @var Address[] $addresses */
+        /** @var Entry[] $addresses */
         return $addresses;
     }
 
-    private function createAddressQuery(?ElementInterface $owner = null): AddressQuery
+    private function createAddressQuery(?ElementInterface $element = null): AddressQuery
     {
         $query = Address::find();
 
         // Existing element?
-        if ($owner && $owner->id) {
+        if ($element && $element->id) {
             $query->attachBehavior(self::class, new EventBehavior([
                 ElementQuery::EVENT_BEFORE_PREPARE => function(
                     CancelableEvent $event,
                     AddressQuery $query,
-                ) use ($owner) {
-                    $query->owner($owner);
+                ) use ($element) {
+                    $query->ownerId = $element->id;
 
                     // Clear out id=false if this query was populated previously
                     if ($query->id === false) {
@@ -551,7 +549,7 @@ class Addresses extends Field implements
                     }
 
                     // If the owner is a revision, allow revision addresses to be returned as well
-                    if ($owner->getIsRevision()) {
+                    if ($element->getIsRevision()) {
                         $query
                             ->revisions(null)
                             ->trashed(null);
@@ -560,14 +558,14 @@ class Addresses extends Field implements
             ], true));
 
             // Prepare the query for lazy eager loading
-            $query->prepForEagerLoading($this->handle, $owner);
+            $query->prepForEagerLoading($this->handle, $element);
         } else {
             $query->id = false;
         }
 
         $query
             ->fieldId($this->id)
-            ->siteId($owner->siteId ?? null);
+            ->siteId($element->siteId ?? null);
 
         return $query;
     }
@@ -846,16 +844,6 @@ class Addresses extends Field implements
             'args' => AddressArguments::getArguments(),
             'resolve' => AddressResolver::class . '::resolve',
             'complexity' => Gql::eagerLoadComplexity(),
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getEagerLoadingGqlConditions(): ?array
-    {
-        return [
-            'withProvisionalDrafts' => Craft::$app->getRequest()->getIsPreview(),
         ];
     }
 

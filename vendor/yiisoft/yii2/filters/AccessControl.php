@@ -8,11 +8,10 @@
 namespace yii\filters;
 
 use Yii;
+use yii\base\Action;
 use yii\base\ActionFilter;
-use yii\base\Component;
 use yii\di\Instance;
 use yii\web\ForbiddenHttpException;
-use yii\web\IdentityInterface;
 use yii\web\User;
 
 /**
@@ -27,7 +26,7 @@ use yii\web\User;
  * For example, the following declarations will allow authenticated users to access the "create"
  * and "update" actions and deny all other users from accessing these two actions.
  *
- * ```
+ * ```php
  * public function behaviors()
  * {
  *     return [
@@ -54,9 +53,6 @@ use yii\web\User;
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
- *
- * @template T of Component
- * @extends ActionFilter<T>
  */
 class AccessControl extends ActionFilter
 {
@@ -64,9 +60,6 @@ class AccessControl extends ActionFilter
      * @var User|array|string|false the user object representing the authentication status or the ID of the user application component.
      * Starting from version 2.0.2, this can also be a configuration array for creating the object.
      * Starting from version 2.0.12, you can set it to `false` to explicitly switch this component support off for the filter.
-     *
-     * @phpstan-var User<IdentityInterface>|array|string|false
-     * @psalm-var User<IdentityInterface>|array|string|false
      */
     public $user = 'user';
     /**
@@ -77,7 +70,7 @@ class AccessControl extends ActionFilter
      *
      * The signature of the callback should be as follows:
      *
-     * ```
+     * ```php
      * function ($rule, $action)
      * ```
      *
@@ -116,13 +109,16 @@ class AccessControl extends ActionFilter
     }
 
     /**
-     * {@inheritdoc}
+     * This method is invoked right before an action is to be executed (after all possible filters.)
+     * You may override this method to do last-minute preparation for the action.
+     * @param Action $action the action to be executed.
+     * @return bool whether the action should continue to be executed.
      */
     public function beforeAction($action)
     {
         $user = $this->user;
         $request = Yii::$app->getRequest();
-        /** @var AccessRule $rule */
+        /* @var $rule AccessRule */
         foreach ($this->rules as $rule) {
             if ($allow = $rule->allows($action, $user, $request)) {
                 return true;
@@ -153,9 +149,6 @@ class AccessControl extends ActionFilter
      * if the user is already logged, a 403 HTTP exception will be thrown.
      * @param User|false $user the current user or boolean `false` in case of detached User component
      * @throws ForbiddenHttpException if the user is already logged in or in case of detached User component.
-     *
-     * @phpstan-param User<IdentityInterface>|false $user
-     * @psalm-param User<IdentityInterface>|false $user
      */
     protected function denyAccess($user)
     {

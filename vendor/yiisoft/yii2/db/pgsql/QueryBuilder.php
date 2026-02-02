@@ -8,6 +8,7 @@
 namespace yii\db\pgsql;
 
 use yii\base\InvalidArgumentException;
+use yii\db\Constraint;
 use yii\db\Expression;
 use yii\db\ExpressionInterface;
 use yii\db\Query;
@@ -26,27 +27,28 @@ class QueryBuilder extends \yii\db\QueryBuilder
      * Defines a UNIQUE index for [[createIndex()]].
      * @since 2.0.6
      */
-    public const INDEX_UNIQUE = 'unique';
+    const INDEX_UNIQUE = 'unique';
     /**
      * Defines a B-tree index for [[createIndex()]].
      * @since 2.0.6
      */
-    public const INDEX_B_TREE = 'btree';
+    const INDEX_B_TREE = 'btree';
     /**
      * Defines a hash index for [[createIndex()]].
      * @since 2.0.6
      */
-    public const INDEX_HASH = 'hash';
+    const INDEX_HASH = 'hash';
     /**
      * Defines a GiST index for [[createIndex()]].
      * @since 2.0.6
      */
-    public const INDEX_GIST = 'gist';
+    const INDEX_GIST = 'gist';
     /**
      * Defines a GIN index for [[createIndex()]].
      * @since 2.0.6
      */
-    public const INDEX_GIN = 'gin';
+    const INDEX_GIN = 'gin';
+
     /**
      * @var array mapping from abstract column types (keys) to physical column types (values).
      */
@@ -207,15 +209,10 @@ class QueryBuilder extends \yii\db\QueryBuilder
      */
     public function checkIntegrity($check = true, $schema = '', $table = '')
     {
-        /**
-         * @var Schema
-         * @phpstan-var Schema<ColumnSchema>
-         */
-        $dbSchema = $this->db->getSchema();
         $enable = $check ? 'ENABLE' : 'DISABLE';
-        $schema = $schema ?: $dbSchema->defaultSchema;
-        $tableNames = $table ? [$table] : $dbSchema->getTableNames($schema);
-        $viewNames = $dbSchema->getViewNames($schema);
+        $schema = $schema ?: $this->db->getSchema()->defaultSchema;
+        $tableNames = $table ? [$table] : $this->db->getSchema()->getTableNames($schema);
+        $viewNames = $this->db->getSchema()->getViewNames($schema);
         $tableNames = array_diff($tableNames, $viewNames);
         $command = '';
 
@@ -371,6 +368,7 @@ class QueryBuilder extends \yii\db\QueryBuilder
      */
     private function oldUpsert($table, $insertColumns, $updateColumns, &$params)
     {
+        /** @var Constraint[] $constraints */
         list($uniqueNames, $insertNames, $updateNames) = $this->prepareUpsertColumns($table, $insertColumns, $updateColumns, $constraints);
         if (empty($uniqueNames)) {
             return $this->insert($table, $insertColumns, $params);
@@ -380,10 +378,7 @@ class QueryBuilder extends \yii\db\QueryBuilder
             $updateColumns = false;
         }
 
-        /**
-         * @var Schema $schema
-         * @phpstan-var Schema<ColumnSchema>
-         */
+        /** @var Schema $schema */
         $schema = $this->db->getSchema();
         if (!$insertColumns instanceof Query) {
             $tableSchema = $schema->getTableSchema($table);

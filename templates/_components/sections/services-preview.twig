@@ -1,0 +1,52 @@
+{% import '_components/macros/ui-components.twig' as ui %}
+
+{% set sectionData = {
+  title: entry.homepageServiceSection.sectionTitle,
+  subtitle: entry.homepageServiceSection.sectionSubText,
+  ctaText: entry.homepageServiceSection.sectionLink.label ?? 'View All Services',
+  ctaLink: entry.homepageServiceSection.sectionLink ?? null,
+  handle: 'services-preview'
+} %}
+
+{% set serviceCards = entry.homepageServiceSection.mx_servicesCards %}
+{% extends '_components/base/section-base.twig' %}
+
+{% set variant = 'white' %}
+{% set layout = 'grid' %}
+{% set containerType = 'component' %}
+{% set customClass = 'services-preview' %}
+{% set cacheKey = entry.id ~ '-services-preview' %}
+
+{% block sectionContent %}
+  <div class="services-grid component-container responsive-grid adaptive-grid">
+    {% for service in serviceCards %}
+      {% cache using key (entry.id ~ '-service-' ~ service.id) for 2 hours %}
+        <article class="service-card card-base card-container card-base--hover-lift-strong" style="view-transition-name: service-card-{{ loop.index }};">
+          {% if service.cardImage.one() %}
+            <div class="service-image">
+              {{ ui.image(service.cardImage.one(), {
+                transform: { width: 400, height: 250, mode: 'crop' },
+                sizes: '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
+                class: 'service-image-img'
+              }) }}
+            </div>
+          {% endif %}
+          <div class="service-content card-content responsive-spacing">
+            <h3 class="service-title card-title responsive-text">{{ service.title }}</h3>
+            <p class="service-description">{{ service.cardText }}</p>
+            
+            {% if service.cardLink %}
+              {{ ui.button('Learn More', {
+                url: service.cardLink,
+                variant: 'link',
+                size: 'small',
+                icon: 'fas fa-arrow-right',
+                attributes: { 'class': 'service-link' }
+              }) }}
+            {% endif %}
+          </div>
+        </article>
+      {% endcache %}
+    {% endfor %}
+  </div>
+{% endblock %}

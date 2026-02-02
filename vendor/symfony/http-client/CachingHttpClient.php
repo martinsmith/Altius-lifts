@@ -271,7 +271,7 @@ class CachingHttpClient implements HttpClientInterface, ResetInterface
                         }, \INF);
 
                         $context->passthru();
-                        $context->replaceResponse($this->createResponseFromCache($cachedData, $method, $url, $options, $metadataKey, $expiresAt));
+                        $context->replaceResponse($this->createResponseFromCache($cachedData, $method, $url, $options, $metadataKey));
 
                         return;
                     }
@@ -438,13 +438,9 @@ class CachingHttpClient implements HttpClientInterface, ResetInterface
 
         foreach ($options['normalized_headers'] as $name => $values) {
             if ('cookie' !== $name) {
-                $headerValues = [];
-
                 foreach ($values as $value) {
-                    $headerValues[] = substr($value, 2 + \strlen($name));
+                    $request->headers->set($name, substr($value, 2 + \strlen($name)), false);
                 }
-
-                $request->headers->set($name, $headerValues);
 
                 continue;
             }
@@ -563,7 +559,7 @@ class CachingHttpClient implements HttpClientInterface, ResetInterface
         $now = time();
         $expires = $data['expires_at'];
 
-        if (null !== $expires && $now < $expires) {
+        if (null !== $expires && $now <= $expires) {
             return Freshness::Fresh;
         }
 
@@ -743,33 +739,17 @@ class CachingHttpClient implements HttpClientInterface, ResetInterface
      *
      * @param array{next_chunk: string, status_code: int, initial_age: int, headers: array<string, string|string[]>, stored_at: int} $cachedData
      */
-    private function createResponseFromCache(array $cachedData, string $method, string $url, array $options, string $metadataKey, \DateTimeImmutable|false|null $newExpiresAt = false): MockResponse
+    private function createResponseFromCache(array $cachedData, string $method, string $url, array $options, string $metadataKey): MockResponse
     {
         $cache = $this->cache;
-
-        $beta = 0;
         $callback = static function (ItemInterface $item) use ($cache, $metadataKey): never {
             $cache->invalidateTags([$metadataKey]);
 
             throw new ChunkCacheItemNotFoundException(\sprintf('Missing cache item for chunk with key "%s". This indicates an internal cache inconsistency.', $item->getKey()));
         };
-
-        if (false !== $newExpiresAt) {
-            $beta = \INF;
-            $callback = static function (ItemInterface $item) use ($callback, $newExpiresAt): array {
-                if (!$item->isHit()) {
-                    $callback($item);
-                }
-
-                $item->expiresAt($newExpiresAt);
-
-                return $item->get();
-            };
-        }
-
-        $body = static function () use ($cache, $cachedData, $callback, $beta): \Generator {
+        $body = static function () use ($cache, $cachedData, $callback): \Generator {
             while (null !== $cachedData['next_chunk']) {
-                $cachedData = $cache->get($cachedData['next_chunk'], $callback, $beta);
+                $cachedData = $cache->get($cachedData['next_chunk'], $callback, 0);
 
                 if ('' !== $cachedData['content']) {
                     yield $cachedData['content'];

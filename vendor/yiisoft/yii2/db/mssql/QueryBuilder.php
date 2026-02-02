@@ -9,8 +9,8 @@ namespace yii\db\mssql;
 
 use yii\base\InvalidArgumentException;
 use yii\base\NotSupportedException;
+use yii\db\Constraint;
 use yii\db\Expression;
-use yii\db\Query;
 use yii\db\TableSchema;
 
 /**
@@ -247,18 +247,9 @@ class QueryBuilder extends \yii\db\QueryBuilder
         $table = $this->db->getTableSchema($tableName);
         if ($table !== null && $table->sequenceName !== null) {
             $tableName = $this->db->quoteTableName($tableName);
-
-            if ($value === null || $value === 1) {
+            if ($value === null) {
                 $key = $this->db->quoteColumnName(reset($table->primaryKey));
-                $subSql = (new Query())
-                    ->select('last_value')
-                    ->from('sys.identity_columns')
-                    ->where(['object_id' => new Expression("OBJECT_ID('{$tableName}')")])
-                    ->andWhere(['IS NOT', 'last_value', null])
-                    ->createCommand($this->db)
-                    ->getRawSql();
-                $sql = "SELECT COALESCE(MAX({$key}), CASE WHEN EXISTS({$subSql}) THEN 0 ELSE 1 END) FROM {$tableName}";
-                $value = $this->db->createCommand($sql)->queryScalar();
+                $value = "(SELECT COALESCE(MAX({$key}),0) FROM {$tableName})+1";
             } else {
                 $value = (int) $value;
             }
@@ -280,15 +271,10 @@ class QueryBuilder extends \yii\db\QueryBuilder
      */
     public function checkIntegrity($check = true, $schema = '', $table = '')
     {
-        /**
-         * @var Schema
-         * @phpstan-var Schema<ColumnSchema>
-         */
-        $dbSchema = $this->db->getSchema();
         $enable = $check ? 'CHECK' : 'NOCHECK';
-        $schema = $schema ?: $dbSchema->defaultSchema;
-        $tableNames = $this->db->getTableSchema($table) ? [$table] : $dbSchema->getTableNames($schema);
-        $viewNames = $dbSchema->getViewNames($schema);
+        $schema = $schema ?: $this->db->getSchema()->defaultSchema;
+        $tableNames = $this->db->getTableSchema($table) ? [$table] : $this->db->getSchema()->getTableNames($schema);
+        $viewNames = $this->db->getSchema()->getViewNames($schema);
         $tableNames = array_diff($tableNames, $viewNames);
         $command = '';
 
@@ -437,7 +423,7 @@ class QueryBuilder extends \yii\db\QueryBuilder
         if (!$modelClass) {
             return null;
         }
-        /** @var \yii\db\ActiveRecord $modelClass */
+        /* @var $modelClass \yii\db\ActiveRecord */
         $schema = $modelClass::getTableSchema();
         return array_keys($schema->columns);
     }
@@ -500,7 +486,7 @@ class QueryBuilder extends \yii\db\QueryBuilder
         $cols = [];
         $outputColumns = [];
         if ($version2005orLater) {
-            /** @var TableSchema $schema */
+            /* @var $schema TableSchema */
             $schema = $this->db->getTableSchema($table);
             foreach ($schema->columns as $column) {
                 if ($column->isComputed) {
@@ -508,12 +494,9 @@ class QueryBuilder extends \yii\db\QueryBuilder
                 }
 
                 $dbType = $column->dbType;
-                if (in_array($dbType, ['varchar', 'nvarchar', 'binary', 'varbinary'])) {
+                if (in_array($dbType, ['char', 'varchar', 'nchar', 'nvarchar', 'binary', 'varbinary'])) {
                     $dbType .= '(MAX)';
-                } elseif (in_array($dbType, ['char',  'nchar'])) {
-                    $dbType .= "($column->size)";
                 }
-
                 if ($column->dbType === Schema::TYPE_TIMESTAMP) {
                     $dbType = $column->allowNull ? 'varbinary(8)' : 'binary(8)';
                 }
@@ -548,6 +531,7 @@ class QueryBuilder extends \yii\db\QueryBuilder
     {
         $insertColumns = $this->normalizeTableRowData($table, $insertColumns, $params);
 
+        /** @var Constraint[] $constraints */
         list($uniqueNames, $insertNames, $updateNames) = $this->prepareUpsertColumns($table, $insertColumns, $updateColumns, $constraints);
         if (empty($uniqueNames)) {
             return $this->insert($table, $insertColumns, $params);

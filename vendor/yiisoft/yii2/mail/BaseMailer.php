@@ -36,11 +36,12 @@ abstract class BaseMailer extends Component implements MailerInterface, ViewCont
      * @event MailEvent an event raised right before send.
      * You may set [[MailEvent::isValid]] to be false to cancel the send.
      */
-    public const EVENT_BEFORE_SEND = 'beforeSend';
+    const EVENT_BEFORE_SEND = 'beforeSend';
     /**
      * @event MailEvent an event raised right after send.
      */
-    public const EVENT_AFTER_SEND = 'afterSend';
+    const EVENT_AFTER_SEND = 'afterSend';
+
     /**
      * @var string|bool HTML layout view name. This is the layout used to render HTML mail body.
      * The property can take the following values:
@@ -62,7 +63,7 @@ abstract class BaseMailer extends Component implements MailerInterface, ViewCont
      *
      * For example:
      *
-     * ```
+     * ```php
      * [
      *     'charset' => 'UTF-8',
      *     'from' => 'noreply@mydomain.com',
@@ -92,14 +93,14 @@ abstract class BaseMailer extends Component implements MailerInterface, ViewCont
      *
      * The signature of the callback is:
      *
-     * ```
+     * ```php
      * function ($mailer, $message)
      * ```
      */
     public $fileTransportCallback;
 
     /**
-     * @var View|array view instance or its array configuration.
+     * @var \yii\base\View|array view instance or its array configuration.
      */
     private $_view = [];
     /**

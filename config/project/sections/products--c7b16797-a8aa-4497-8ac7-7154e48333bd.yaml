@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 56786631-8fc8-4a52-8c4c-4655bc9bba07 # Products
+handle: products
+maxAuthors: 1
+name: Products
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  21f4ef74-64dc-48e3-bb94-93d62c25ef08: # Hair Haven
+    enabledByDefault: true
+    hasUrls: true
+    template: products.twig
+    uriFormat: products
+type: single

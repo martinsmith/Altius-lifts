@@ -1,0 +1,19 @@
+{% extends "_layout.twig" %}
+
+{% block pageClass %}our-salon{% endblock %}
+
+{% block content %}
+<div class="our-salon-page">
+    {% include '_components/sections/page-header.twig' %}
+    {% include '_components/sections/text-image-section.twig' %}
+    {% include '_components/sections/simple-cards.twig' with { 
+        backgroundVariant: 'pale-blue',
+        cardVariant: 'white'
+        } %}
+
+    {% include '_components/sections/summary-section.twig' %}
+    {% if entry.callToAction.sectionTitle %}
+        {% include '_components/sections/call-to-action.twig' %}
+    {% endif %}
+</div>
+{% endblock %}

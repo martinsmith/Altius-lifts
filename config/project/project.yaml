@@ -1,17 +1,16 @@
-dateModified: 1770024149
+dateModified: 1765536066
 elementSources:
   craft\elements\Entry:
     -
       defaultSort:
-        - title
-        - asc
+        - dateCreated
+        - desc
       defaultViewMode: ''
       disabled: false
-      key: 'single:e7abf76a-13c5-415b-8804-d40296722d2b' # Homepage
-      page: Entries
+      key: singles
       tableAttributes:
+        - status
         - link
-        - section
       type: native
     -
       defaultSort:
@@ -19,435 +18,274 @@ elementSources:
         - asc
       defaultViewMode: ''
       disabled: false
-      key: 'section:9762ed7d-306c-4d1b-bf4b-12cac5c241b0' # Services
-      page: Entries
+      key: 'section:e5168587-7fe8-40c8-86c9-f416b40ac41e' # News
       tableAttributes:
-        - section
+        - status
+        - postDate
+        - expiryDate
         - link
-      type: native
-    -
-      defaultSort:
-        - structure
-        - asc
-      disabled: false
-      key: 'section:b42b6ad6-c86d-481c-ad59-978be584c907' # Sectors
-      page: Entries
-      tableAttributes:
-        - section
-        - link
-      type: native
-    -
-      key: 'single:7628f70c-ef64-41f2-bb63-0a6442986aff' # Why Us
-      page: Entries
-      type: native
-    -
-      key: 'single:bbd50b1e-8c6c-4708-acc1-ac671f6dc2d4' # Contact
-      page: Entries
       type: native
     -
       defaultSort:
         - postDate
         - desc
       defaultViewMode: ''
-      disabled: true
+      disabled: false
       key: '*'
-      page: Entries
       tableAttributes:
+        - status
         - section
         - postDate
         - expiryDate
         - link
       type: native
 email:
-  fromEmail: admin@caledonianliftsmanchester.co.uk
-  fromName: 'Caledonian Lifts Manchester Ltd'
-  replyToEmail: admin@caledonianliftsmanchester.co.uk
-  template: null
-  transportSettings:
-    host: smtp.postmarkapp.com
-    password: dbf04825-e512-4ec0-9081-2447604dea49
-    port: '25'
-    useAuthentication: '1'
-    username: dbf04825-e512-4ec0-9081-2447604dea49
-  transportType: craft\mail\transportadapters\Smtp
+  fromEmail: access@hypha.media
+  fromName: TLE-2025
+  transportType: craft\mail\transportadapters\Sendmail
 fs:
-  cvs:
-    hasUrls: false
-    name: "CV's"
-    settings:
-      path: cvs
-    type: craft\fs\Local
-    url: null
-  images:
+  assets:
     hasUrls: true
-    name: Images
+    name: Assets
     settings:
-      path: images
+      path: assets
     type: craft\fs\Local
-    url: $IMAGES_URL
+    url: /assets
+graphql:
+  publicToken:
+    enabled: false
+    expiryDate: null
 meta:
   __names__:
-    0a7e8a33-fe69-4bc4-8742-3162ceea7dfb: 'Thank You Success URL' # Thank You Success URL
-    0a393978-e55a-4280-a69a-d1c5047ef6e6: 'Basic Rich Text' # Basic Rich Text
-    0e0bd4a6-557e-4137-a6fc-789aa94d3753: 'Information Blocks - Information Block - Block Points' # Information Blocks - Information Block - Block Points
-    1b5f0de8-2a1b-4344-b572-b5e16c422e70: 'Information Blocks - Information Block - Block Image' # Information Blocks - Information Block - Block Image
-    1c4d6320-4d2d-4112-bd71-b4e2cd5c7860: 'Section Intro' # Section Intro
-    2c474a01-b3ae-4ba9-a8c2-a524106e7284: 'Job Benefits' # Job Benefits
-    2f555ca1-7a5e-4f57-9273-ba026e11f7c8: Simple # Simple
-    4a2b1065-b00c-401a-85be-ff6a35f5eb03: 'Content Block' # Content Block
-    4abb3c30-791e-42da-9970-5510854d4ecb: 'Service Cards' # Service Cards
-    4ff89192-ffa3-4fc7-99fc-9714ea2c8bc7: FAQs # FAQs
-    05b24267-ef92-48a8-870a-178896a54ba3: Contact # Contact
-    05bb7420-f41b-43c3-aeab-000a50cf8e8a: 'Staff Member' # Staff Member
-    5d49fa5b-f75d-4770-a7c1-932c914abc23: Accordion # Accordion
-    5e7a9fb8-2b6a-4050-9a18-629d65da8ef1: 'Overview Page' # Overview Page
-    5e98dd89-e073-4bda-890e-36b647288eb6: FAQs # FAQs
-    6d075772-e174-4c6e-8bd8-b74492d8b68c: 'Super Simple' # Super Simple
-    6f2dbcfd-2b90-4b8a-8fb1-f15c5d85edbe: 'Add a New Service' # Add a New Service
-    07c7a1e1-6257-42d1-9d3c-9471a5226e26: 'Add a New Sector' # Add a New Sector
-    7d7b349e-bfee-48a0-8cf4-7a0eefc10c76: 'Services - Overview Page' # Services - Overview Page
-    7df641c4-625f-400f-9821-424be06f8fd7: 'Information Blocks - Information Block - Block Colour' # Information Blocks - Information Block - Block Colour
-    8b71b520-8834-4f29-b0be-6aef0f288e42: 'Article Image' # Article Image
-    8ee498d9-4861-45a3-8e90-1470ac09bbf7: 'Information Block' # Information Block
-    9a61ea49-f29c-419d-a6cf-f130c95d32a8: 'Info Blocks' # Info Blocks
-    9ed5cd74-29c0-4c5d-8808-b6112f366f16: 'New Sub-Section Intro' # New Sub-Section Intro
-    18f2db44-e277-4d9a-b498-64ad6512d7ca: 'Testimonials Block' # Testimonials Block
-    23abf921-b725-4c4a-8185-603f91a9a9d7: 'Service Cards Block' # Service Cards Block
-    25f06514-2327-4672-86ac-e0a60aba0034: 'Articles Landing Page' # Articles Landing Page
-    45a8bbed-1edd-4c3e-a925-95ea582c86bd: 'Information Blocks' # Information Blocks
-    45a77e80-e4f5-4778-8d99-bf26d0758633: 'Testimonials - Quote' # Testimonials - Quote
-    49d3d537-a9f7-479a-a98f-12f75fbef05a: Images # Images
-    54d95a50-7514-4086-89df-eb50de3fc17e: 'Sectors Block' # Sectors Block
-    58abb35d-e3ad-40c1-a821-525460e8cd08: 'New Article' # New Article
-    70d46e89-cdf4-4e82-98ee-00455d039d33: 'Article Text' # Article Text
-    75b3ef99-b0fc-43fb-8697-c8a8b03abdb8: Testimonials # Testimonials
-    87f5b40a-7044-4f5f-afdf-1c5049bd622c: 'Altius Lifts' # Altius Lifts
-    270ade6f-933d-4db2-83e6-3f2ef650b449: 'Careers Landing' # Careers Landing
-    304e3a5a-1efa-4c46-8f07-579c54395284: Hours # Hours
-    357ccac9-a71d-4aac-b2b5-99d93e47140b: 'Sectors - Link to page' # Sectors - Link to page
-    0392e2de-2bdb-4e50-ba2c-0a715e112283: 'Sector Page Builder - Info Blocks - Blocks - Block Image' # Sector Page Builder - Info Blocks - Blocks - Block Image
-    491bb95f-d9b6-432e-9c22-2b166d5e49bf: 'Testimonials - Person' # Testimonials - Person
-    563b6fd0-4809-4932-aaca-5ef30724ed7c: "CV's" # CV's
-    691fe8b2-901b-4483-800d-f958db3ba998: 'Information Blocks - Information Block - Block Link' # Information Blocks - Information Block - Block Link
-    748a08c2-6c15-4867-bb88-f7882f640395: 'Post a Job' # Post a Job
-    828d697f-6d07-4af1-9b83-fef2467ee74d: 'Text Block' # Text Block
-    5354db12-3390-44d2-9931-041ad25806be: 'Contact Form' # Contact Form
-    7628f70c-ef64-41f2-bb63-0a6442986aff: 'Why Us' # Why Us
-    9762ed7d-306c-4d1b-bf4b-12cac5c241b0: Services # Services
-    42542baa-070e-4f48-b5ce-fbd2819883a5: 'Why Us' # Why Us
-    59062f59-c994-4a41-951e-f45aba5fddb5: 'Staff Photo' # Staff Photo
-    83076c5f-0433-439a-920a-6fed25d4eafb: 'Service Cards - Link to page' # Service Cards - Link to page
-    87090e86-6371-4cbe-a238-d5419166660a: 'Public Schema' # Public Schema
-    691104c8-94c6-4a1f-a978-8ef86ecc3a32: Articles # Articles
-    04918528-c76c-4e73-9f1c-5aeae2c2db87: 'Sector Page Builder - Info Blocks - Blocks Block' # Sector Page Builder - Info Blocks - Blocks Block
-    15039951-4448-4217-bbee-a2666a2ab54d: Hours # Hours
-    aea2570e-71e8-49d8-bf72-d4c2bb30ce4b: 'Plain Text' # Plain Text
-    af51211b-76af-4f5e-a5a0-478a6bf4ae54: 'Full Width Image' # Full Width Image
-    b42b6ad6-c86d-481c-ad59-978be584c907: Sectors # Sectors
-    b5798b01-f931-4835-937e-c740ea058afa: 'FAQ Section' # FAQ Section
-    b46152df-c041-49fa-8228-7fb3fdbb71e9: 'Job Type' # Job Type
-    bbd50b1e-8c6c-4708-acc1-ac671f6dc2d4: Contact # Contact
-    bf1a60fc-fc10-4ed8-95b0-95abbb63e752: 'Super Simple Text' # Super Simple Text
-    c3f08b56-dac0-4937-b476-65214d227444: 'Client Logos' # Client Logos
-    c828ce68-9b02-4122-a29b-55a93595bd48: 'Text / Image' # Text / Image
-    cae01097-4833-408c-a8b1-bd3f75a616c7: 'Ultra Basic' # Ultra Basic
-    cbaf71b5-75c1-4593-9f45-4113e7c5207e: 'Information Blocks - Information Block - Block Text' # Information Blocks - Information Block - Block Text
-    d8ccd2a3-51c3-4a4d-9111-5bde54291462: Homepage # Homepage
-    d875cc48-f7f2-4c0e-876d-754ae446746a: 'Big Parallax Image' # Big Parallax Image
-    d9238bd6-3d3f-4b1f-9bce-385127a5920b: 'Sector Page Builder - Accordion - Accordion Content Block' # Sector Page Builder - Accordion - Accordion Content Block
-    dc570c1c-57f3-44bc-b8c9-474ecd8c829c: 'Info Blocks' # Info Blocks
-    df3091e8-0e17-4772-ad23-9334ed213678: New # New
-    dfc5ce4c-aa39-4a85-9fd6-81919a96c6aa: 'Sector Page Builder - Accordion - Accordion Content' # Sector Page Builder - Accordion - Accordion Content
-    e0b3ceec-5939-437b-9bdf-e49a8a1abd29: Sectors # Sectors
-    e035d61f-5182-4f35-a0df-1fc0e611cd58: 'Sector Page Builder' # Sector Page Builder
-    e7abf76a-13c5-415b-8804-d40296722d2b: Homepage # Homepage
-    e295720d-a70f-4b7e-9a10-628397445274: 'Section Introduction' # Section Introduction
-    ebf8c9ae-9a23-43b3-8999-ee29b0819785: 'Sector Page Builder - Big Parallax Image - Image' # Sector Page Builder - Big Parallax Image - Image
-    f028fab8-86ea-4a6d-a9ee-5aa62b806de9: 'Sector Page Builder - Info Blocks - Blocks - Block Text' # Sector Page Builder - Info Blocks - Blocks - Block Text
-    f53d0986-7780-467d-af7d-285af1620e61: 'Sector Page Builder - Info Blocks - Blocks' # Sector Page Builder - Info Blocks - Blocks
-    f68f3e2f-2164-4b5d-8a45-44af27a92365: Testimonials # Testimonials
-    fc5f89af-2598-4cad-83f6-26cbae32bff9: Criteria # Criteria
-    fe4e75c8-43fa-445f-a134-622af7819f98: 'Altius Lifts' # Altius Lifts
-    fe463277-ff16-4bb9-9e0c-60f64ebc218d: 'Testimonials - Logo' # Testimonials - Logo
-    ff88a52b-69c5-4ea2-bf35-af53cc987140: 'Team Page' # Team Page
+    0af69162-000c-4bb3-a42e-77f5a08558e3: Phone # Phone
+    0f026b4b-1c4d-43fd-9071-50babbe0d30d: 'Services Section' # Services Section
+    2bc6cf54-0be9-41dd-950d-f337f8afa9ce: 'Opening Hours' # Opening Hours
+    2fa578a2-b3ab-4fef-8fb9-2e9b9145a907: Contact # Contact
+    3b0f3bfb-1b7f-4be0-94f0-0a2f29509f4f: Team # Team
+    3b68cd98-cd43-4ae2-8d02-61222bda35ba: 'Cards Section' # Cards Section
+    3b3650a6-7e79-4860-9537-41787a90b09b: Services # Services
+    03bf5298-bb72-48f2-8fca-8d37faf4a83f: 'Sub Services' # Sub Services
+    3e7a3e99-ba2f-44b4-966e-e6783dd7e3c1: 'Hero Buttons' # Hero Buttons
+    3fcb9a5b-a541-4879-a645-a21fa6bac7ca: 'Job Descriptions' # Job Descriptions
+    04ddff7f-52ed-458a-bc0c-a3a9d4b76f4d: 'Single Image' # Single Image
+    4ed1b04a-6530-4a34-874c-c5f29f911e66: 'Four Images' # Four Images
+    5c61d44f-616f-4ae5-b273-cdb67ecfff52: Connect # Connect
+    5c8228fd-b7e4-4fa8-b9dd-2a5389c4bb6c: 'Homepage Hero' # Homepage Hero
+    5d6f4599-0482-49dc-b4e6-eb7db8af869d: 'Basic with H2' # Basic with H2
+    5de5baa5-50e4-4208-a69b-3036b56bfa6e: Careers # Careers
+    5edfc78e-63a4-4023-8fba-f4818a8e32a0: news-article # news-article
+    5f596b25-ec1e-469a-8c81-e040276faa25: 'Offer Cards' # Offer Cards
+    6b2d5a14-d767-4360-88fa-ca10896170a4: 'Promo Links' # Promo Links
+    6d8f0d59-dcb0-4d1c-b7fc-1847d203b478: Colour # Colour
+    7cc8b97c-23a2-4e4d-ae9e-59a1b66582f6: Services # Services
+    7e163a5f-8874-4292-a7d9-ecbcc6e308d2: 'Sub Services' # Sub Services
+    8dc06e17-b136-4714-997a-6b1f293e9c41: 'Bold, Italic and Link' # Bold, Italic and Link
+    8eed41b9-47a1-4b42-8361-6e2f9dd27c9f: 'Social Links' # Social Links
+    9ab1b041-ae5f-451c-aa7a-e7dda1e2d1f9: 'Title Field' # Title Field
+    9b42751e-b87f-4957-8c54-5a457d443a7f: 'Basic with H2' # Basic with H2
+    9f2c1146-2e6e-476c-9e77-c6e736164ed7: 'Brands and Products' # Brands and Products
+    10dcb136-b8a7-4325-90fe-c0cda2e1ebd1: 'Simple Text' # Simple Text
+    21f4ef74-64dc-48e3-bb94-93d62c25ef08: 'Hair Haven' # Hair Haven
+    24b60046-c604-467a-9159-5c28626085cb: FAQs # FAQs
+    30d70629-c8e5-40db-9f27-dd7dd53d0afb: 'Card Link' # Card Link
+    35f4bfc2-4432-43df-bd81-7ccfd0e7a7f1: Team # Team
+    43d74a4b-22f2-481f-9e51-582bfd8ccd86: Times # Times
+    43ebf591-142c-4702-86cf-9a605575688a: 'Brands and Products' # Brands and Products
+    45b3edbc-893f-4d31-acaa-4f187ee99099: Cards # Cards
+    48ff7023-466f-423c-a293-c4ebec9ab0a4: Testimonials # Testimonials
+    54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9: 'Straight Text' # Straight Text
+    54b32803-64e0-46aa-bacf-ecddf2f5db7a: 'Section Link' # Section Link
+    69b12cc6-3150-4b5d-9318-88d440f5431e: Location # Location
+    69d4f867-81b3-416a-b6d1-35d2428bf5dd: Contact # Contact
+    70cbf51f-c6a4-4501-ab10-6544b0adb9fd: Simple # Simple
+    75d5ff91-e0e7-479a-b047-041d2c3e1649: 'Page Header' # Page Header
+    80f72898-9dbf-499d-8f33-abd3d52e8a3e: 'Range Text Left or Right' # Range Text Left or Right
+    91bf7b22-c506-4a80-8c0d-506bf77a3dfc: Services # Services
+    172c19a6-5e5c-49fc-b221-96f628e74fbe: 'Frequently Asked Questions' # Frequently Asked Questions
+    223fbc1e-4eb0-4383-82ba-1041ce5b1e00: Homepage # Homepage
+    00293d02-a8ce-4397-916e-d550809b272d: Offers # Offers
+    392d336a-d1e6-4233-89d7-cf232f91adb8: 'Bold and Italic' # Bold and Italic
+    552cbd7b-3ff5-4b3a-8908-5c1582c42161: Offers # Offers
+    678e5f0a-719b-48e9-85b7-506679f364f5: Homepage # Homepage
+    784bb5e4-8286-4b99-85c7-5bdf3d014a6d: 'Current Opportunities' # Current Opportunities
+    3815c76e-4a12-40f8-8dd1-9568da8fdf25: Team # Team
+    4347ac84-9083-43b9-b2e9-eab3eefcfb45: 'Job Type' # Job Type
+    9319c08a-bbe3-4e7a-9f29-6e0caa7c1433: 'Offer T&Cs' # Offer T&Cs
+    9832c994-1873-429f-b552-652988c0558b: Salon # Salon
+    046080fc-7aad-4c07-b0fa-b55961a0f0de: Salon # Salon
+    55300cfe-bdf4-4ff4-8cb4-41e6c4d57622: 'Service Type' # Service Type
+    68525dcd-7e0b-4ad5-b369-8366276b3c96: 'Product List' # Product List
+    88590e6e-50fb-4242-94c5-5cdabdb88f86: 'Job Descriptions' # Job Descriptions
+    224318bf-f739-48f8-b570-dc4deefe6f0e: Testimonials # Testimonials
+    26138429-fcf3-4e89-a520-7bfdbd1591ee: Assets # Assets
+    43665714-2299-44fa-abf3-97b45c8a12c7: 'Services Cards' # Services Cards
+    56786631-8fc8-4a52-8c4c-4655bc9bba07: Products # Products
+    71202746-fb78-4408-b9b3-1c3d1e39ffb8: 'Call to Action' # Call to Action
+    a0d638c3-37dd-42c0-bcdc-25e945644b12: Email # Email
+    a6966eba-abc7-43bd-aad8-95073f426a6d: 'Summary Section' # Summary Section
+    b7f863e4-f418-4417-9cb5-c6d3f5bf1155: 'Can be booked?' # Can be booked?
+    b8de7878-afc8-4f97-8281-a4b2d990dee4: Responsibilities # Responsibilities
+    b79b4e43-e6c0-4c44-9a15-f07ccdaa5d37: 'Products Section' # Products Section
+    b393e30c-26ec-4a72-b5f9-806b61952f7e: Products # Products
+    b2608e5b-6a78-41bb-b819-04900f98ce1a: 'Social Section' # Social Section
+    b5144bca-43e4-4a75-8d36-4405e3f2629a: 'Testimonial Text' # Testimonial Text
+    b42073cc-57b6-4636-b08c-5b9bb29facb4: 'Sub Service Intro' # Sub Service Intro
+    b3726252-6c72-46e5-b01e-d92574299019: 'Single Button' # Single Button
+    c1e5720b-386a-4bba-8784-306bc80ba4f6: Specialities # Specialities
+    c4bebee5-c1d4-47bf-be47-8bcfeb2783ec: 'Services Cards' # Services Cards
+    c7b16797-a8aa-4497-8ac7-7154e48333bd: Products # Products
+    c55dc4be-da97-4592-9d58-444951e11eef: Team # Team
+    c56a99f0-e8f2-4e89-916d-b5c034c8bed1: 'Offer Cards' # Offer Cards
+    c969543d-de4c-4d09-9576-8758dc27afd1: 'Testimonials Section' # Testimonials Section
+    cd54e7f4-5c22-4c1f-97e1-6e017ee1fcc6: 'Sub Services' # Sub Services
+    d2c3b28c-ed81-4d1d-a2c8-8a4cfff51ecd: 'Price List' # Price List
+    d2f55de7-1c60-480a-99db-3d871461fe31: 'Text Color' # Text Color
+    d51d5a9b-69fe-4e13-acd6-d4f9a20ccae1: 'Title Text' # Title Text
+    d60136f4-9baf-4f3c-9a20-bbd1bf47b28a: Services # Services
+    d9707244-1d4e-4b5b-9d06-b6055492603e: 'Hair Haven' # Hair Haven
+    da000afe-cb2f-43bf-a97b-769110bde6f6: 'Sub Services' # Sub Services
+    dfb73ee5-ea53-4d09-85e2-8ec1dc827d28: News # News
+    e2c6ec4d-d46c-47ec-800d-206eea4d27b1: 'Contact Form' # Contact Form
+    e7d1aee4-6d2a-4c14-b96d-33b111833a0b: Services # Services
+    e72fbf57-838b-4a23-af94-8aba3641a43c: Requirements # Requirements
+    e21536ab-798f-4de7-9666-70903d331159: Services # Services
+    e5168587-7fe8-40c8-86c9-f416b40ac41e: News # News
+    eb38d150-0774-403c-8be3-6b8c480c6f8e: Specialities # Specialities
+    eb143e66-f41e-413f-aaff-b1cc34d3e545: 'Simple Cards' # Simple Cards
+    ef5e44d9-0d4b-4d70-9107-c660a781fc10: Careers # Careers
+    f0eb6556-1429-4336-86ff-322eb5be4254: 'Intro Section' # Intro Section
+    f63cfe62-8af4-48a8-91a3-aab84680d3b6: 'Featured Article?' # Featured Article?
+    f117f59d-5600-46e1-8a81-3dec61d0f0c9: 'Six Images' # Six Images
+    f425b0e8-1203-40a7-9f6f-108688342507: 'SEO Information' # SEO Information
 plugins:
-  child-me:
-    edition: standard
-    enabled: true
-    schemaVersion: 1.0.0
   ckeditor:
     edition: standard
     enabled: true
     schemaVersion: 3.0.0.0
-  dashboard-begone:
+  cloner:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
-  datastone-obfuscate:
+  contact-form:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
-  expanded-singles:
-    edition: standard
-    enabled: true
-    schemaVersion: 1.0.0
-  formie:
-    edition: standard
-    enabled: true
-    licenseKey: MH9NWJDERBFPGGYF4XV2QBA8
-    schemaVersion: 3.4.12
     settings:
-      ajaxTimeout: 10
-      alertEmails: null
-      captchas:
+      allowAttachments: ''
+      allowedMessageFields: null
+      prependSender: 'On behalf of'
+      prependSubject: 'New message from TLE-2025'
+      successFlashMessage: 'Your message has been sent.'
+      toEmail: martin@hypha.media
+  entry-level:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+    settings:
+      sectionConfig:
         __assoc__:
           -
-            - recaptcha
+            - e5168587-7fe8-40c8-86c9-f416b40ac41e # News
             -
               __assoc__:
                 -
-                  - type
-                  - verbb\formie\integrations\captchas\Recaptcha
-                -
-                  - enabled
-                  - '1'
-                -
-                  - saveSpam
-                  - true
-                -
-                  - settings
+                  - typeHierarchy
                   -
                     __assoc__:
                       -
-                        - handle
-                        - recaptcha
+                        - dfb73ee5-ea53-4d09-85e2-8ec1dc827d28 # News
+                        -
+                          __assoc__:
+                            -
+                              - parentTypeUid
+                              - ''
                       -
-                        - secretKey
-                        - 6LfdpTcpAAAAAI7DaWxY_aGsOx6agNe-aEV2pfqe
-                      -
-                        - siteKey
-                        - 6LfdpTcpAAAAAAIpBIEzinQyJ6ZwBAf1_vnLuDS8
-                      -
-                        - type
-                        - v3
-                      -
-                        - size
-                        - normal
-                      -
-                        - theme
-                        - light
-                      -
-                        - badge
-                        - bottomright
-                      -
-                        - language
-                        - en-GB
-                      -
-                        - minScore
-                        - 0.5
-                      -
-                        - scriptLoadingMethod
-                        - asyncDefer
-          -
-            - hcaptcha
-            -
-              __assoc__:
+                        - 5edfc78e-63a4-4023-8fba-f4818a8e32a0 # news-article
+                        -
+                          __assoc__:
+                            -
+                              - parentTypeUid
+                              - dfb73ee5-ea53-4d09-85e2-8ec1dc827d28 # News
                 -
-                  - type
-                  - verbb\formie\integrations\captchas\Hcaptcha
-                -
-                  - enabled
-                  - '0'
-                -
-                  - saveSpam
-                  - true
-                -
-                  - settings
+                  - typeOrder
                   -
-                    __assoc__:
-                      -
-                        - handle
-                        - hcaptcha
-                      -
-                        - size
-                        - normal
-                      -
-                        - theme
-                        - light
-                      -
-                        - language
-                        - en
-                      -
-                        - minScore
-                        - 0.5
-                      -
-                        - scriptLoadingMethod
-                        - asyncDefer
-          -
-            - friendlyCaptcha
-            -
-              __assoc__:
-                -
-                  - type
-                  - verbb\formie\integrations\captchas\FriendlyCaptcha
-                -
-                  - enabled
-                  - '0'
-                -
-                  - saveSpam
-                  - true
-                -
-                  - settings
-                  -
-                    __assoc__:
-                      -
-                        - handle
-                        - friendlyCaptcha
-                      -
-                        - language
-                        - en
-          -
-            - turnstile
-            -
-              __assoc__:
-                -
-                  - type
-                  - verbb\formie\integrations\captchas\Turnstile
-                -
-                  - enabled
-                  - '0'
-                -
-                  - saveSpam
-                  - true
-                -
-                  - settings
-                  -
-                    __assoc__:
-                      -
-                        - handle
-                        - turnstile
-                      -
-                        - scriptLoadingMethod
-                        - asyncDefer
-          -
-            - duplicate
-            -
-              __assoc__:
-                -
-                  - type
-                  - verbb\formie\integrations\captchas\Duplicate
-                -
-                  - enabled
-                  - '0'
-                -
-                  - saveSpam
-                  - true
-                -
-                  - settings
-                  -
-                    __assoc__:
-                      -
-                        - handle
-                        - duplicate
-          -
-            - honeypot
-            -
-              __assoc__:
-                -
-                  - type
-                  - verbb\formie\integrations\captchas\Honeypot
-                -
-                  - enabled
-                  - '0'
-                -
-                  - saveSpam
-                  - true
-                -
-                  - settings
-                  -
-                    __assoc__:
-                      -
-                        - handle
-                        - honeypot
-          -
-            - javascript
-            -
-              __assoc__:
-                -
-                  - type
-                  - verbb\formie\integrations\captchas\Javascript
-                -
-                  - enabled
-                  - '0'
-                -
-                  - saveSpam
-                  - true
-                -
-                  - settings
-                  -
-                    __assoc__:
-                      -
-                        - handle
-                        - javascript
-      defaultDateDisplayType: calendar
-      defaultDateTime: null
-      defaultDateValueOption: ''
-      defaultEmailTemplate: ''
-      defaultFileUploadVolume: ''
-      defaultFormTemplate: ''
-      defaultInstructionsPosition: verbb\formie\positions\AboveInput
-      defaultLabelPosition: verbb\formie\positions\AboveInput
-      defaultPage: forms
-      emptyValuePlaceholder: 'No response.'
-      enableBackSubmission: true
-      enableCsrfValidationForGuests: true
-      enableLargeFieldStorage: false
-      enableUnloadWarning: true
-      includeDraftElementUsage: false
-      includeRevisionElementUsage: false
-      maxIncompleteSubmissionAge: 30
-      maxSentNotificationsAge: 30
-      pdfPaperOrientation: portrait
-      pdfPaperSize: letter
-      pluginName: Formie
-      queuePriority: null
-      saveSpam: true
-      sendEmailAlerts: false
-      sentNotifications: true
-      spamBehaviour: showSuccess
-      spamBehaviourMessage: ''
-      spamEmailNotifications: false
-      spamKeywords: ''
-      spamLimit: 500
-      useQueueForIntegrations: true
-      useQueueForNotifications: false
-      validateCustomTemplates: true
+                    - dfb73ee5-ea53-4d09-85e2-8ec1dc827d28 # News
+                    - 5edfc78e-63a4-4023-8fba-f4818a8e32a0 # news-article
+  field-manager:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  freeform:
+    edition: express
+    enabled: true
+    schemaVersion: 5.6.2
   obfuscator:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
-  postmark:
+  seomatic:
     edition: standard
     enabled: true
-    schemaVersion: 2.0.1
-  super-table:
-    edition: standard
-    enabled: true
-    schemaVersion: 4.0.0
-  typogrify:
-    edition: standard
-    enabled: true
-    schemaVersion: 1.0.0
+    licenseKey: 55JPLHLCDK5V239ZG7MJ1967
+    schemaVersion: 3.0.13
+    settings:
+      addHrefLang: true
+      addPaginatedHreflang: true
+      addXDefaultHrefLang: true
+      alwaysIncludeCanonicalUrls: false
+      cpTitlePrefix: '⚙ '
+      cspNonce: ''
+      cspScriptSrcPolicies:
+        -
+          __assoc__:
+            -
+              - policy
+              - "'self'"
+      devModeCpTitlePrefix: '🚧⚙ '
+      devModeTitlePrefix: '🚧 '
+      displayAnalysisSidebar: true
+      displayPreviewSidebar: true
+      enableDebugToolbarPanel: true
+      enableJsonLdEndpoint: false
+      enableMetaContainerEndpoint: false
+      enableSeoFileLinkEndpoint: false
+      environment: dev
+      excludeNonCanonicalUrls: false
+      generatorEnabled: true
+      headersEnabled: true
+      includeHomepageInBreadcrumbs: true
+      lowercaseCanonicalUrl: true
+      manuallySetEnvironment: false
+      maxDescriptionLength: 155
+      maxTitleLength: 70
+      metaCacheDuration: 0
+      pluginName: SEOmatic
+      regenerateSitemapsAutomatically: true
+      renderEnabled: true
+      separatorChar: '|'
+      sidebarDisplayPreviewTypes:
+        - google
+        - twitter
+        - facebook
+      siteGroupsSeparate: true
+      siteUrlOverride: ''
+      sitemapsEnabled: true
+      socialMediaPreviewTarget: true
+      submitSitemaps: true
+      truncateDescriptionTags: true
+      truncateTitleTags: true
+      xDefaultSite: 0
 system:
   edition: solo
   live: true
-  name: 'Altius Lifts'
+  name: 'Hair Haven'
   retryDuration: null
-  schemaVersion: 5.9.0.8
-  timeZone: Europe/London
+  schemaVersion: 5.8.0.3
+  timeZone: America/Los_Angeles
 users:
   allowPublicRegistration: false
   defaultGroup: null
   photoSubpath: null
   photoVolumeUid: null
+  require2fa: false
   requireEmailVerification: true

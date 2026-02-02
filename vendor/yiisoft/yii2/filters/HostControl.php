@@ -8,11 +8,7 @@
 namespace yii\filters;
 
 use Yii;
-use yii\base\Action;
 use yii\base\ActionFilter;
-use yii\base\Component;
-use yii\base\Controller;
-use yii\base\Module;
 use yii\helpers\StringHelper;
 use yii\web\NotFoundHttpException;
 
@@ -24,7 +20,7 @@ use yii\web\NotFoundHttpException;
  *
  * Application configuration example:
  *
- * ```
+ * ```php
  * return [
  *     'as hostControl' => [
  *         'class' => 'yii\filters\HostControl',
@@ -39,7 +35,7 @@ use yii\web\NotFoundHttpException;
  *
  * Controller configuration example:
  *
- * ```
+ * ```php
  * use yii\web\Controller;
  * use yii\filters\HostControl;
  *
@@ -67,9 +63,6 @@ use yii\web\NotFoundHttpException;
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0.11
- *
- * @template T of Component
- * @extends ActionFilter<T>
  */
 class HostControl extends ActionFilter
 {
@@ -77,7 +70,7 @@ class HostControl extends ActionFilter
      * @var array|\Closure|null list of host names, which are allowed.
      * Each host can be specified as a wildcard pattern. For example:
      *
-     * ```
+     * ```php
      * [
      *     'example.com',
      *     '*.example.com',
@@ -86,7 +79,7 @@ class HostControl extends ActionFilter
      *
      * This field can be specified as a PHP callback of following signature:
      *
-     * ```
+     * ```php
      * function (\yii\base\Action $action) {
      *     //return array of strings
      * }
@@ -103,7 +96,7 @@ class HostControl extends ActionFilter
      *
      * The signature of the callback should be as follows:
      *
-     * ```
+     * ```php
      * function (\yii\base\Action $action)
      * ```
      *
@@ -167,11 +160,8 @@ class HostControl extends ActionFilter
      * The default implementation will display 404 page right away, terminating the program execution.
      * You may override this method, creating your own deny access handler. While doing so, make sure you
      * avoid usage of the current requested host name, creation of absolute URL links, caching page parts and so on.
-     * @param Action $action the action to be executed.
+     * @param \yii\base\Action $action the action to be executed.
      * @throws NotFoundHttpException
-     *
-     * @phpstan-param Action<Controller<Module>> $action
-     * @psalm-param Action<Controller<Module>> $action
      */
     protected function denyAccess($action)
     {

@@ -62,7 +62,6 @@ class ImageTransformsController extends Controller
         $variables = [];
 
         $variables['transforms'] = Craft::$app->getImageTransforms()->getAllTransforms();
-        usort($variables['transforms'], fn(ImageTransform $a, ImageTransform $b) => Craft::t('site', $a->name) <=> Craft::t('site', $b->name));
         $variables['modes'] = ImageTransform::modes();
         $variables['readOnly'] = $this->readOnly;
 
@@ -95,7 +94,7 @@ class ImageTransformsController extends Controller
             }
         }
 
-        $bundle = $this->getView()->registerAssetBundle(EditTransformAsset::class);
+        $this->getView()->registerAssetBundle(EditTransformAsset::class);
 
         if ($transform->id) {
             $title = trim($transform->name) ?: Craft::t('app', 'Edit Image Transform');
@@ -133,7 +132,6 @@ class ImageTransformsController extends Controller
             'qualityPickerOptions' => $qualityPickerOptions,
             'qualityPickerValue' => $qualityPickerValue,
             'readOnly' => $this->readOnly,
-            'baseIconsUrl' => $bundle->baseUrl,
         ]);
     }
 

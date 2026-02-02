@@ -1,0 +1,201 @@
+{# Product Sections Component - Brand product showcases with two-column layout #}
+<section class="product-sections">
+    <div class="container">
+        {# Get the products page entry and extract brands and products from CraftCMS #}
+        {% set productsEntry = craft.entries.section('products').one() %}
+        {% set productBrands = [] %}
+
+        {% if productsEntry and productsEntry.mx_brandsAndProducts|length %}
+            {% for brand in productsEntry.mx_brandsAndProducts.all() %}
+                {% set brandAnchor = brand.title|lower|replace({' ': '-', '\'': '', '&': 'and', '.': '', ',': '', '(': '', ')': ''}) %}
+                {% set brandProducts = [] %}
+
+                {# Get products for this brand #}
+                {% if brand.mx_products|length %}
+                    {% for product in brand.mx_products.all() %}
+                        {% set productImages = [] %}
+                        {% if product.productImages|length %}
+                            {% for image in product.productImages.all() %}
+                                {% set productImages = productImages|merge([image.url]) %}
+                            {% endfor %}
+                        {% else %}
+                            {# Use page-level generic image if no product images are provided #}
+                            {% if productsEntry.genericImage is defined and productsEntry.genericImage|length %}
+                                {% for image in productsEntry.genericImage.all() %}
+                                    {% set productImages = productImages|merge([image.url]) %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+
+                        {% set brandProducts = brandProducts|merge([{
+                            'name': product.title,
+                            'description': product.productDescription ? product.productDescription : '',
+                            'price': product.straightText ? product.straightText : '',
+                            'images': productImages
+                        }]) %}
+                    {% endfor %}
+                {% endif %}
+
+                {% set productBrands = productBrands|merge([{
+                    'name': brand.title,
+                    'anchor': brandAnchor,
+                    'products': brandProducts
+                }]) %}
+            {% endfor %}
+        {% endif %}
+
+        {# Fallback static data if no CraftCMS data available #}
+        {% if productBrands|length == 0 %}
+            {% set productBrands = [
+            {
+                'name': 'Olaplex',
+                'anchor': 'brand-1',
+                'products': [
+                    {
+                        'name': 'Olaplex No. 3 Hair Perfector',
+                        'description': 'A weekly at-home treatment that reduces breakage and visibly strengthens hair, improving its look and feel.',
+                        'price': '£28.00',
+                        'images': [
+                            '/assets/olaplex-no3-1.webp',
+                            '/assets/olaplex-no3-2.webp'
+                        ]
+                    },
+                    {
+                        'name': 'Olaplex No. 4 Bond Maintenance Shampoo',
+                        'description': 'A highly-moisturizing, reparative shampoo that leaves hair easier to manage, shinier and healthier with each use.',
+                        'price': '£30.00',
+                        'images': [
+                            '/assets/olaplex-no4.webp'
+                        ]
+                    }
+                ]
+            },
+            {
+                'name': 'Redken',
+                'anchor': 'brand-2',
+                'products': [
+                    {
+                        'name': 'Redken All Soft Shampoo',
+                        'description': 'Moisturizing shampoo for dry, brittle hair. Provides softness and shine while gently cleansing.',
+                        'price': '£24.00',
+                        'images': [
+                            '/assets/redken-allsoft-1.webp',
+                            '/assets/redken-allsoft-2.webp',
+                            '/assets/redken-allsoft-3.webp'
+                        ]
+                    }
+                ]
+            },
+            {
+                'name': 'Schwarzkopf',
+                'anchor': 'brand-3',
+                'products': [
+                    {
+                        'name': 'Schwarzkopf BC Bonacure Repair Rescue',
+                        'description': 'Professional hair care system that repairs and strengthens damaged hair structure.',
+                        'price': '£32.00',
+                        'images': [
+                            '/assets/schwarzkopf-repair.webp'
+                        ]
+                    }
+                ]
+            },
+            {
+                'name': 'L\'Oréal',
+                'anchor': 'brand-4',
+                'products': [
+                    {
+                        'name': 'L\'Oréal Professionnel Serie Expert',
+                        'description': 'Professional-grade hair care products designed for salon-quality results at home.',
+                        'price': '£26.00',
+                        'images': [
+                            '/assets/loreal-expert-1.webp',
+                            '/assets/loreal-expert-2.webp'
+                        ]
+                    }
+                ]
+            },
+            {
+                'name': 'Wella',
+                'anchor': 'brand-5',
+                'products': [
+                    {
+                        'name': 'Wella Professionals Invigo',
+                        'description': 'Invigorating care for hair and scalp with refreshing and strengthening properties.',
+                        'price': '£22.00',
+                        'images': [
+                            '/assets/wella-invigo.webp'
+                        ]
+                    }
+                ]
+            },
+            {
+                'name': 'Moroccanoil',
+                'anchor': 'brand-6',
+                'products': [
+                    {
+                        'name': 'Moroccanoil Treatment Original',
+                        'description': 'The original foundation for hairstyling that can be used as a conditioning, styling and finishing tool.',
+                        'price': '£44.00',
+                        'images': [
+                            '/assets/moroccanoil-treatment-1.webp',
+                            '/assets/moroccanoil-treatment-2.webp',
+                            '/assets/moroccanoil-treatment-3.webp',
+                            '/assets/moroccanoil-treatment-4.webp'
+                        ]
+                    }
+                ]
+            }
+            ] %}
+        {% endif %}
+
+
+
+        {% for brand in productBrands %}
+            <div class="brand-section" id="{{ brand.anchor }}">
+                <div class="brand-header">
+                    <h2>{{ brand.name }}</h2>
+                    <div class="separator"></div>
+                </div>
+
+                {% for product in brand.products %}
+                    <div class="product-showcase">
+                        <div class="product-images">
+                            {% if product.images|length %}
+                                {# Always use gallery layout for visual consistency #}
+                                <div class="product-gallery">
+                                    <div class="gallery-thumbnails">
+                                        {% for image in product.images %}
+                                            <div class="thumbnail{% if loop.first %} active{% endif %}" data-image="{{ image }}">
+                                                <img src="{{ image }}" alt="{{ product.name }} - Image {{ loop.index }}">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="gallery-main">
+                                        <img src="{{ product.images[0] }}" alt="{{ product.name }}" class="main-image">
+                                    </div>
+                                </div>
+                            {% else %}
+                                {# No images available - show placeholder message #}
+                                <div class="product-no-image">
+                                    <p>No image available</p>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="product-details">
+                            <h3>{{ product.name }}</h3>
+                            <div class="product-description">
+                                <p>{{ product.description }}</p>
+                            </div>
+                            <div class="product-price">
+                                <span class="price">{{ product.price }}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</section>

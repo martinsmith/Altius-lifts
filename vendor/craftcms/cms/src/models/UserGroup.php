@@ -8,16 +8,10 @@
 namespace craft\models;
 
 use Craft;
-use craft\base\Actionable;
-use craft\base\Chippable;
-use craft\base\CpEditable;
-use craft\base\Describable;
-use craft\base\Grippable;
 use craft\base\Model;
 use craft\records\UserGroup as UserGroupRecord;
 use craft\validators\HandleValidator;
 use craft\validators\UniqueValidator;
-use craft\web\twig\AllowedInSandbox;
 
 /**
  * UserGroup model class.
@@ -25,125 +19,33 @@ use craft\web\twig\AllowedInSandbox;
  * @author Pixel & Tonic, Inc. <support@pixelandtonic.com>
  * @since 3.0.0
  */
-class UserGroup extends Model implements Chippable, Grippable, Describable, CpEditable, Actionable
+class UserGroup extends Model
 {
-    /**
-     * @inheritdoc
-     */
-    public static function get(int|string $id): ?static
-    {
-        /** @phpstan-ignore-next-line */
-        return Craft::$app->getUserGroups()->getGroupById($id);
-    }
-
     /**
      * @var int|null ID
      */
-    #[AllowedInSandbox]
     public ?int $id = null;
 
     /**
      * @var string|null Name
      */
-    #[AllowedInSandbox]
     public ?string $name = null;
 
     /**
      * @var string|null Handle
      */
-    #[AllowedInSandbox]
     public ?string $handle = null;
 
     /**
      * @var string|null Description
      * @since 3.5.0
      */
-    #[AllowedInSandbox]
     public ?string $description = null;
 
     /**
      * @var string|null UID
      */
     public ?string $uid = null;
-
-    /**
-     * @inheritdoc
-     */
-    public function getUiLabel(): string
-    {
-        return Craft::t('site', $this->name);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getHandle(): ?string
-    {
-        return $this->handle;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getCpEditUrl(): ?string
-    {
-        if (!$this->id || !Craft::$app->getUser()->getIsAdmin()) {
-            return null;
-        }
-
-        return "settings/users/groups/$this->id";
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getActionMenuItems(): array
-    {
-        $items = [];
-
-        if (
-            $this->id &&
-            Craft::$app->getUser()->getIsAdmin() &&
-            Craft::$app->getConfig()->getGeneral()->allowAdminChanges
-        ) {
-            $editId = sprintf('action-edit-%s', mt_rand());
-            $items[] = [
-                'id' => $editId,
-                'icon' => 'gear',
-                'label' => Craft::t('app', 'User group settings'),
-            ];
-
-            $view = Craft::$app->getView();
-            $view->registerJsWithVars(fn($id, $params) => <<<JS
-$('#' + $id).on('click', () => {
-  new Craft.CpScreenSlideout('user-settings/edit-group', {
-    params: $params,
-  });
-});
-JS, [
-                $view->namespaceInputId($editId),
-                ['groupId' => $this->id],
-            ]);
-        }
-
-        return $items;
-    }
 
     /**
      * @inheritdoc
@@ -163,7 +65,6 @@ JS, [
     {
         $rules = parent::defineRules();
         $rules[] = [['id'], 'number', 'integerOnly' => true];
-        $rules[] = [['name', 'handle'], 'trim'];
         $rules[] = [['name', 'handle'], 'required'];
         $rules[] = [['name', 'handle'], 'string', 'max' => 255];
         $rules[] = [

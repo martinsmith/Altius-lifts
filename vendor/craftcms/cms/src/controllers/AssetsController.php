@@ -348,14 +348,6 @@ class AssetsController extends Controller
             }
         }
 
-        // try to get uploaded asset's URL
-        $url = null;
-        try {
-            $url = $asset->getUrl();
-        } catch (Throwable) {
-            // do nothing
-        }
-
         if ($asset->conflictingFilename !== null) {
             $conflictingAsset = Asset::findOne(['folderId' => $folder->id, 'filename' => $asset->conflictingFilename]);
 
@@ -366,14 +358,12 @@ class AssetsController extends Controller
                 'conflictingAssetId' => $conflictingAsset->id ?? null,
                 'suggestedFilename' => $asset->suggestedFilename,
                 'conflictingAssetUrl' => ($conflictingAsset && $conflictingAsset->getVolume()->getFs()->hasUrls) ? $conflictingAsset->getUrl() : null,
-                'url' => $url,
             ]);
         }
 
         return $this->asSuccess(data: [
             'filename' => $asset->getFilename(),
             'assetId' => $asset->id,
-            'url' => $url,
         ]);
     }
 
@@ -1301,9 +1291,7 @@ class AssetsController extends Controller
         $extension = strtolower(pathinfo($uploadedFile->name, PATHINFO_EXTENSION));
 
         if (is_array($allowedExtensions) && !in_array($extension, $allowedExtensions, true)) {
-            throw new AssetDisallowedExtensionException(Craft::t('app', '“{extension}” is not an allowed file extension.', [
-                'extension' => $extension,
-            ]));
+            throw new AssetDisallowedExtensionException(Craft::t('app', "“{$extension}” is not an allowed file extension."));
         }
 
         // Move the uploaded file to the temp folder

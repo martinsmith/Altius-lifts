@@ -152,12 +152,6 @@ class Revisions extends Component
 
             $transaction = $db->beginTransaction();
             try {
-                // Even if no existing revision info was found, there could be an orphaned row in there
-                Db::delete(Table::REVISIONS, [
-                    'canonicalId' => $canonical->id,
-                    'num' => $num,
-                ]);
-
                 // Create the revision row
                 Db::insert(Table::REVISIONS, [
                     'canonicalId' => $canonical->id,
@@ -180,11 +174,7 @@ class Revisions extends Component
                     $newAttributes['dateCreated'] = $canonical->dateUpdated;
                 }
 
-                $revision = $elementsService->duplicateElement(
-                    $canonical,
-                    $newAttributes,
-                    copyModifiedFields: true,
-                );
+                $revision = $elementsService->duplicateElement($canonical, $newAttributes);
 
                 $transaction->commit();
             } catch (Throwable $e) {

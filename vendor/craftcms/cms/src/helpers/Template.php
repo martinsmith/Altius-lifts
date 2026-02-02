@@ -12,7 +12,6 @@ use craft\base\ElementInterface;
 use craft\db\Paginator;
 use craft\web\twig\variables\Paginate;
 use craft\web\View;
-use Stringable;
 use Twig\Environment;
 use Twig\Error\RuntimeError;
 use Twig\Extension\CoreExtension;
@@ -146,11 +145,6 @@ class Template
         }
 
         try {
-            // workaround for https://github.com/twigphp/Twig/issues/4701
-            if ($type !== TwigTemplate::METHOD_CALL && $item instanceof Stringable) {
-                $item = (string) $item;
-            }
-
             return CoreExtension::getAttribute(
                 $env,
                 $source,

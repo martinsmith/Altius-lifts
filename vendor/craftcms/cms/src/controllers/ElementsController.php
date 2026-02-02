@@ -36,7 +36,6 @@ use craft\helpers\ElementHelper;
 use craft\helpers\Html;
 use craft\helpers\Json;
 use craft\helpers\StringHelper;
-use craft\helpers\Template;
 use craft\helpers\UrlHelper;
 use craft\i18n\Locale;
 use craft\models\ElementActivity;
@@ -99,7 +98,6 @@ class ElementsController extends Controller
     private bool $_dropProvisional;
     private bool $_addAnother;
     private array $_visibleLayoutElements;
-    private array $_staticLayoutElements;
     private ?string $_selectedTab = null;
     private bool $_applyParams;
     private bool $_prevalidate;
@@ -143,7 +141,6 @@ class ElementsController extends Controller
         $this->_dropProvisional = (bool)$this->_param('dropProvisional');
         $this->_addAnother = (bool)$this->_param('addAnother');
         $this->_visibleLayoutElements = $this->_param('visibleLayoutElements') ?? [];
-        $this->_staticLayoutElements = $this->_param('staticLayoutElements') ?? [];
         $this->_selectedTab = $this->_param('selectedTab');
         $this->_applyParams = $this->_param('applyParams', true) || !$this->request->getIsPost();
         $this->_prevalidate = (bool)$this->_param('prevalidate');
@@ -364,7 +361,7 @@ class ElementsController extends Controller
         [$docTitle, $title] = $this->_editElementTitles($element);
         $enabledForSite = $element->getEnabledForSite();
         $hasRoute = $element->getRoute() !== null;
-        $redirectUrl = $this->request->getValidatedQueryParam('returnUrl') ?? UrlHelper::cpReferralUrl() ?? ElementHelper::postEditUrl($element);
+        $redirectUrl = $this->request->getValidatedQueryParam('returnUrl') ?? ElementHelper::postEditUrl($element);
 
         // Site statuses
         if ($canEditMultipleSites) {
@@ -379,7 +376,7 @@ class ElementsController extends Controller
         $notice = null;
         if ($element->isProvisionalDraft) {
             $notice = fn() => $this->_draftNotice();
-        } elseif ($isRevision) {
+        } elseif ($element->getIsRevision()) {
             $notice = fn() => $this->_revisionNotice($element::lowerDisplayName());
         }
 
@@ -463,8 +460,7 @@ class ElementsController extends Controller
                         'siteId' => $element->siteId,
                         'siteStatuses' => $siteStatuses,
                         'siteToken' => (!Craft::$app->getIsLive() || !$element->getSite()->enabled) ? $security->hashData((string)$element->siteId) : null,
-                        'visibleLayoutElements' => $form?->getVisibleElements() ?? [],
-                        'staticLayoutElements' => $form?->getStaticElements() ?? [],
+                        'visibleLayoutElements' => $form ? $form->getVisibleElements() : [],
                         'updatedTimestamp' => $element->dateUpdated?->getTimestamp(),
                         'canonicalUpdatedTimestamp' => $canonical->dateUpdated?->getTimestamp(),
                         'isStatic' => $isRevision || !$canSave,
@@ -761,7 +757,6 @@ JS, [
                 'html' => Cp::elementChipHtml($element, [
                     'showDraftName' => !$current,
                     'class' => 'chromeless',
-                    'hyperlink' => true,
                 ]),
                 'current' => $current,
             ],
@@ -817,7 +812,7 @@ JS, [
             $revisionsPageUrl = $element->getCpRevisionsUrl();
 
             if ($revisionsPageUrl) {
-                $hasMoreRevisions = ($revisionsQuery->count() - 1) > 0;
+                $hasMoreRevisions = ($revisionsQuery->count() - 1) > count($revisions);
             }
         } else {
             $revisions = [];
@@ -887,20 +882,17 @@ JS, [
                     /** @var ElementInterface&DraftBehavior $draft */
                     $creator = $draft->getCreator();
                     $timestamp = $formatter->asTimestamp($draft->dateUpdated, Locale::LENGTH_SHORT, true);
-                    $timestampWithDate = $formatter->asDatetime($draft->dateUpdated, Locale::LENGTH_SHORT);
 
                     return [
                         'label' => $draft->draftName,
                         'description' => $creator
-                            ? Template::raw(Craft::t('app', 'Saved <time title="{timestampWithDate}">{timestamp}</time> by {creator}', [
-                                'timestampWithDate' => $timestampWithDate,
+                            ? Craft::t('app', 'Saved {timestamp} by {creator}', [
                                 'timestamp' => $timestamp,
                                 'creator' => $creator->name,
-                            ]))
-                            : Template::raw(Craft::t('app', 'Last saved <time title="{timestampWithDate}">{timestamp}</time>', [
-                                'timestampWithDate' => $timestampWithDate,
+                            ])
+                            : Craft::t('app', 'Last saved {timestamp}', [
                                 'timestamp' => $timestamp,
-                            ])),
+                            ]),
                         'url' => UrlHelper::urlWithParams($cpEditUrl, array_merge($baseParams, [
                             'draftId' => $draft->draftId,
                         ])),
@@ -918,20 +910,17 @@ JS, [
                     /** @var ElementInterface&RevisionBehavior $revision */
                     $creator = $revision->getCreator();
                     $timestamp = $formatter->asTimestamp($revision->dateCreated, Locale::LENGTH_SHORT, true);
-                    $timestampWithDate = $formatter->asDatetime($revision->dateCreated, Locale::LENGTH_SHORT);
 
                     return [
                         'label' => $revision->getRevisionLabel(),
                         'description' => $creator
-                            ? Template::raw(Craft::t('app', 'Saved <time title="{timestampWithDate}">{timestamp}</time> by {creator}', [
-                                'timestampWithDate' => $timestampWithDate,
+                            ? Craft::t('app', 'Saved {timestamp} by {creator}', [
                                 'timestamp' => $timestamp,
                                 'creator' => $creator->name,
-                            ]))
-                            : Template::raw(Craft::t('app', 'Saved <time title="{timestampWithDate}">{timestamp}</time>', [
-                                'timestampWithDate' => $timestampWithDate,
+                            ])
+                            : Craft::t('app', 'Saved {timestamp}', [
                                 'timestamp' => $timestamp,
-                            ])),
+                            ]),
                         'url' => UrlHelper::urlWithParams($cpEditUrl, array_merge($baseParams, [
                             'revisionId' => $revision->revisionId,
                         ])),
@@ -1529,11 +1518,7 @@ JS, [
             throw new BadRequestHttpException('The owner element must be a derivative.');
         }
         if ($owner->getCanonicalId() !== $element->getPrimaryOwnerId()) {
-            // the owner might be a derivative of another canonical element
-            $canonicalOwner = $owner->getCanonical();
-            if ($canonicalOwner->getCanonicalId() !== $element->getPrimaryOwnerId()) {
-                throw new BadRequestHttpException('The canonical owner element must be the primary owner of the nested element.');
-            }
+            throw new BadRequestHttpException('The canonical owner element must be the primary owner of the nested element.');
         }
         if (!$elementsService->canSave($owner, $user)) {
             throw new ForbiddenHttpException('User not authorized to save the owner element.');
@@ -1653,15 +1638,6 @@ JS, [
             'isProvisionalDraft' => false,
             'draftId' => null,
         ];
-
-        if ($asUnpublishedDraft &&
-            ($element->getIsCanonical() || $element->isProvisionalDraft) &&
-            $element->slug === $element->getCanonical()->slug
-        ) {
-            $newAttributes += [
-                'slug' => null,
-            ];
-        }
 
         if ($element instanceof NestedElementInterface) {
             $newAttributes += [
@@ -2146,19 +2122,10 @@ JS, [
             $element->setScenario(Element::SCENARIO_LIVE);
         }
 
-        // if we're about to apply an unpublished draft, set propagateRequired to true
-        if ($isUnpublishedDraft) {
-            $element->propagateRequired = true;
-        }
-
-        $element->applyingDraft = true;
-
         $namespace = $this->request->getHeaders()->get('X-Craft-Namespace');
         if (!$elementsService->saveElement($element, crossSiteValidate: ($namespace === null && Craft::$app->getIsMultiSite()))) {
             return $this->_asAppyDraftFailure($element);
         }
-
-        $element->applyingDraft = false;
 
         if (!$isUnpublishedDraft) {
             $lockKey = "element:$element->canonicalId";
@@ -2174,7 +2141,6 @@ JS, [
         }
 
         try {
-            $element->propagateRequired = false;
             $canonical = Craft::$app->getDrafts()->applyDraft($element, $attributes);
         } catch (InvalidElementException) {
             return $this->_asAppyDraftFailure($element);
@@ -2401,7 +2367,6 @@ JS, [
             'namespace' => $namespace,
             'registerDeltas' => false,
             'visibleElements' => $this->_visibleLayoutElements,
-            'staticElements' => $this->_staticLayoutElements,
         ]);
         $missingElements = [];
         foreach ($form->tabs as $tab) {
@@ -2411,16 +2376,14 @@ JS, [
 
             $elementInfo = [];
 
-            foreach ($tab->elements as [$layoutElement, $isConditional, $elementHtml, $isStatic]) {
+            foreach ($tab->elements as [$layoutElement, $isConditional, $elementHtml]) {
                 /** @var FieldLayoutComponent $layoutElement */
                 /** @var bool $isConditional */
                 /** @var string|bool $elementHtml */
-                /** @var bool $isStatic */
                 if ($isConditional) {
                     $elementInfo[] = [
                         'uid' => $layoutElement->uid,
                         'html' => $elementHtml,
-                        'static' => $isStatic,
                     ];
                 }
             }
@@ -2618,10 +2581,7 @@ JS, [
                     $preferSites,
                 );
                 if ($element && $elementsService->canView($element, $user)) {
-                    if (!$this->request->getAcceptsJson()) {
-                        return $this->redirect($element->getCpEditUrl());
-                    }
-                    return $element;
+                    return $this->redirect($element->getCpEditUrl());
                 }
                 throw new BadRequestHttpException($draftId ? "Invalid draft ID: $draftId" : "Invalid revision ID: $revisionId");
             }
@@ -2648,12 +2608,7 @@ JS, [
             throw new ForbiddenHttpException('User not authorized to edit this element.');
         }
 
-        if (
-            !$strictSite &&
-            isset($site) &&
-            $element->siteId !== $site->id &&
-            !$this->request->getAcceptsJson()
-        ) {
+        if (!$strictSite && isset($site) && $element->siteId !== $site->id) {
             return $this->redirect($element->getCpEditUrl());
         }
 
@@ -2934,9 +2889,7 @@ JS, [
             'element' => $element->toArray($element->attributes()),
         ];
         $response = $this->asSuccess($message, $data, $this->getPostedRedirectUrl($element), [
-            'details' => !$element->dateDeleted
-                ? Cp::elementChipHtml($element, ['hyperlink' => true])
-                : null,
+            'details' => !$element->dateDeleted ? Cp::elementChipHtml($element) : null,
         ]);
 
         if ($supportsAddAnother && $this->_addAnother) {

@@ -1,0 +1,150 @@
+@layer components {
+
+/* Section Header Component - Token-Based & Simplified */
+.section-header {
+  text-align: center;
+  margin-block-end: var(--space-12);
+
+  & h2 {
+    font-size: var(--text-section-title);
+    margin-block-end: var(--space-4);
+    color: var(--primary-color);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+  }
+
+  & p {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: var(--font-weight-normal);
+    opacity: 0.9;
+  }
+}
+
+/* Component-specific variations using utility classes and simple overrides */
+
+/* Services Preview */
+.services-preview .section-header {
+  & p {
+    color: var(--primary-color-light);
+  }
+}
+
+/* Call to Action */
+.cta-section .section-header {
+  margin-block-end: var(--space-8);
+
+  & h2 {
+    color: white;
+  }
+
+  & p {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Call to Action - Dark Text Variant */
+.cta-section.cta-dark-text .section-header {
+  & h2 {
+    color: var(--text-color);
+  }
+
+  & p {
+    color: var(--text-color-secondary);
+  }
+}
+
+/* Instagram Feed */
+.instagram-feed .section-header {
+  & p {
+    color: var(--text-secondary);
+  }
+}
+
+/* Dark background variants */
+.features--alt-bg .section-header,
+.features--dark-bg .section-header,
+.features--accent-bg .section-header {
+  & h2 {
+    color: white;
+  }
+
+  & p {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Benefits Section */
+.why-join-section .section-header,
+.news-section .section-header {
+  & p {
+    color: var(--primary-color-light);
+  }
+}
+
+/* Services Detail Page */
+.services-detail-page .section-header {
+  margin-block-start: var(--space-12);
+
+  & p {
+    color: var(--primary-color-light);
+  }
+}
+
+/* Services Detail Page - CTA section should use CTA colors, not page colors */
+.services-detail-page .cta-section .section-header {
+  & p {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.services-detail-page .cta-section.cta-dark-text .section-header {
+  & p {
+    color: var(--text-color-secondary);
+  }
+}
+
+/* Responsive adjustments using standardized breakpoints */
+@media (max-width: 768px) {
+  .section-header {
+    margin-block-end: var(--space-10);
+    
+    & h2 {
+      font-size: var(--text-section-title);
+      margin-block-end: var(--space-3);
+    }
+    
+    & p {
+      font-size: var(--text-base);
+      max-width: 100%;
+    }
+  }
+  
+  .services-detail-page .section-header {
+    margin-block-start: var(--space-8);
+  }
+}
+
+@media (max-width: 480px) {
+  .section-header {
+    margin-block-end: var(--space-8);
+    
+    & h2 {
+      font-size: var(--text-section-title);
+    }
+    
+    & p {
+      font-size: var(--text-base);
+      line-height: var(--line-height-normal);
+    }
+  }
+  
+  .services-detail-page .section-header {
+    margin-block-start: var(--space-6);
+  }
+}
+
+} /* End @layer components */

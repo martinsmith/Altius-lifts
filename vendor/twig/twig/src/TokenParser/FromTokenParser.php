@@ -21,7 +21,7 @@ use Twig\Token;
 /**
  * Imports macros.
  *
- *   {% from 'forms.html.twig' import forms %}
+ *   {% from 'forms.html' import forms %}
  *
  * @internal
  */
@@ -29,7 +29,7 @@ final class FromTokenParser extends AbstractTokenParser
 {
     public function parse(Token $token): Node
     {
-        $macro = $this->parser->parseExpression();
+        $macro = $this->parser->getExpressionParser()->parseExpression();
         $stream = $this->parser->getStream();
         $stream->expect(Token::NAME_TYPE, 'import');
 

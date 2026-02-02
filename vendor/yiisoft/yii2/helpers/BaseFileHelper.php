@@ -24,11 +24,12 @@ use yii\base\InvalidConfigException;
  */
 class BaseFileHelper
 {
-    public const PATTERN_NODIR = 1;
-    public const PATTERN_ENDSWITH = 4;
-    public const PATTERN_MUSTBEDIR = 8;
-    public const PATTERN_NEGATIVE = 16;
-    public const PATTERN_CASE_INSENSITIVE = 32;
+    const PATTERN_NODIR = 1;
+    const PATTERN_ENDSWITH = 4;
+    const PATTERN_MUSTBEDIR = 8;
+    const PATTERN_NEGATIVE = 16;
+    const PATTERN_CASE_INSENSITIVE = 32;
+
     /**
      * @var string the path (or alias) of a PHP file containing MIME type information.
      */
@@ -170,11 +171,7 @@ class BaseFileHelper
 
         if ($info) {
             $result = finfo_file($info, $file);
-            // @link https://wiki.php.net/rfc/deprecations_php_8_5#deprecate_finfo_close
-            // @link https://github.com/php/php-src/commit/ccb716dcadf60d989db48e4d2963e14d7dc63df3
-            if (PHP_VERSION_ID < 80500) {
-                finfo_close($info);
-            }
+            finfo_close($info);
 
             if ($result !== false) {
                 return $result;

@@ -21,7 +21,7 @@ use yii\web\View;
  * To use MaskedInput, you must set the [[mask]] property. The following example
  * shows how to use MaskedInput to collect phone numbers:
  *
- * ```
+ * ```php
  * echo MaskedInput::widget([
  *     'name' => 'phone',
  *     'mask' => '999-999-9999',
@@ -31,7 +31,7 @@ use yii\web\View;
  * You can also use this widget in an [[ActiveForm]] using the [[ActiveField::widget()|widget()]]
  * method, for example like this:
  *
- * ```
+ * ```php
  * <?= $form->field($model, 'from_date')->widget(\yii\widgets\MaskedInput::class, [
  *     'mask' => '999-999-9999',
  * ]) ?>
@@ -48,7 +48,8 @@ class MaskedInput extends InputWidget
     /**
      * The name of the jQuery plugin to use for this widget.
      */
-    public const PLUGIN_NAME = 'inputmask';
+    const PLUGIN_NAME = 'inputmask';
+
     /**
      * @var string|array|JsExpression the input mask (e.g. '99/99/9999' for date input). The following characters
      * can be used in the mask and are predefined:
@@ -63,7 +64,7 @@ class MaskedInput extends InputWidget
      */
     public $mask;
     /**
-     * @var array|null custom mask definitions to use. Should be configured as `maskSymbol => settings`, where
+     * @var array custom mask definitions to use. Should be configured as `maskSymbol => settings`, where
      *
      * - `maskSymbol` is a string, containing a character to identify your mask definition and
      * - `settings` is an array, consisting of the following entries:
@@ -74,7 +75,7 @@ class MaskedInput extends InputWidget
      */
     public $definitions;
     /**
-     * @var array|null custom aliases to use. Should be configured as `maskAlias => settings`, where
+     * @var array custom aliases to use. Should be configured as `maskAlias => settings`, where
      *
      * - `maskAlias` is a string containing a text to identify your mask alias definition (e.g. 'phone') and
      * - `settings` is an array containing settings for the mask symbol, exactly similar to parameters as passed in [[clientOptions]].
@@ -98,7 +99,7 @@ class MaskedInput extends InputWidget
     public $type = 'text';
 
     /**
-     * @var string|null the hashed variable to store the pluginOptions
+     * @var string the hashed variable to store the pluginOptions
      */
     protected $_hashVar;
     /**
@@ -195,10 +196,10 @@ class MaskedInput extends InputWidget
             $this->clientOptions['mask'] = $this->mask;
         }
         $this->hashPluginOptions($view);
-        if (is_array($this->definitions) && !empty($this->definitions)) {
+        if (!empty($this->definitions) && is_array($this->definitions)) {
             $js .= ucfirst(self::PLUGIN_NAME) . '.extendDefinitions(' . Json::htmlEncode($this->definitions) . ');';
         }
-        if (is_array($this->aliases) && !empty($this->aliases)) {
+        if (!empty($this->aliases) && is_array($this->aliases)) {
             $js .= ucfirst(self::PLUGIN_NAME) . '.extendAliases(' . Json::htmlEncode($this->aliases) . ');';
         }
         $id = $this->options['id'];

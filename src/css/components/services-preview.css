@@ -1,0 +1,107 @@
+@layer components {
+
+/* Services Preview Section Component Styles - Modern Container Query Version */
+.services-preview {
+  /* Component-specific overrides for base section */
+  --section-bg-color: var(--bg-light);
+  
+  & .services-grid {
+    display: grid;
+    gap: var(--grid-gap-standard);
+    margin-block-end: var(--space-3xl);
+    
+    /* Default grid - will be overridden by container queries */
+    grid-template-columns: var(--grid-columns-large-cards);
+  }
+
+  & .service-card {
+    /* Enhanced card styling with modern features */
+    /* Note: view-transition-name should be set dynamically in HTML with unique values */
+    
+    & .service-image {
+      height: 250px;
+      overflow: hidden;
+      position: relative;
+      
+      & .service-image-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: var(--transition-standard);
+        will-change: transform;
+      }
+    }
+    
+    &:hover .service-image-img {
+      transform: scale(1.05);
+    }
+
+    & .service-content {
+      & .service-title {
+        margin-block-end: var(--space-4);
+        font-size: var(--text-xl);
+        color: var(--primary-color);
+      }
+
+      & .service-description {
+        color: var(--text-secondary);
+        margin-block-end: var(--space-6);
+        line-height: var(--line-height-relaxed);
+      }
+
+      & .service-link {
+        color: var(--primary-color);
+        background-color: var(--accent-color);
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex !important;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-3) var(--space-6);
+        margin-inline-start: 0;
+        border-radius: var(--border-radius-standard);
+        transition: var(--transition-standard);
+        align-self: flex-start !important;
+        justify-content: center !important;
+        width: auto !important;
+        text-align: center !important;
+
+        &:hover {
+          background-color: var(--accent-color-dark);
+          color: var(--primary-color);
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-md);
+        }
+      }
+    }
+  }
+}
+
+/* Container Query Responsive Behavior */
+@container component (max-width: 768px) {
+  .services-preview .services-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  
+  .services-preview .service-card .service-image {
+    height: 200px;
+  }
+}
+
+@container component (min-width: 769px) and (max-width: 1024px) {
+  .services-preview .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-12);
+  }
+}
+
+@container component (min-width: 1025px) {
+  .services-preview .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--grid-gap-standard);
+  }
+}
+
+} /* End @layer components */

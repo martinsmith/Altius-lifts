@@ -9,7 +9,6 @@ namespace yii\web;
 
 use Yii;
 use yii\base\InvalidRouteException;
-use yii\base\Module;
 use yii\helpers\Url;
 
 /**
@@ -26,11 +25,6 @@ use yii\helpers\Url;
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
- *
- * @template TUserIdentity of IdentityInterface
- *
- * @phpstan-property-read User<TUserIdentity> $user
- * @psalm-property-read User<TUserIdentity> $user
  */
 class Application extends \yii\base\Application
 {
@@ -46,7 +40,7 @@ class Application extends \yii\base\Application
      * The rest of the array elements (key-value pairs) specify the parameters to be bound
      * to the action. For example,
      *
-     * ```
+     * ```php
      * [
      *     'offline/notice',
      *     'param1' => 'value1',
@@ -58,10 +52,7 @@ class Application extends \yii\base\Application
      */
     public $catchAll;
     /**
-     * @var Controller|null the currently active controller instance
-     *
-     * @phpstan-var Controller<Module>|null
-     * @psalm-var Controller<Module>|null
+     * @var Controller the currently active controller instance
      */
     public $controller;
 
@@ -190,9 +181,6 @@ class Application extends \yii\base\Application
     /**
      * Returns the user component.
      * @return User the user component.
-     *
-     * @phpstan-return User<TUserIdentity>
-     * @psalm-return User<TUserIdentity>
      */
     public function getUser()
     {

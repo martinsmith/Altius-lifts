@@ -6,7 +6,6 @@
 {% set elementsService = craft.app.elements %}
 {% set hasStatusCol = attributes|contains(0, 'status') %}
 {% set showHeaderColumn = showHeaderColumn ?? false %}
-{% set context = context ?? 'index' %}
 
 {% for element in elements %}
     {% set totalDescendants = structure
@@ -80,15 +79,14 @@
                             aria-expanded="{{  element.id not in collapsedElementIds ? 'true' : 'false' }}"></button>
                         {% endif %}
                         {% set chip = elementChip(element, {
-                            context,
+                            context: context ?? 'index',
                             showThumb: showHeaderColumn,
                             showLabel: showHeaderColumn,
                             showProvisionalDraftLabel: true,
                             showStatus: showHeaderColumn and not hasStatusCol,
                             attributes: {
                                 class: ['chromeless'],
-                            },
-                            hyperlink: hyperlink ?? (context == 'index'),
+                            }
                         }) %}
                         {% if not showHeaderColumn %}
                             {% set chip = chip|attr({class: 'hide-label'}) %}

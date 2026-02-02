@@ -72,17 +72,19 @@ use craft\services\ElementSources;
 use craft\validators\AssetLocationValidator;
 use craft\validators\DateTimeValidator;
 use craft\validators\StringValidator;
-use craft\web\twig\AllowedInSandbox;
 use DateTime;
 use GraphQL\Type\Definition\Type;
 use Illuminate\Support\Collection;
+use Throwable;
 use Twig\Markup;
+use yii\base\ErrorHandler;
 use yii\base\Exception;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidCallException;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\base\UnknownPropertyException;
+use yii\validators\RequiredValidator;
 
 /**
  * Asset represents an asset element.
@@ -666,10 +668,10 @@ class Asset extends Element
      */
     protected static function defineCardAttributes(): array
     {
-        $attributes = array_merge($parentAttributes = parent::defineCardAttributes(), [
+        $attributes = array_merge(parent::defineCardAttributes(), [
             'dateCreated' => [
                 'label' => Craft::t('app', 'Date Uploaded'),
-                'placeholder' => $parentAttributes['dateCreated']['placeholder'],
+                // placeholder will be merged from parent
             ],
             'filename' => [
                 'label' => Craft::t('app', 'Filename'),
@@ -739,7 +741,6 @@ class Asset extends Element
     protected static function indexElements(ElementQueryInterface $elementQuery, ?string $sourceKey): array
     {
         $assets = [];
-        $originalLimit = $elementQuery->limit;
 
         // Include folders in the results?
         /** @var AssetQuery $elementQuery */
@@ -818,7 +819,7 @@ class Asset extends Element
         // return the folders directly
         if (
             self::isFolderIndex() ||
-            count($assets) === (int)$originalLimit
+            count($assets) === (int)$elementQuery->limit
         ) {
             return $assets;
         }
@@ -1065,20 +1066,17 @@ class Asset extends Element
     /**
      * @var string|null Kind
      */
-    #[AllowedInSandbox]
     public ?string $kind = null;
 
     /**
      * @var string|null Alternative text
      * @since 4.0.0
      */
-    #[AllowedInSandbox]
     public ?string $alt = null;
 
     /**
      * @var int|null Size
      */
-    #[AllowedInSandbox]
     public ?int $size = null;
 
     /**
@@ -1222,11 +1220,12 @@ class Asset extends Element
      */
     public function __toString(): string
     {
-        if (isset($this->_transform)) {
-            $url = $this->getUrl();
-            if ($url) {
+        try {
+            if (isset($this->_transform) && ($url = (string)$this->getUrl())) {
                 return $url;
             }
+        } catch (Throwable $e) {
+            ErrorHandler::convertExceptionToError($e);
         }
 
         return parent::__toString();
@@ -1336,6 +1335,23 @@ class Asset extends Element
     /**
      * @inheritdoc
      */
+    public function afterValidate(): void
+    {
+        $scenario = $this->getScenario();
+
+        if ($scenario === self::SCENARIO_LIVE) {
+            $altElement = $this->getFieldLayout()->getFirstVisibleElementByType(AltField::class, $this);
+            if ($altElement && $altElement->required) {
+                (new RequiredValidator())->validateAttribute($this, 'alt');
+            }
+        }
+
+        parent::afterValidate();
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function defineRules(): array
     {
         $rules = parent::defineRules();
@@ -1344,17 +1360,10 @@ class Asset extends Element
         $rules[] = [['volumeId', 'folderId', 'width', 'height', 'size'], 'number', 'integerOnly' => true];
         $rules[] = [['dateModified'], DateTimeValidator::class];
         $rules[] = [['filename', 'kind'], 'required'];
-        $rules[] = [['newFilename'], 'safe'];
+        $rules[] = [['filename', 'newFilename', 'alt'], 'safe'];
         $rules[] = [['kind'], 'string', 'max' => 50];
         $rules[] = [['newLocation'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_MOVE, self::SCENARIO_FILEOPS]];
         $rules[] = [['tempFilePath'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_REPLACE]];
-
-        $rules[] = [
-            ['alt'],
-            'required',
-            'on' => [self::SCENARIO_LIVE],
-            'when' => fn() => $this->getFieldLayout()->getFirstVisibleElementByType(AltField::class, $this)->required ?? false,
-        ];
 
         // Validate the extension unless all we're doing is moving the file
         $rules[] = [
@@ -1819,7 +1828,6 @@ JS,[
      * @return Markup|null
      * @throws InvalidArgumentException
      */
-    #[AllowedInSandbox]
     public function getImg(mixed $transform = null, ?array $sizes = null): ?Markup
     {
         if ($this->kind !== self::KIND_IMAGE) {
@@ -1876,7 +1884,6 @@ JS,[
      * @throws InvalidArgumentException
      * @since 3.5.0
      */
-    #[AllowedInSandbox]
     public function getSrcset(array $sizes, mixed $transform = null): string|false
     {
         $urls = array_filter($this->getUrlsBySize($sizes, $transform));
@@ -1925,7 +1932,6 @@ JS,[
      * @return array
      * @since 3.7.16
      */
-    #[AllowedInSandbox]
     public function getUrlsBySize(array $sizes, mixed $transform = null): array
     {
         if ($this->kind !== self::KIND_IMAGE) {
@@ -2373,7 +2379,6 @@ JS,[
      * @return string
      * @throws InvalidConfigException if the filename isn’t set yet
      */
-    #[AllowedInSandbox]
     public function getFilename(bool $withExtension = true): string
     {
         if ($this->isFolder) {
@@ -2407,7 +2412,6 @@ JS,[
      *
      * @return string
      */
-    #[AllowedInSandbox]
     public function getExtension(): string
     {
         return pathinfo($this->_filename, PATHINFO_EXTENSION);
@@ -2431,7 +2435,6 @@ JS,[
      * @return string|null
      * @throws ImageTransformException if $transform is an invalid transform handle
      */
-    #[AllowedInSandbox]
     public function getMimeType(mixed $transform = null): ?string
     {
         $transform ??= $this->_transform;
@@ -2463,7 +2466,6 @@ JS,[
      * @return string The asset's format
      * @throws ImageTransformException If an invalid transform handle is supplied
      */
-    #[AllowedInSandbox]
     public function getFormat(mixed $transform = null): string
     {
         $ext = $this->getExtension();
@@ -2482,7 +2484,6 @@ JS,[
      * @param ImageTransform|string|array|null $transform A transform handle or configuration that should be applied to the image
      * @return int|null
      */
-    #[AllowedInSandbox]
     public function getHeight(mixed $transform = null): ?int
     {
         return $this->_dimensions($transform)[1];
@@ -2504,7 +2505,6 @@ JS,[
      * @param array|string|ImageTransform|null $transform A transform handle or configuration that should be applied to the image
      * @return int|null
      */
-    #[AllowedInSandbox]
     public function getWidth(array|string|ImageTransform $transform = null): ?int
     {
         return $this->_dimensions($transform)[0];
@@ -2528,7 +2528,6 @@ JS,[
      * @return string|null
      * @since 3.4.0
      */
-    #[AllowedInSandbox]
     public function getFormattedSize(?int $decimals = null, bool $short = true): ?string
     {
         if (!isset($this->size)) {
@@ -2547,7 +2546,6 @@ JS,[
      * @return string|null
      * @since 3.4.0
      */
-    #[AllowedInSandbox]
     public function getFormattedSizeInBytes(bool $short = true): ?string
     {
         if (!isset($this->size)) {
@@ -2569,7 +2567,6 @@ JS,[
      * @return string|null
      * @since 3.4.0
      */
-    #[AllowedInSandbox]
     public function getDimensions(): ?string
     {
         $width = $this->getWidth();
@@ -2657,7 +2654,6 @@ JS,[
      * @throws AssetException if a stream could not be created
      * @since 3.5.13
      */
-    #[AllowedInSandbox]
     public function getDataUrl(): string
     {
         return Html::dataUrlFromString($this->getContents(), $this->getMimeType());
@@ -3472,7 +3468,7 @@ JS;
             $attributes['data']['editable-image'] = true;
         }
 
-        if ($this->dateDeleted && $this->keptFile && Craft::$app->getElements()->canSave($this)) {
+        if ($this->dateDeleted && $this->keptFile) {
             $attributes['data']['restorable'] = true;
         }
 

@@ -26,20 +26,10 @@ class ClearCachesController extends Controller
     /**
      * Lists the caches that can be cleared.
      *
-     * @param string|null $which The cache(s) to clear
      * @return int
      */
-    public function actionIndex(?string $which = null): int
+    public function actionIndex(): int
     {
-        $which = array_filter(func_get_args());
-
-        if (!empty($which)) {
-            foreach ($which as $id) {
-                $this->run($id);
-            }
-            return ExitCode::OK;
-        }
-
         $this->stdout("The following caches can be cleared:\n\n", Console::FG_YELLOW);
 
         $lengths = [];

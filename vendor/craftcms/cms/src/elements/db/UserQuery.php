@@ -50,11 +50,7 @@ class UserQuery extends ElementQuery
     /**
      * @inheritdoc
      */
-    protected array $defaultOrderBy = [
-        'users.username' => SORT_ASC,
-        'users.active' => SORT_DESC,
-        'users.pending' => SORT_DESC,
-    ];
+    protected array $defaultOrderBy = ['users.username' => SORT_ASC];
 
     // General parameters
     // -------------------------------------------------------------------------
@@ -1104,21 +1100,6 @@ class UserQuery extends ElementQuery
                 ->from(['entries_authors' => Table::ENTRIES_AUTHORS])
                 ->where(['entryId' => $this->authorOf->id])
                 ->andWhere('[[entries_authors.authorId]] = [[users.id]]'),
-            ]);
-        }
-
-        // If there's a custom orderBy, make sure we're showing active, non-pending accounts first
-        if (
-            is_array($this->orderBy) &&
-            empty($this->query->orderBy) &&
-            (
-                count($this->orderBy) !== 1 ||
-                !($this->orderBy[0] ?? null) instanceof OrderByPlaceholderExpression
-            )
-        ) {
-            $this->orderBy = array_merge($this->orderBy, [
-                'users.active' => SORT_DESC,
-                'users.pending' => SORT_DESC,
             ]);
         }
 

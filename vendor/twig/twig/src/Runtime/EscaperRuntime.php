@@ -36,8 +36,6 @@ final class EscaperRuntime implements RuntimeExtensionInterface
      *
      * @param string                                            $strategy The strategy name that should be used as a strategy in the escape call
      * @param callable(string $string, string $charset): string $callable A valid PHP callable
-     *
-     * @return void
      */
     public function setEscaper($strategy, callable $callable)
     {
@@ -56,8 +54,6 @@ final class EscaperRuntime implements RuntimeExtensionInterface
 
     /**
      * @param array<class-string<\Stringable>, string[]> $safeClasses
-     *
-     * @return void
      */
     public function setSafeClasses(array $safeClasses = [])
     {
@@ -71,8 +67,6 @@ final class EscaperRuntime implements RuntimeExtensionInterface
     /**
      * @param class-string<\Stringable> $class
      * @param string[]                  $strategies
-     *
-     * @return void
      */
     public function addSafeClass(string $class, array $strategies)
     {
@@ -106,7 +100,7 @@ final class EscaperRuntime implements RuntimeExtensionInterface
         if (!\is_string($string)) {
             if ($string instanceof \Stringable) {
                 if ($autoescape) {
-                    $c = $string::class;
+                    $c = \get_class($string);
                     if (!isset($this->safeClasses[$c])) {
                         $this->safeClasses[$c] = [];
                         foreach (class_parents($string) + class_implements($string) as $class) {
@@ -124,7 +118,7 @@ final class EscaperRuntime implements RuntimeExtensionInterface
                 }
 
                 $string = (string) $string;
-            } elseif (\in_array($strategy, ['html', 'js', 'css', 'html_attr', 'url'], true)) {
+            } elseif (\in_array($strategy, ['html', 'js', 'css', 'html_attr', 'url'])) {
                 // we return the input as is (which can be of any type)
                 return $string;
             }
