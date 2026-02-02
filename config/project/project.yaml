@@ -1,4 +1,4 @@
-dateModified: 1770023837
+dateModified: 1770024149
 elementSources:
   craft\elements\Entry:
     -
@@ -42,44 +42,6 @@ elementSources:
       page: Entries
       type: native
     -
-      defaultSort:
-        - structure
-        - asc
-      disabled: false
-      key: 'section:4d63d9e7-3c27-4e26-a1ce-af7190188b4f'
-      page: Entries
-      tableAttributes:
-        - section
-        - link
-        - 'field:98ba4066-3226-4e5f-b54c-f5e9e3e71062' # SEO Information
-      type: native
-    -
-      defaultSort:
-        - structure
-        - asc
-      disabled: false
-      key: 'section:90416467-1392-4fa0-a43a-98b492e0701a'
-      page: Entries
-      tableAttributes:
-        - section
-        - link
-        - 'field:98ba4066-3226-4e5f-b54c-f5e9e3e71062' # SEO Information
-      type: native
-    -
-      defaultSort:
-        - structure
-        - asc
-      disabled: false
-      key: 'section:2f76b0ac-b5b3-43cf-ba27-4ab697f18713'
-      page: Entries
-      tableAttributes:
-        - status
-        - postDate
-        - expiryDate
-        - link
-        - 'fieldInstance:b32842d4-7846-4c68-afdd-6761c2370929'
-      type: native
-    -
       key: 'single:bbd50b1e-8c6c-4708-acc1-ac671f6dc2d4' # Contact
       page: Entries
       type: native
@@ -97,36 +59,6 @@ elementSources:
         - expiryDate
         - link
       type: native
-    -
-      heading: 'Thank You URLs'
-      key: 'heading:31cafc9a-3063-4cb1-ace7-2be2ca946a77'
-      page: Entries
-      type: heading
-    -
-      condition:
-        class: craft\elements\conditions\entries\EntryCondition
-        conditionRules:
-          -
-            class: craft\elements\conditions\entries\SectionConditionRule
-            operator: in
-            uid: cb9898ee-bd2d-4dd7-b2df-0cd9c8053bce
-            values:
-              - 9762ed7d-306c-4d1b-bf4b-12cac5c241b0 # Services
-        elementType: craft\elements\Entry
-        fieldContext: global
-      defaultSort:
-        - id
-        - asc
-      defaultViewMode: ''
-      key: 'custom:524bc93f-f5c2-4325-82ca-26a0603a2859'
-      label: Services
-      page: Services
-      tableAttributes: '-'
-      type: custom
-elementSourcesPages:
-  craft\elements\Entry:
-    Services:
-      icon: building-memo
 email:
   fromEmail: admin@caledonianliftsmanchester.co.uk
   fromName: 'Caledonian Lifts Manchester Ltd'
