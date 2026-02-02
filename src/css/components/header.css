@@ -29,35 +29,39 @@ header {
 .logo {
   z-index: 101;
   flex-shrink: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
 }
 
 .logo a {
-  color: white; /* Override default link color for better contrast */
+  display: block;
   text-decoration: none;
+  transition: opacity 0.3s ease;
+  height: 100%;
 }
 
 .logo a:hover {
-  color: white;
   opacity: 0.9;
 }
 
-.logo h1 {
-  font-size: 1.8rem;
-  margin: 0;
-  color: white;
-  font-weight: 700;
+.logo-image {
+  height: 100%;
+  width: auto;
+  display: block;
   transition: all 0.3s ease;
+  max-width: 100%;
 }
 
 @media (min-width: 769px) {
-  .logo h1 {
-    font-size: 2.6rem;
+  .logo {
+    height: 100px;
   }
 }
 
 @media (max-width: 768px) {
-  .logo h1 {
-    font-size: 1.5rem;
+  .logo {
+    height: 60px;
   }
 }
 

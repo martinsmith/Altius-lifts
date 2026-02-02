@@ -1,6 +1,9 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import legacy from '@vitejs/plugin-legacy';
+import postcssImport from 'postcss-import';
+import postcssNesting from 'postcss-nesting';
+import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
   plugins: [
@@ -15,8 +18,8 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       input: {
-        'css/styles': resolve(__dirname, 'src/css/styles.css'),
-        'js/app': resolve(__dirname, 'src/js/app.js')
+        'css/styles': resolve(process.cwd(), 'src/css/styles.css'),
+        'js/app': resolve(process.cwd(), 'src/js/app.js')
       },
       output: {
         entryFileNames: '[name].js',
@@ -39,9 +42,9 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
-        require('postcss-import'),
-        require('postcss-nesting'),
-        require('autoprefixer')
+        postcssImport,
+        postcssNesting,
+        autoprefixer
       ]
     }
   },
@@ -58,7 +61,7 @@ export default defineConfig({
   // Resolve configuration to handle module resolution issues
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
+      '@': resolve(process.cwd(), 'src')
     }
   }
 });
