@@ -1,8 +1,8 @@
-<div class="service-panels">
+<div>
     <ul>
         {% for panel in entry.informationBlocks %}
-        <li class="panel">
-                <div class="text">
+        <li>
+                <div>
                     <h2 style="border-bottom-color: {{ panel.bgColour }};">{{ panel.blockTitle }}</h2>
                     <p>{{ panel.blockText }}</p>
                     <ul>
@@ -14,9 +14,9 @@
                     {% endif %}
                 </div>
                 {% if panel.blockLink|length %}
-                <div class="link"><a href="{{ panel.blockLink.one().url }}" style="background-color: {{ panel.bgColour }}">Find out more...</a></div>
+                <div><a href="{{ panel.blockLink.one().url }}" style="background-color: {{ panel.bgColour }}">Find out more...</a></div>
                 {% endif %}
-                <div class="img" style="border-bottom-color: {{ panel.bgColour }};">
+                <div style="border-bottom-color: {{ panel.bgColour }};">
                     {% if panel.blockLink|length %}
                     <a href="{{ panel.blockLink.one().url }}" style="background-image: url('{{ panel.blockImage.one.url() }}');">More Information</a>
                     {% else %}

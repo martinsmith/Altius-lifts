@@ -1,25 +1,25 @@
 {# FAQ Section Component #}
 {% if entry.cb_faqSection.fd_sectionTitle|length %}
-        <section class="s1 faq-section pad nest roundel rg">
-            <div class="ctr gd">
-                    <div class="section-header">
+        <section>
+            <div>
+                    <div>
                         {% if entry.cb_faqSection.fd_sectionTitle %}
                             <h2>{{ entry.cb_faqSection.fd_sectionTitle }}</h2>
                         {% endif %}
                         {% if entry.cb_faqSection.fd_sectionIntro %}
-                            <div class="section-intro">
+                            <div>
                                 {{ entry.cb_faqSection.fd_sectionIntro }}
                             </div>
                         {% endif %}
                     </div>
                     {% if entry.cb_faqSection.mx_faqs|length %}
-                        <ul class="accordion faq-accordion">
+                        <ul>
                             {% for faq in entry.cb_faqSection.mx_faqs %}
-                                <li class="panel">
-                                    <div class="accHeader">
+                                <li>
+                                    <div>
                                         {{ faq.fd_question }}
                                     </div>
-                                    <div class="accContent">
+                                    <div>
                                         <div>
                                             {{ faq.fd_answer }}
                                         </div>

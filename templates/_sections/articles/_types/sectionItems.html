@@ -4,20 +4,20 @@
 {% endblock %}
 
 {% block content %}
-<div class="content">
+<div>
 
-    <section class="s1 pad nest roundel rw">
-        <div class="ctr gd article">
-            <div class="section-header">
+    <section>
+        <div>
+            <div>
                 <h1>{{ entry.title }}</h1>
             </div>
-            <div class="text-block">
+            <div>
                 {{ entry.articleText }}
             </div>
-            <div class="main-image">
+            <div>
                 <img src="{{ entry.articleImage.one.url }}" alt="{{ entry.articleImage.one.title }}">
             </div>
-            <div class="archive">
+            <div>
                 <h2>More Articles...</h2>
                 {% set level2Entries = craft.entries.section('articles').level(2).id('not ' ~ entry.id) %}
                 <ul>
@@ -27,6 +27,6 @@
                 </ul>
             </div>
         </div>
-    </section>	
+    </section>
 </div>
 {% endblock %}

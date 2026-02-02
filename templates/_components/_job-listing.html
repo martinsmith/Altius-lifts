@@ -1,4 +1,4 @@
-    <div class="job-listing">
+    <div>
         <ul>
             {% for job in jobEntries %}
                 <li>
@@ -7,7 +7,7 @@
                         <p>{{ job.fd_jobType.label }}</p>
                         <p>{{ job.fd_salary }}</p>
                         <p>{{ job.fd_based }}</p>
-                        <span class="apply-now">Apply Now</span>
+                        <span>Apply Now</span>
                     </a>
                 </li>
             {% endfor %}

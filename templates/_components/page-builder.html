@@ -1,22 +1,22 @@
     {% for block in entry.sectorPageBuilder.all() %}
       {% switch block.type %}
           {% case 'sectionIntroduction' %}
-          <section class="s1 pad nest rw">
-          <div class="section-intro ctr">
+          <section>
+          <div>
             <h2>{{ block.sectionTitle }}</h2>
             {{ block.sectionIntro }}
           </div>
           {% case 'infoBlocks' %}
 
-          <div class="text-image-block ctr">
+          <div>
             <ul>
                 {% for item in block.infoBlock %}
-                <li class="panel">
-                        <div class="text">
+                <li>
+                        <div>
                             <h2>{{ item.blockTitle }}</h2>
                             {{ item.blockText }}
                         </div>
-                        <div class="img">
+                        <div>
                             {% if item.blockImage|length %}
                             <img src="{{ item.blockImage.one.url() }}" alt="{{ item.blockImage.one.title }}">
                             {% endif %}
@@ -29,13 +29,13 @@
 
           {% case 'accordion' %}
 
-          <ul class="ctr accordion">
+          <ul>
             {% for item in block.accordionContent %}
-            <li class="panel">
-              <div class="accHeader">
+            <li>
+              <div>
                 {{ item.accordionTitle }}
               </div>
-              <div class="accContent">
+              <div>
                 <div>{{ item.accordionText }}</div>
               </div>
             </li>
@@ -45,8 +45,8 @@
 
           {% case 'bigParallaxImage' %}
           {% if block.image.one() %}
-          <div class="parallax">
-            <div class="pInner" style="background-image: url('{{ block.image.one().url() }}');"></div>
+          <div>
+            <div style="background-image: url('{{ block.image.one().url() }}');"></div>
         </div>
           {% endif %}
       {% endswitch %}

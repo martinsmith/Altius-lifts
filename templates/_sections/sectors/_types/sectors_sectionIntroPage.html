@@ -4,20 +4,20 @@
 {% endblock %}
 
 {% block content %}
-<div class="content">
-		
-    <div class="hero nest">
-        <div class="bgImg" style="background-image: url('{{ entry.heroImage.one.url() }}')">
+<div>
+
+    <div>
+        <div style="background-image: url('{{ entry.heroImage.one.url() }}')">
         </div>
-        <div class="overlay"></div>
-        <div class="intro ctr">
+        <div></div>
+        <div>
             <h1>{{ entry.heroTitle }}</h1>
             <p>{{ entry.heroText }}</p>
         </div>
     </div>
 
-    <section class="s1 nest pad services roundel rg">
-        <div class="ctr gd">
+    <section>
+        <div>
             {% include '_components/_service-cards' %}
         </div>
     </section>

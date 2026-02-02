@@ -4,22 +4,22 @@
 {% endblock %}
 
 {% block content %}
-<div class="content">
+<div>
 
-    <section class="s1 pad nest roundel rw">
-        <div class="ctr gd">
-            <div class="section-header">
+    <section>
+        <div>
+            <div>
                 <h1>Get in touch</h1>
                 <p>We’d love to hear from you.</p>
                 <p>Either complete the form or use one of the alternative methods below. A member of our customer service support team will be in contact.</p>
             </div>
-            <div class="signUpForm general">
+            <div>
                 {{ craft.formie.renderForm('generalEnquiries') }}
             </div>
         </div>
     </section>
     {% include '_components/_parallax' %}
 
-    	
+
 </div>
 {% endblock %}

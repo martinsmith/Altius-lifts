@@ -4,27 +4,27 @@
 {% endblock %}
 
 {% block content %}
-<div class="content">
+<div>
 
-    <section class="s1 pad nest roundel rw">
-        <div class="ctr gd">
-            <div class="section-header">
+    <section>
+        <div>
+            <div>
                 <h1>{{ entry.title }}</h1>
             </div>
-            <div class="staff-cards">
+            <div>
                 {% set level2Entries = craft.entries.section('team').level(2) %}
                 <ul>
                     {% for entry in level2Entries %}
                     <li>
                         <a href="{{ entry.url }}">
-                            <div class="text">
+                            <div>
                                 <h2>{{ entry.title }}</h2>
                                 {% if entry.staffPosition|length %}
-                                <p class="pos">{{ entry.staffPosition }}</p>
+                                <p>{{ entry.staffPosition }}</p>
                                 {% endif %}
                             </div>
                             {% if entry.staffPhoto|length %}
-                            <div class="img">
+                            <div>
                                 <img src="{{ entry.staffPhoto.one().url }}" alt="">
                             </div>
                             {% endif %}
@@ -34,6 +34,6 @@
                 </ul>
             </div>
         </div>
-    </section>	
+    </section>
 </div>
 {% endblock %}

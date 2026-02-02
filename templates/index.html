@@ -5,20 +5,20 @@
 
 
 {% block content %}
-<div class="content">
-    <div class="hero nest">
-        <div class="bgImg" style="background-image: url('{{ entry.heroImage.one.url() }}')">
+<div>
+    <div>
+        <div style="background-image: url('{{ entry.heroImage.one.url() }}')">
         </div>
-        <div class="overlay"></div>
-        <div class="intro ctr">
+        <div></div>
+        <div>
             <h1>{{ entry.heroTitle }}</h1>
             <p>{{ entry.heroText }}</p>
         </div>
     </div>
-    
-    <section class="s1 pad nest roundel rw">
-        <div class="ctr gd">
-            <div class="section-header">
+
+    <section>
+        <div>
+            <div>
                 <h2>Lift Services</h2>
             </div>
             {% include '_components/_service-cards' %}
@@ -27,24 +27,24 @@
 
     {% include '_components/_parallax' %}
 
-    <section class="s2 pad nest roundel rg">
-        <div class="ctr gd">
+    <section>
+        <div>
             {% include '_components/_service-panels' %}
         </div>
     </section>
 
-    <section class="s2 pad nest rg">
-        <div class="ctr gd">
-            <div class="section-header">
+    <section>
+        <div>
+            <div>
                 <h2>What our clients say about us...</h2>
             </div>
             {% include '_components/_testimonials' %}
         </div>
     </section>
 
-    <section class="s3 pad pad nest">
-        <div class="ctr gd">
-            <div class="section-header">
+    <section>
+        <div>
+            <div>
                 <h2>Sectors We Serve</h2>
             </div>
             {% include '_components/_sectors' %}
@@ -52,9 +52,9 @@
     </section>
     {% include '_components/_faq-section' %}
 
-    <section class="s2 pad nest rg">
-        <div class="ctr gd relative">
-            <div class="section-header">
+    <section>
+        <div>
+            <div>
                 <h2>Who we work with...</h2>
             </div>
             {% include '_components/_logo-carousel2' %}

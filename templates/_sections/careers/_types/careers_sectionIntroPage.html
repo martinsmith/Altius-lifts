@@ -4,22 +4,22 @@
 {% endblock %}
 
 {% block content %}
-<div class="content">
-		
-    <div class="hero nest">
-        <div class="bgImg" style="background-image: url('{{ entry.heroImage.one.url() }}')">
+<div>
+
+    <div>
+        <div style="background-image: url('{{ entry.heroImage.one.url() }}')">
         </div>
-        <div class="overlay"></div>
-        <div class="intro ctr">
+        <div></div>
+        <div>
             <h1>{{ entry.heroTitle }}</h1>
             <p>{{ entry.heroText }}</p>
         </div>
     </div>
 
 {% set jobEntries = craft.entries.section('careers').level(2).all() %}
-    <section class="s1 nest pad">
-        <div class="ctr gd">
-            <div class="section-header">
+    <section>
+        <div>
+            <div>
                 {% if jobEntries|length > 0 %}
                     <h2>{{ entry.introHeader }}</h2>
                 {% else %}

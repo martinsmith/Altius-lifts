@@ -1,10 +1,10 @@
 {% set clientsRef = craft.entries.section('homepage').one() %}
-    <div class="swiper clientCarousel">
-        <ul class="swiper-wrapper clients-inner">
+    <div>
+        <ul>
             {% set logos = clientsRef.clientLogos.all() %}
             {% set randomLogos = shuffle(logos) %}
             {% for logo in randomLogos %}
-                <li class="swiper-slide"><img src="{{ logo.url }}" alt="{{ logo.title }}"></li>
+                <li><img src="{{ logo.url }}" alt="{{ logo.title }}"></li>
             {% endfor %}
         </ul>
     </div>

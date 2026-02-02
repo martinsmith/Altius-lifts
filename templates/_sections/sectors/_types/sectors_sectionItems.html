@@ -5,42 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<div class="content">
-		
-    <div class="hero nest">
-        <div class="bgImg" style="background-image: url('{{ entry.heroImage.one.url() }}')">
+<div>
+
+    <div>
+        <div style="background-image: url('{{ entry.heroImage.one.url() }}')">
         </div>
-        <div class="overlay"></div>
-        <div class="intro ctr">
+        <div></div>
+        <div>
             <h1>{{ entry.heroTitle }}</h1>
             <p>{{ entry.heroText }}</p>
         </div>
     </div>
 
 
-    <section class="s1 pad nest rw">
+    <section>
     {% if entry.fd_sectorIntro or entry.fd_sectorIntroText %}
-            <div class="section-intro ctr">
+            <div>
                 <h2>{{ entry.fd_sectorIntro }}</h2>
                 {{ entry.fd_sectorIntroText }}
             </div>
     {% endif %}
-   
+
     {% include '_components/_sector_page-builder' %}
     </section>
-    
-    <section class="s2 pad nest rg">
-        <div class="ctr gd relative">
-            <div class="section-header">
+
+    <section>
+        <div>
+            <div>
                 <h2>Who we work with...</h2>
             </div>
             {% include '_components/_logo-carousel2' %}
         </div>
     </section>
 
-    <section class="s2 pad nest">
-        <div class="ctr gd">
-            <div class="section-header">
+    <section>
+        <div>
+            <div>
                 <h2>What our clients say about us...</h2>
             </div>
             {% include '_components/_testimonials' %}

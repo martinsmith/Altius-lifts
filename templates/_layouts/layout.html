@@ -14,19 +14,19 @@
 
 	</head>
 	<body>
-		<div class="wrap" id="smooth-content">
-			<div class="head pad nest">
-				<div class="ctr gd">
-					<div class="brand">
+		<div id="smooth-content">
+			<header>
+				<div>
+					<div>
 						<a href="/">
 							<img src="/images/altius-lifts.svg" alt="Altius Lifts">
 						</a>
 					</div>
-					<nav class="header-nav" role="navigation">
+					<nav role="navigation">
 						<ul>
 							<li><a href="/">Home</a></li>
 							<li><a href="/services" aria-haspopup="true">Services</a>
-								<ul class="dropdown" aria-label="submenu">
+								<ul aria-label="submenu">
 									{% set level2Entries = craft.entries.section('services').level(2) %}
 									{% for entry in level2Entries %}
 									<li><a href="{{ entry.url }}">{{ entry.title }}</a></li>
@@ -39,17 +39,17 @@
 							<li><a href="/careers">Careers</a></li>
 						</ul>
 					</nav>
-					<div class="toggle hc-hamburger">
+					<div>
 						<span></span>
 						<span></span>
 						<span></span>
 					</div>
-					<div class="btn1">
+					<div>
 						<a href="/contact">Get in Touch</a>
 					</div>
-					<div class="tel">Call: <a href="tel:01614258441">0161 425 8441</a></div>
+					<div>Call: <a href="tel:01614258441">0161 425 8441</a></div>
 				</div>
-			</div>
+			</header>
 
             {% block content %}
 
@@ -59,15 +59,15 @@
 
             {% endblock %}
 
-			<section class="s4 pad nest roundel rw">
-				<div class="ctr gd">
+			<section>
+				<div>
 					{% include '_components/_location' %}
 				</div>
-			</section>	
+			</section>
 
-            <footer class="pad nest">
-                <div class="ctr gd">
-					<div class="footer-nav">
+            <footer>
+                <div>
+					<div>
 						<h2>Menu</h2>
 						<nav>
 							<ul>
@@ -81,7 +81,7 @@
 							</ul>
 						</nav>
 					</div>
-					<div class="creds">
+					<div>
 						<h2>Accreditiations & Bodies</h2>
 						<ul>
 							<li><img src="/images/ISO90011-640w.webp" alt=""></li>
@@ -93,7 +93,7 @@
 							<li><img src="/images/Largesupporteroftheliftindustrypicture-640w.png" alt=""></li>
 						</ul>
 					</div>
-					<div class="social">
+					<div>
 						<h2>On Social...</h2>
 						<ul>
 							<li><a href="https://www.linkedin.com/company/caledonian-lifts-manchester/" target="_blank">Linkedin</a></li>
@@ -103,7 +103,7 @@
 							{% endapply %}
 						</ul>
 					</div>
-                    <p class="copy">Copyright &copy; {{ "now" | date("Y") }} Caledonian Lifts Manchester Ltd. All Rights Reserved.</p>
+                    <p>Copyright &copy; {{ "now" | date("Y") }} Caledonian Lifts Manchester Ltd. All Rights Reserved.</p>
                 </div>
             </footer>
 		</div>

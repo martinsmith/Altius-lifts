@@ -4,13 +4,13 @@
 {% endblock %}
 
 {% block content %}
-<div class="content">
-    <section class="s2 pad nest rg">
-        <div class="ctr gd relative job-description">
-            <div class="section-header">
+<div>
+    <section>
+        <div>
+            <div>
                 <h2>{{ entry.title }}</h2>
             </div>
-            <div class="text-block">
+            <div>
                 {{ entry.fd_jobDescription }}
             <h2>More Information</h2>
             <ul>
@@ -44,7 +44,7 @@
                 {% endfor %}
             {% endif %}
         </div>
-        <div class="apply-now">
+        <div>
             {% if entry.fd_email and entry.fd_buttonText %}
                 <a href="mailto:{{ entry.fd_email }}">{{ entry.fd_buttonText }}</a>
             {% elseif entry.fd_email %}
