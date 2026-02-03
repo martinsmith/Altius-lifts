@@ -77,11 +77,12 @@
       & h1 {
         font-family: var(--font-family-primary);
         font-size: var(--text-hero);
-        font-weight: var(--font-weight-bold);
+        font-weight: var(--font-weight-normal);
         margin-block-end: var(--space-6);
         line-height: var(--line-height-tight);
         color: var(--accent-color);
-        letter-spacing: -0.02em;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
 
         & strong {
           color: white;

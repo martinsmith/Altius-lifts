@@ -120,6 +120,8 @@
       font-size: 1.4rem;
       margin-block-end: 1rem;
       color: var(--card-heading-color, var(--primary-color));
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
 
     & p {

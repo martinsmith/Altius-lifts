@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
@@ -11,6 +12,7 @@ fieldLayouts:
             dateAdded: '2025-07-07T15:21:51+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 5c8228fd-b7e4-4fa8-b9dd-2a5389c4bb6c # Homepage Hero
             handle: null
             instructions: null
@@ -26,6 +28,7 @@ fieldLayouts:
             dateAdded: '2025-07-08T07:49:01+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 3b68cd98-cd43-4ae2-8d02-61222bda35ba # Cards Section
             handle: null
             instructions: null
@@ -41,6 +44,7 @@ fieldLayouts:
             dateAdded: '2025-07-08T08:45:50+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 0f026b4b-1c4d-43fd-9071-50babbe0d30d # Services Section
             handle: null
             instructions: null
@@ -53,24 +57,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
-            dateAdded: '2025-07-08T09:31:03+00:00'
-            editCondition: null
-            elementCondition: null
-            fieldUid: c969543d-de4c-4d09-9576-8758dc27afd1 # Testimonials Section
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 2bc04907-653c-4668-bc77-31d8bee25f29
-            userCondition: null
-            warning: null
-            width: 100
-          -
             dateAdded: '2025-07-08T10:04:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: b79b4e43-e6c0-4c44-9a15-f07ccdaa5d37 # Products Section
             handle: null
             instructions: null
@@ -83,24 +73,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
-            dateAdded: '2025-07-08T11:04:41+00:00'
-            editCondition: null
-            elementCondition: null
-            fieldUid: b2608e5b-6a78-41bb-b819-04900f98ce1a # Social Section
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 2e511d6c-25b5-4859-b10e-b001e6d3ac7d
-            userCondition: null
-            warning: null
-            width: 100
-          -
             dateAdded: '2025-07-09T17:21:54+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 71202746-fb78-4408-b9b3-1c3d1e39ffb8 # Call to Action
             handle: null
             instructions: null
@@ -122,7 +98,8 @@ fieldLayouts:
             dateAdded: '2025-11-10T14:26:41+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: f425b0e8-1203-40a7-9f6f-108688342507 # SEO Information
+            elementEditCondition: null
+            fieldUid: f425b0e8-1203-40a7-9f6f-108688342507
             handle: null
             instructions: null
             label: null
@@ -136,6 +113,7 @@ fieldLayouts:
         name: SEO
         uid: edf76ab2-5d56-4464-9f20-bd1d282027bf
         userCondition: null
+    thumbFieldKey: null
 handle: page_ent_homepage
 hasTitleField: false
 icon: null
@@ -144,6 +122,7 @@ showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null
 slugTranslationMethod: site
-titleFormat: 'Hair Haven - Hair and Beauty'
+titleFormat: 'Altius Lifts'
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

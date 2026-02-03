@@ -111,7 +111,7 @@ html {
 /* Typography Base Styles */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   margin-bottom: var(--space-4);
   color: var(--primary-color);
   line-height: var(--line-height-tight);
