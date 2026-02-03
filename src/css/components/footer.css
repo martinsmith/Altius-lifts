@@ -2,7 +2,7 @@
 
 /* Footer Component Styles */
 footer {
-  background-color: var(--primary-color); /* Altius Lifts corporate blue - matches header */
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--blue-700) 50%, var(--primary-color) 100%);
   color: var(--footer-text-color); /* White text for dark background */
   padding: 4rem 0 1.5rem;
   margin-block-start: 0.125rem; /* 2px equivalent */

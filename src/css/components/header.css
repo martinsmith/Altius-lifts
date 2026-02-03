@@ -8,13 +8,13 @@ header {
   width: 100%;
   z-index: var(--z-index-fixed);
   padding-block: var(--header-padding-block);
-  background-color: var(--primary-color); /* Altius Lifts corporate blue */
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--blue-700) 50%, var(--primary-color) 100%);
   will-change: transform, padding;
   transform: translateZ(0); /* Force GPU acceleration */
 
   &.scrolled {
     padding-block: var(--header-padding-block-scrolled);
-    background-color: var(--primary-color); /* Altius Lifts corporate blue */
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--blue-700) 50%, var(--primary-color) 100%);
     box-shadow: 0 2px 10px color-mix(in srgb, var(--primary-color) 10%, transparent);
   }
 }
