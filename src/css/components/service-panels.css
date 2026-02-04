@@ -21,14 +21,8 @@
   border-radius: var(--border-radius-standard);
   transition: var(--transition-standard);
 
-  /* Alternating background colors for visual separation */
-  &:nth-child(odd) {
-    background-color: white;
-  }
-
-  &:nth-child(even) {
-    background-color: var(--light-color);
-  }
+  /* No background colors - clean white panels */
+  background-color: transparent;
 
   &:last-child {
     margin-block-end: 0;
@@ -164,12 +158,12 @@
       font-size: var(--text-sm);
       line-height: var(--line-height-normal);
       padding: var(--space-3) var(--space-4);
-      background-color: color-mix(in srgb, var(--accent-color) 8%, white);
+      background-color: var(--surface-secondary);
       border-radius: var(--border-radius-standard);
       transition: var(--transition-standard);
 
       &:hover {
-        background-color: color-mix(in srgb, var(--accent-color) 12%, white);
+        background-color: var(--surface-tertiary);
         transform: translateX(2px);
       }
 
@@ -179,6 +173,8 @@
       }
     }
   }
+
+
 }
 
 /* Reduced motion support */

@@ -43,6 +43,30 @@
   --cyan-800: #064F51;                /* Very dark cyan */
   --cyan-900: #032C2D;                /* Deepest cyan */
 
+  /* Complementary warm accent palette - Orange/Amber */
+  --orange-50: #FFF7ED;               /* Lightest orange tint */
+  --orange-100: #FFEDD5;              /* Very light orange */
+  --orange-200: #FED7AA;              /* Light orange */
+  --orange-300: #FDBA74;              /* Medium light orange */
+  --orange-400: #FB923C;              /* Medium orange */
+  --orange-500: #F97316;              /* Primary orange */
+  --orange-600: #EA580C;              /* Darker orange */
+  --orange-700: #C2410C;              /* Dark orange */
+  --orange-800: #9A3412;              /* Very dark orange */
+  --orange-900: #7C2D12;              /* Deepest orange */
+
+  /* Amber palette - Warmer yellow-orange */
+  --amber-50: #FFFBEB;                /* Lightest amber tint */
+  --amber-100: #FEF3C7;               /* Very light amber */
+  --amber-200: #FDE68A;               /* Light amber */
+  --amber-300: #FCD34D;               /* Medium light amber */
+  --amber-400: #FBBF24;               /* Medium amber */
+  --amber-500: #F59E0B;               /* Primary amber */
+  --amber-600: #D97706;               /* Darker amber */
+  --amber-700: #B45309;               /* Dark amber */
+  --amber-800: #92400E;               /* Very dark amber */
+  --amber-900: #78350F;               /* Deepest amber */
+
   /* Supporting neutral palette */
   --neutral-50: #F8FAFC;              /* Near white */
   --neutral-100: #F1F5F9;             /* Very light grey */
@@ -77,6 +101,46 @@
   /* Border colors */
   --border-color: #E2E8F0;            /* Light border */
   --border-dark: #CBD5E1;             /* Darker border */
+  --border-blue: var(--blue-200);     /* Blue border */
+  --border-cyan: var(--cyan-200);     /* Cyan border */
+  --border-orange: var(--orange-200); /* Orange border */
+  --border-amber: var(--amber-200);   /* Amber border */
+
+  /* === GRADIENT DEFINITIONS === */
+  /* Brand Gradients */
+  --gradient-blue-primary: linear-gradient(135deg, var(--blue-500) 0%, var(--blue-700) 100%);
+  --gradient-blue-light: linear-gradient(135deg, var(--blue-300) 0%, var(--blue-500) 100%);
+  --gradient-cyan-primary: linear-gradient(135deg, var(--cyan-400) 0%, var(--cyan-600) 100%);
+  --gradient-cyan-light: linear-gradient(135deg, var(--cyan-200) 0%, var(--cyan-400) 100%);
+
+  /* Complementary Gradients */
+  --gradient-orange-primary: linear-gradient(135deg, var(--orange-500) 0%, var(--orange-700) 100%);
+  --gradient-orange-light: linear-gradient(135deg, var(--orange-300) 0%, var(--orange-500) 100%);
+  --gradient-amber-primary: linear-gradient(135deg, var(--amber-500) 0%, var(--amber-700) 100%);
+  --gradient-amber-light: linear-gradient(135deg, var(--amber-300) 0%, var(--amber-500) 100%);
+
+  /* Brand Combination Gradients */
+  --gradient-blue-cyan: linear-gradient(135deg, var(--blue-500) 0%, var(--cyan-400) 100%);
+  --gradient-cyan-blue: linear-gradient(135deg, var(--cyan-400) 0%, var(--blue-500) 100%);
+  --gradient-blue-orange: linear-gradient(135deg, var(--blue-500) 0%, var(--orange-500) 100%);
+  --gradient-cyan-orange: linear-gradient(135deg, var(--cyan-400) 0%, var(--orange-500) 100%);
+
+  /* Subtle Surface Gradients */
+  --gradient-surface-blue: linear-gradient(180deg, var(--surface-blue-subtle) 0%, var(--surface-primary) 100%);
+  --gradient-surface-cyan: linear-gradient(180deg, var(--surface-cyan-subtle) 0%, var(--surface-primary) 100%);
+  --gradient-surface-orange: linear-gradient(180deg, var(--surface-orange-subtle) 0%, var(--surface-primary) 100%);
+  --gradient-surface-neutral: linear-gradient(180deg, var(--neutral-50) 0%, var(--surface-primary) 100%);
+
+  /* Overlay Gradients */
+  --gradient-overlay-dark: linear-gradient(180deg,
+    color-mix(in srgb, var(--neutral-900) 40%, transparent) 0%,
+    color-mix(in srgb, var(--neutral-900) 70%, transparent) 100%);
+  --gradient-overlay-blue: linear-gradient(180deg,
+    color-mix(in srgb, var(--primary-color) 30%, transparent) 0%,
+    color-mix(in srgb, var(--primary-color) 60%, transparent) 100%);
+  --gradient-overlay-cyan: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent-color) 20%, transparent) 0%,
+    color-mix(in srgb, var(--accent-color) 50%, transparent) 100%);
 
   /* Modern color manipulation using color-mix() */
   --accent-color-dark: color-mix(in srgb, var(--accent-color) 80%, var(--primary-color));
@@ -84,6 +148,51 @@
   --primary-color-light: color-mix(in srgb, var(--primary-color) 80%, white);
   --primary-color-lighter: color-mix(in srgb, var(--primary-color) 60%, white);
   --primary-color-lightest: color-mix(in srgb, var(--primary-color) 30%, white);
+
+  /* === SEMANTIC SURFACE COLORS === */
+  /* Panel & Section Backgrounds */
+  --surface-primary: #FFFFFF;                                                    /* White - default surface */
+  --surface-secondary: var(--neutral-50);                                        /* Very light grey */
+  --surface-tertiary: var(--neutral-100);                                        /* Light grey */
+  --surface-blue-subtle: color-mix(in srgb, var(--blue-50) 60%, white);        /* Very subtle blue tint */
+  --surface-blue-light: var(--blue-50);                                         /* Light blue background */
+  --surface-cyan-subtle: color-mix(in srgb, var(--cyan-50) 50%, white);        /* Very subtle cyan tint */
+  --surface-cyan-light: var(--cyan-50);                                         /* Light cyan background */
+  --surface-orange-subtle: color-mix(in srgb, var(--orange-50) 70%, white);    /* Very subtle orange tint */
+  --surface-orange-light: var(--orange-50);                                     /* Light orange background */
+  --surface-amber-subtle: color-mix(in srgb, var(--amber-50) 70%, white);      /* Very subtle amber tint */
+  --surface-amber-light: var(--amber-50);                                       /* Light amber background */
+
+  /* Card & Component Surfaces */
+  --card-surface-default: #FFFFFF;                                              /* White card */
+  --card-surface-elevated: #FFFFFF;                                             /* White with shadow */
+  --card-surface-blue: var(--blue-50);                                          /* Blue tinted card */
+  --card-surface-cyan: var(--cyan-50);                                          /* Cyan tinted card */
+  --card-surface-neutral: var(--neutral-50);                                    /* Neutral grey card */
+  --card-surface-orange: var(--orange-50);                                      /* Orange tinted card */
+  --card-surface-amber: var(--amber-50);                                        /* Amber tinted card */
+
+  /* Interactive Surface States */
+  --surface-hover-blue: color-mix(in srgb, var(--blue-100) 40%, white);        /* Hover state - blue */
+  --surface-hover-cyan: color-mix(in srgb, var(--cyan-100) 40%, white);        /* Hover state - cyan */
+  --surface-hover-orange: color-mix(in srgb, var(--orange-100) 50%, white);    /* Hover state - orange */
+  --surface-hover-neutral: var(--neutral-100);                                  /* Hover state - neutral */
+  --surface-active-blue: var(--blue-100);                                       /* Active/selected - blue */
+  --surface-active-cyan: var(--cyan-100);                                       /* Active/selected - cyan */
+  --surface-active-orange: var(--orange-100);                                   /* Active/selected - orange */
+
+  /* Overlay & Backdrop Colors */
+  --overlay-light: color-mix(in srgb, var(--neutral-900) 10%, transparent);    /* Light overlay */
+  --overlay-medium: color-mix(in srgb, var(--neutral-900) 30%, transparent);   /* Medium overlay */
+  --overlay-dark: color-mix(in srgb, var(--neutral-900) 60%, transparent);     /* Dark overlay */
+  --overlay-blue: color-mix(in srgb, var(--primary-color) 20%, transparent);   /* Blue tinted overlay */
+  --overlay-cyan: color-mix(in srgb, var(--accent-color) 15%, transparent);    /* Cyan tinted overlay */
+
+  /* Accent & Highlight Surfaces */
+  --highlight-surface-blue: var(--blue-100);                                    /* Blue highlight background */
+  --highlight-surface-cyan: var(--cyan-100);                                    /* Cyan highlight background */
+  --highlight-surface-orange: var(--orange-100);                                /* Orange highlight background */
+  --highlight-surface-amber: var(--amber-100);                                  /* Amber highlight background */
 
   /* === TYPOGRAPHY === */
   /* Font families */
