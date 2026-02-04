@@ -1,0 +1,76 @@
+{% import '_components/macros/ui-components.twig' as ui %}
+
+{% set sectionData = {
+  title: entry.homepageServiceSection.sectionTitle,
+  subtitle: entry.homepageServiceSection.sectionSubText,
+  ctaText: entry.homepageServiceSection.sectionLink.label ?? 'View All Services',
+  ctaLink: entry.homepageServiceSection.sectionLink ?? null,
+  handle: 'service-panels'
+} %}
+
+{% set serviceCards = entry.homepageServiceSection.mx_servicesCards %}
+{% extends '_components/base/section-base.twig' %}
+
+{% set variant = 'white' %}
+{% set layout = 'custom' %}
+{% set containerType = 'component' %}
+{% set customClass = 'service-panels' %}
+{% set cacheKey = entry.id ~ '-service-panels' %}
+
+{% block sectionContent %}
+  <div class="service-panels-wrapper">
+    {% for service in serviceCards %}
+      {% cache using key (entry.id ~ '-service-panel-' ~ service.id) for 2 hours %}
+        <article class="service-panel">
+          
+          {# Service Image #}
+          {% if service.cardImage.one() %}
+            <div class="service-panel-image">
+              {{ ui.image(service.cardImage.one(), {
+                transform: { width: 800, height: 600, mode: 'crop' },
+                sizes: '(max-width: 768px) 100vw, 50vw',
+                class: 'service-panel-img'
+              }) }}
+            </div>
+          {% endif %}
+          
+          {# Service Content #}
+          <div class="service-panel-content">
+            <h3 class="service-panel-title">{{ service.title }}</h3>
+
+            {# Extract intro text (everything before the first <ul> or <li>) #}
+            {% set fullText = service.textWithLists %}
+            {% set introText = fullText|split('<ul>')|first|split('<li>')|first %}
+
+            <div class="service-panel-description">{{ introText|raw }}</div>
+
+            {# Extract bullet points if they exist in the text #}
+            {% set bulletPoints = fullText|split('<li>') %}
+            {% if bulletPoints|length > 1 %}
+              <ul class="service-panel-list">
+                {% for point in bulletPoints %}
+                  {% if loop.index > 1 %}
+                    <li>{{ point|striptags|trim }}</li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {# Learn More Button #}
+            {% if service.cardLink %}
+              {{ ui.button('Learn More', {
+                url: service.cardLink,
+                variant: 'primary',
+                size: 'medium',
+                icon: 'fas fa-arrow-right',
+                attributes: { 'class': 'service-panel-cta' }
+              }) }}
+            {% endif %}
+          </div>
+          
+        </article>
+      {% endcache %}
+    {% endfor %}
+  </div>
+{% endblock %}
+

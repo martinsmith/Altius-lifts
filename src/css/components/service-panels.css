@@ -1,0 +1,192 @@
+@layer components {
+
+/* Service Panels Component - Alternating Image/Content Layout */
+.service-panels {
+  padding-block: var(--section-padding);
+  background-color: white;
+
+  @media (max-width: 768px) {
+    padding-block: var(--section-padding-mobile);
+  }
+}
+
+/* Individual Service Panel */
+.service-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: center;
+  padding: var(--space-12);
+  margin-block-end: var(--space-8);
+  border-radius: var(--border-radius-standard);
+  transition: var(--transition-standard);
+
+  /* Alternating background colors for visual separation */
+  &:nth-child(odd) {
+    background-color: white;
+  }
+
+  &:nth-child(even) {
+    background-color: var(--light-color);
+  }
+
+  &:last-child {
+    margin-block-end: 0;
+  }
+
+  /* Subtle hover effect */
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--primary-color) 8%, transparent);
+  }
+
+  @media (max-width: 992px) {
+    gap: var(--space-12);
+    padding: var(--space-10);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    padding: var(--space-8);
+    margin-block-end: var(--space-6);
+  }
+
+  @media (max-width: 576px) {
+    padding: var(--space-6);
+  }
+}
+
+/* Alternate image position for even panels */
+.service-panel:nth-child(even) .service-panel-image {
+  order: 2;
+}
+
+.service-panel:nth-child(even) .service-panel-content {
+  order: 1;
+}
+
+/* Service Panel Image */
+.service-panel-image {
+  position: relative;
+  border-radius: var(--border-radius-standard);
+  overflow: hidden;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--primary-color) 12%, transparent);
+  aspect-ratio: 4/3;
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    order: 1 !important;
+    aspect-ratio: 16/10;
+  }
+}
+
+/* Service Panel Content */
+.service-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+
+  @media (max-width: 768px) {
+    order: 2 !important;
+  }
+
+  & .service-panel-title {
+    font-size: var(--text-3xl);
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: 700;
+    line-height: var(--line-height-tight);
+    margin: 0;
+
+    @media (max-width: 992px) {
+      font-size: var(--text-2xl);
+    }
+
+    @media (max-width: 768px) {
+      font-size: var(--text-xl);
+    }
+  }
+
+  & .service-panel-description {
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    font-size: var(--text-base);
+    margin: 0;
+
+    & p {
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      font-size: var(--text-sm);
+    }
+  }
+
+  & .service-panel-cta {
+    align-self: flex-start;
+  }
+
+  & .service-panel-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+
+    & li {
+      color: var(--text-secondary);
+      font-size: var(--text-base);
+      line-height: var(--line-height-relaxed);
+      padding-inline-start: var(--space-6);
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.6em;
+        width: 6px;
+        height: 6px;
+        background-color: var(--accent-color);
+        border-radius: 50%;
+      }
+
+      @media (max-width: 768px) {
+        font-size: var(--text-sm);
+      }
+    }
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .service-panel,
+  .service-panel-image img {
+    transition: none;
+  }
+
+  .service-panel:hover {
+    transform: none;
+  }
+
+  .service-panel-image:hover img {
+    transform: none;
+  }
+}
+
+} /* End @layer components */
+
