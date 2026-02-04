@@ -75,14 +75,18 @@
 
 /* Service Panel Content */
 .service-panel-content {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6) var(--space-5);
 
   @media (max-width: 768px) {
     order: 2 !important;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
   }
 
   & .service-panel-title {
+    grid-column: 1 / -1;
     font-size: var(--text-2xl);
     color: var(--primary-color);
     text-transform: uppercase;
@@ -90,7 +94,6 @@
     font-weight: 700;
     line-height: var(--line-height-tight);
     margin: 0;
-    margin-block-end: var(--space-4);
 
     @media (max-width: 992px) {
       font-size: var(--text-xl);
@@ -98,16 +101,15 @@
 
     @media (max-width: 768px) {
       font-size: var(--text-lg);
-      margin-block-end: var(--space-3);
     }
   }
 
   & .service-panel-description {
+    grid-column: 1 / -1;
     color: var(--text-secondary);
     line-height: var(--line-height-relaxed);
     font-size: var(--text-lg);
     margin: 0;
-    margin-block-end: var(--space-6);
     font-weight: var(--font-weight-normal);
 
     & p {
@@ -116,23 +118,22 @@
 
     @media (max-width: 768px) {
       font-size: var(--text-base);
-      margin-block-end: var(--space-5);
     }
   }
 
   & .service-panel-list {
+    grid-column: 1 / -1;
     list-style: none;
     padding: 0;
     margin: 0;
-    margin-block-end: var(--space-8);
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-3) var(--space-5);
+    grid-template-columns: subgrid;
+    gap: var(--space-3);
 
     @media (max-width: 768px) {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
       gap: var(--space-3);
-      margin-block-end: var(--space-6);
     }
 
     & li {
@@ -152,7 +153,8 @@
   }
 
   & .service-panel-cta {
-    align-self: flex-start;
+    grid-column: 1;
+    justify-self: start;
     padding: var(--space-3) var(--space-3);
     font-size: var(--text-sm);
     gap: var(--space-2);
