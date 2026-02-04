@@ -1,0 +1,7 @@
+headingLevels: false
+name: 'Text With Lists'
+toolbar:
+  - bold
+  - italic
+  - bulletedList
+  - link

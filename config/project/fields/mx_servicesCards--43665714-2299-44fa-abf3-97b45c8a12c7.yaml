@@ -17,13 +17,13 @@ settings:
           - group
           - General
   includeTableView: false
-  maxEntries: 3
+  maxEntries: 4
   minEntries: null
   pageSize: 50
   propagationKeyFormat: null
   propagationMethod: all
   showCardsInGrid: true
-  viewMode: cards
+  viewMode: cards-grid
 translationKeyFormat: null
 translationMethod: site
 type: craft\fields\Matrix

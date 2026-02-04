@@ -33,7 +33,7 @@
           {% endif %}
           <div class="service-content card-content responsive-spacing">
             <h3 class="service-title card-title responsive-text">{{ service.title }}</h3>
-            <p class="service-description">{{ service.cardText }}</p>
+            <p class="service-description">{{ service.textWithLists }}</p>
             
             {% if service.cardLink %}
               {{ ui.button('Learn More', {

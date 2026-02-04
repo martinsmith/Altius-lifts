@@ -1,7 +1,7 @@
 {% set currentPath = craft.app.request.pathInfo %}
 {% set navItems = [
     { url: '/', label: 'Home', active: currentPath == '' },
-    { url: '/salon', label: 'Salon', active: currentPath starts with 'salon' },
+    { url: '/why-us', label: 'Why Us', active: currentPath starts with 'why-us' },
     { url: '/our-services', label: 'Services', active: currentPath starts with 'our-services' },
     { url: '/contact', label: 'Contact', active: currentPath starts with 'contact' },
 ] %}

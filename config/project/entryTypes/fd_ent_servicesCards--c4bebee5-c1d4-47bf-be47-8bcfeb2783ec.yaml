@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
@@ -14,6 +15,7 @@ fieldLayouts:
             dateAdded: '2025-07-08T08:45:12+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 04ddff7f-52ed-458a-bc0c-a3a9d4b76f4d # Single Image
             handle: cardImage
             instructions: null
@@ -54,17 +56,18 @@ fieldLayouts:
             warning: null
             width: 100
           -
-            dateAdded: '2025-07-08T08:45:12+00:00'
+            dateAdded: '2026-02-04T11:35:41+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
-            handle: cardText
+            elementEditCondition: null
+            fieldUid: 4d5384a5-7c41-4a41-a7ee-0b4201a44897 # Text with Lists
+            handle: null
             instructions: null
-            label: 'Card Text'
+            label: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: c69994d8-0b66-4de3-9b8b-7f814bb8657a
+            uid: 106088f3-502b-4b3a-87a9-2cf2f49857bb
             userCondition: null
             warning: null
             width: 100
@@ -72,6 +75,7 @@ fieldLayouts:
             dateAdded: '2025-09-25T12:41:22+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
             handle: cardLink
             instructions: null
@@ -86,6 +90,7 @@ fieldLayouts:
         name: Content
         uid: de32967e-43c2-4f00-bfb7-c6612e4f2fff
         userCondition: null
+    thumbFieldKey: null
 handle: fd_ent_servicesCards
 hasTitleField: true
 icon: null
@@ -97,3 +102,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

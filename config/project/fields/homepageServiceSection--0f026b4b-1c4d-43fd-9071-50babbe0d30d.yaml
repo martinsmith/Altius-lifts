@@ -39,21 +39,15 @@ settings:
                               - required
                               - false
                             7:
-                              - providesThumbs
-                              - false
-                            8:
-                              - includeInCards
-                              - false
-                            9:
                               - width
                               - 100
-                            10:
+                            8:
                               - dateAdded
                               - '2025-07-08T08:45:30+00:00'
-                            11:
+                            9:
                               - uid
                               - 40346795-ae7a-4e04-a7e7-54c475620127
-                            14:
+                            12:
                               - fieldUid
                               - 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
                         -
@@ -71,21 +65,15 @@ settings:
                               - required
                               - false
                             7:
-                              - providesThumbs
-                              - false
-                            8:
-                              - includeInCards
-                              - false
-                            9:
                               - width
                               - 100
-                            10:
+                            8:
                               - dateAdded
                               - '2025-07-08T08:56:18+00:00'
-                            11:
+                            9:
                               - uid
                               - 279854c7-78c2-4242-b8a1-025e2e7ee935
-                            14:
+                            12:
                               - fieldUid
                               - 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
                         -
@@ -97,21 +85,15 @@ settings:
                               - required
                               - false
                             7:
-                              - providesThumbs
-                              - false
-                            8:
-                              - includeInCards
-                              - false
-                            9:
                               - width
                               - 100
-                            10:
+                            8:
                               - dateAdded
                               - '2025-07-08T08:45:30+00:00'
-                            11:
+                            9:
                               - uid
                               - cb22c49c-0998-4e90-83b3-05dd806f6a6a
-                            14:
+                            12:
                               - fieldUid
                               - 43665714-2299-44fa-abf3-97b45c8a12c7 # Services Cards
                         -
@@ -129,21 +111,15 @@ settings:
                               - required
                               - false
                             7:
-                              - providesThumbs
-                              - false
-                            8:
-                              - includeInCards
-                              - false
-                            9:
                               - width
                               - 50
-                            10:
+                            8:
                               - dateAdded
                               - '2025-09-25T12:36:24+00:00'
-                            11:
+                            9:
                               - uid
                               - a89f9aa4-a6ef-4f59-ba07-4eef54a1cc8e
-                            14:
+                            12:
                               - fieldUid
                               - 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
                         -
@@ -161,24 +137,18 @@ settings:
                               - required
                               - false
                             7:
-                              - providesThumbs
-                              - false
-                            8:
-                              - includeInCards
-                              - false
-                            9:
                               - width
                               - 50
-                            10:
+                            8:
                               - dateAdded
                               - '2025-09-25T13:04:13+00:00'
-                            11:
+                            9:
                               - uid
                               - 6751b149-f960-4fcb-b6c7-b45dfbc85f35
-                            14:
+                            12:
                               - fieldUid
                               - 54ad6db4-d4f1-442d-b6c6-c1b6ac754cf9 # Straight Text
-            3:
+            4:
               - cardThumbAlignment
               - end
   viewMode: grouped

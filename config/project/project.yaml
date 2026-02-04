@@ -1,4 +1,4 @@
-dateModified: 1770111130
+dateModified: 1770205127
 elementSources:
   craft\elements\Entry:
     -
@@ -59,12 +59,14 @@ meta:
   __names__:
     0af69162-000c-4bb3-a42e-77f5a08558e3: Phone # Phone
     0f026b4b-1c4d-43fd-9071-50babbe0d30d: 'Services Section' # Services Section
+    1f7c0d0b-e7af-4ba5-8bc1-719702c669a3: 'Text With Lists' # Text With Lists
     2bc6cf54-0be9-41dd-950d-f337f8afa9ce: 'Opening Hours' # Opening Hours
     2fa578a2-b3ab-4fef-8fb9-2e9b9145a907: Contact # Contact
     3b68cd98-cd43-4ae2-8d02-61222bda35ba: 'Cards Section' # Cards Section
     3b3650a6-7e79-4860-9537-41787a90b09b: Services # Services
     03bf5298-bb72-48f2-8fca-8d37faf4a83f: 'Sub Services' # Sub Services
     3e7a3e99-ba2f-44b4-966e-e6783dd7e3c1: 'Hero Buttons' # Hero Buttons
+    4d5384a5-7c41-4a41-a7ee-0b4201a44897: 'Text with Lists' # Text with Lists
     04ddff7f-52ed-458a-bc0c-a3a9d4b76f4d: 'Single Image' # Single Image
     4ed1b04a-6530-4a34-874c-c5f29f911e66: 'Four Images' # Four Images
     5c61d44f-616f-4ae5-b273-cdb67ecfff52: Connect # Connect
@@ -98,7 +100,7 @@ meta:
     392d336a-d1e6-4233-89d7-cf232f91adb8: 'Bold and Italic' # Bold and Italic
     678e5f0a-719b-48e9-85b7-506679f364f5: Homepage # Homepage
     9319c08a-bbe3-4e7a-9f29-6e0caa7c1433: 'Offer T&Cs' # Offer T&Cs
-    9832c994-1873-429f-b552-652988c0558b: Salon # Salon
+    9832c994-1873-429f-b552-652988c0558b: 'Why Us' # Why Us
     046080fc-7aad-4c07-b0fa-b55961a0f0de: Salon # Salon
     55300cfe-bdf4-4ff4-8cb4-41e6c4d57622: 'Service Type' # Service Type
     68525dcd-7e0b-4ad5-b369-8366276b3c96: 'Product List' # Product List

@@ -3,26 +3,19 @@ enableVersioning: true
 entryTypes:
   -
     uid: 046080fc-7aad-4c07-b0fa-b55961a0f0de # Salon
-handle: salon
+handle: whyus
 maxAuthors: 1
-name: Salon
+name: 'Why Us'
 previewTargets:
   -
-    __assoc__:
-      -
-        - label
-        - 'Primary entry page'
-      -
-        - refresh
-        - '1'
-      -
-        - urlFormat
-        - '{url}'
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
 propagationMethod: all
 siteSettings:
   21f4ef74-64dc-48e3-bb94-93d62c25ef08: # Altius Lifts
     enabledByDefault: true
     hasUrls: true
-    template: salon.twig
-    uriFormat: salon
+    template: why-us.twig
+    uriFormat: why-us
 type: single
