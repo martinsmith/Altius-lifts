@@ -78,14 +78,15 @@
                 console.warn('Map element not found');
                 return;
             }
-            const leadingedge = { lng: -2.075980455303257, lat: 53.44544274953438 };
+
+            const leadingedge = { lng: -2.073208, lat: 53.399114 };
 
             // Load the required libraries
             const { Map } = await google.maps.importLibrary("maps");
             const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
             map = new Map(mapElement, {
-                zoom: 14,
+                zoom: 15,
                 center: leadingedge,
                 disableDefaultUI: true,
                 zoomControl: true,

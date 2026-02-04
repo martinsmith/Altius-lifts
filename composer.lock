@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6751a0aac44c2880a0ce693f5a9bbf1",
+    "content-hash": "616f4bc2e9c3a8ed5ffd1c653e1397c2",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -46,16 +46,16 @@
         },
         {
             "name": "brick/math",
-            "version": "0.14.3",
+            "version": "0.14.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "6af96b11de3f7d99730c118c200418c48274edb4"
+                "reference": "618a8077b3c326045e10d5788ed713b341fcfe40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/6af96b11de3f7d99730c118c200418c48274edb4",
-                "reference": "6af96b11de3f7d99730c118c200418c48274edb4",
+                "url": "https://api.github.com/repos/brick/math/zipball/618a8077b3c326045e10d5788ed713b341fcfe40",
+                "reference": "618a8077b3c326045e10d5788ed713b341fcfe40",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/math/issues",
-                "source": "https://github.com/brick/math/tree/0.14.3"
+                "source": "https://github.com/brick/math/tree/0.14.5"
             },
             "funding": [
                 {
@@ -102,7 +102,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-01T15:18:05+00:00"
+            "time": "2026-02-03T18:06:51+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -511,11 +511,11 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "5.9.5",
+            "version": "5.9.6",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/a0f43797e571059945fb754ac22fae845a4ad05f",
-                "reference": "a0f43797e571059945fb754ac22fae845a4ad05f",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/558372701d7870da4a3cda88592a21d962de0cb1",
+                "reference": "558372701d7870da4a3cda88592a21d962de0cb1",
                 "shasum": ""
             },
             "require": {
@@ -615,7 +615,7 @@
                 "docs": "https://craftcms.com/docs/5.x/",
                 "rss": "https://github.com/craftcms/cms/releases.atom"
             },
-            "time": "2026-01-31T18:05:38+00:00"
+            "time": "2026-02-03T16:48:37+00:00"
         },
         {
             "name": "craftcms/contact-form",
