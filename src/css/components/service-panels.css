@@ -50,7 +50,7 @@
 /* Service Panel Image */
 .service-panel-image {
   position: relative;
-  border-radius: var(--border-radius-standard);
+  border-radius: 0;
   overflow: hidden;
   box-shadow: 0 8px 24px color-mix(in srgb, var(--primary-color) 12%, transparent);
   aspect-ratio: 4/3;
@@ -142,7 +142,7 @@
       line-height: var(--line-height-normal);
       padding: var(--space-3) var(--space-4);
       background-color: var(--neutral-100);
-      border-radius: var(--border-radius-standard);
+      border-radius: 0;
       font-weight: var(--font-weight-medium);
       text-transform: uppercase;
 

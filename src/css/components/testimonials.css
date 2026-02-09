@@ -52,7 +52,7 @@
     padding: 3rem;
     background-color: white;
     color: var(--primary-color);
-    border-radius: var(--border-radius-standard);
+    border-radius: 0;
     box-shadow: var(--shadow-xl);
     min-height: 280px; /* Ensure consistent height */
 
@@ -99,7 +99,7 @@
       & .client-image {
         width: 60px;
         height: 60px;
-        border-radius: 50%;
+        border-radius: 0;
         overflow: hidden;
         margin-inline-end: 1rem;
         flex-shrink: 0;
@@ -140,7 +140,7 @@
       & .arrow {
         width: 40px;
         height: 40px;
-        border-radius: 50%;
+        border-radius: 0;
         background-color: white;
         color: var(--primary-color);
         display: flex;

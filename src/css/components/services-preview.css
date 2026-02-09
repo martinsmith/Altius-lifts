@@ -62,7 +62,7 @@
         gap: var(--space-2);
         padding: var(--space-3) var(--space-6);
         margin-inline-start: 0;
-        border-radius: var(--border-radius-standard);
+        border-radius: 0;
         transition: var(--transition-standard);
         align-self: flex-start !important;
         justify-content: center !important;

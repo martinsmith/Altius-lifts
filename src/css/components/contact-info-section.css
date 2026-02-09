@@ -29,7 +29,7 @@
 
   & .contact-form-container {
     background-color: var(--light-color); /* Soft sage-tinted grey #f3f4f1 */
-    border-radius: 12px;
+    border-radius: 0;
     padding: 3rem;
     box-shadow: 0 10px 30px color-mix(in srgb, var(--primary-color) 12%, transparent);
     border: 1px solid color-mix(in srgb, var(--primary-color) 5%, transparent);

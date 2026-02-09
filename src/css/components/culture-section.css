@@ -37,7 +37,7 @@
       height: 400px;
       background-size: cover;
       background-position: center;
-      border-radius: 8px;
+      border-radius: 0;
       box-shadow: 0 10px 30px color-mix(in srgb, var(--primary-color) 10%, transparent);
       object-fit: cover;
 

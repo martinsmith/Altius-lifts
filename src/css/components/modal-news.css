@@ -61,7 +61,7 @@
 
     & .news-image {
       margin-bottom: var(--space-8);
-      border-radius: var(--border-radius-standard);
+      border-radius: 0;
       overflow: hidden;
 
       & img {
@@ -116,7 +116,7 @@
           justify-content: center;
           width: 40px;
           height: 40px;
-          border-radius: var(--border-radius-full);
+          border-radius: 0;
           background-color: var(--bg-light);
           color: var(--primary-color);
           transition: var(--transition-standard);
@@ -224,7 +224,7 @@
     & .news-modal-image {
       width: 100%;
       height: auto;
-      border-radius: var(--border-radius-standard);
+      border-radius: 0;
       margin-bottom: var(--space-4);
     }
     

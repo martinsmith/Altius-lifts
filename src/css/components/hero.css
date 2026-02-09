@@ -120,7 +120,7 @@
         font-size: var(--text-base);
         font-weight: var(--font-weight-medium);
         text-decoration: none;
-        border-radius: var(--border-radius-standard);
+        border-radius: 0;
         transition: var(--transition-standard);
         cursor: pointer;
         border: 2px solid transparent;

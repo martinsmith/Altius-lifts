@@ -23,7 +23,7 @@
       background-color: #607553; /* Dark sage green - 5.04:1 contrast with white (PASS AA) */
       color: white; /* White text */
       padding: var(--space-1) var(--space-3);
-      border-radius: var(--border-radius-lg);
+      border-radius: 0;
       font-size: var(--text-sm);
       font-weight: 500;
       margin-right: var(--space-4);

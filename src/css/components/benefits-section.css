@@ -19,7 +19,7 @@
   & .benefit-item {
     background-color: var(--bg-light);
     padding: var(--card-padding-lg) 2rem;
-    border-radius: var(--border-radius-standard);
+    border-radius: 0;
     text-align: center;
     box-shadow: 0 5px 20px color-mix(in srgb, var(--primary-color) 5%, transparent);
     transition: all 0.3s ease;

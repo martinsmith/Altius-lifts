@@ -160,14 +160,14 @@
 /* Card utilities */
 .card {
   background-color: white;
-  border-radius: var(--border-radius-standard);
+  border-radius: 0;
   padding: var(--card-padding);
   box-shadow: var(--shadow-md);
 }
 
 .card-hover {
   background-color: white;
-  border-radius: var(--border-radius-standard);
+  border-radius: 0;
   padding: var(--card-padding);
   box-shadow: var(--shadow-md);
   transition: var(--transition-standard);
@@ -191,10 +191,10 @@
 .border-dark { border: 1px solid var(--border-dark); }
 .border-accent { border: 1px solid var(--accent-color); }
 
-.rounded { border-radius: var(--border-radius-standard); }
-.rounded-sm { border-radius: var(--border-radius-sm); }
-.rounded-lg { border-radius: var(--border-radius-lg); }
-.rounded-full { border-radius: var(--border-radius-full); }
+.rounded { border-radius: 0; }
+.rounded-sm { border-radius: 0; }
+.rounded-lg { border-radius: 0; }
+.rounded-full { border-radius: 0; }
 
 /* Shadow utilities */
 .shadow-sm { box-shadow: var(--shadow-sm); }

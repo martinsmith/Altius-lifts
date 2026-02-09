@@ -21,7 +21,7 @@
 
   & .about-image {
     height: 500px;
-    border-radius: var(--border-radius-standard);
+    border-radius: 0;
     overflow: hidden;
     box-shadow: 0 10px 30px color-mix(in srgb, var(--primary-color) 10%, transparent);
     position: relative;

@@ -15,7 +15,7 @@
   & .feature-card {
     background-color: white;
     padding: 2.5rem 2rem;
-    border-radius: 8px;
+    border-radius: 0;
     text-align: center;
     box-shadow: 0 5px 20px color-mix(in srgb, var(--primary-color) 5%, transparent);
     transition: all 0.3s ease;

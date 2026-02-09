@@ -24,7 +24,7 @@
 .modal-content {
   position: relative;
   background-color: white;
-  border-radius: var(--border-radius-standard);
+  border-radius: 0;
   max-height: 85vh;
   overflow-y: auto;
   box-shadow: var(--shadow-xl);
@@ -68,7 +68,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--border-radius-full);
+  border-radius: 0;
   transition: var(--transition-standard);
 
   &:hover {

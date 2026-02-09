@@ -38,7 +38,7 @@
 
   & .gallery-item {
     position: relative;
-    border-radius: 8px;
+    border-radius: 0;
     overflow: hidden;
     box-shadow: 0 5px 15px color-mix(in srgb, var(--primary-color) 10%, transparent);
     transition: all 0.3s ease;

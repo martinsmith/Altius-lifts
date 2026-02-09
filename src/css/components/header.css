@@ -129,7 +129,7 @@ nav ul li .btn-book-now {
   background-color: var(--accent-color);
   color: var(--blue-800);
   padding: var(--space-2) var(--space-4);
-  border-radius: var(--border-radius-standard);
+  border-radius: 0;
   font-size: var(--text-sm);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
@@ -162,7 +162,7 @@ nav ul li .btn-book-now::after {
   background: none;
   border: none;
   padding: var(--space-2);
-  border-radius: var(--border-radius-standard);
+  border-radius: 0;
   transition: background-color 0.2s ease;
 }
 
@@ -189,7 +189,7 @@ nav ul li .btn-book-now::after {
   height: 3px;
   width: 100%;
   background: white;
-  border-radius: 3px;
+  border-radius: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: center;
 }
@@ -305,7 +305,7 @@ nav ul li .btn-book-now::after {
     justify-content: center;
     gap: var(--space-2);
     font-weight: 600;
-    border-radius: var(--border-radius-lg);
+    border-radius: 0;
   }
 
   nav ul li .btn-book-now:hover {
@@ -319,7 +319,7 @@ nav ul li .btn-book-now::after {
     width: 6px;
     height: 6px;
     background-color: var(--accent-color);
-    border-radius: 50%;
+    border-radius: 0;
     margin-inline-end: var(--space-3);
     opacity: 0;
     transition: opacity 0.2s ease;

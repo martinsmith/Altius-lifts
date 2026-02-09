@@ -3,7 +3,7 @@
 /* Base Card System - Token-Based & DRY */
 .card-base {
   background-color: white;
-  border-radius: var(--border-radius-standard);
+  border-radius: 0;
   box-shadow: var(--shadow-md);
   overflow: hidden;
   transition: var(--transition-standard);

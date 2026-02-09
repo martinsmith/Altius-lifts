@@ -16,7 +16,7 @@
   justify-content: center;
   flex-wrap: wrap;
   margin-block-end: 2rem;
-  border-radius: 8px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: 0 5px 20px color-mix(in srgb, var(--primary-color) 10%, transparent);
 

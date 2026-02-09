@@ -14,7 +14,7 @@
 
   & .position-card {
     background-color: white;
-    border-radius: 8px;
+    border-radius: 0;
     padding: 2rem;
     box-shadow: 0 5px 15px color-mix(in srgb, var(--primary-color) 5%, transparent);
     transition: all 0.3s ease;
@@ -40,7 +40,7 @@
         background-color: #607553; /* Dark sage green - 5.04:1 contrast with white (PASS AA) */
         color: white; /* White text */
         padding: 0.3rem 0.8rem;
-        border-radius: 20px;
+        border-radius: 0;
         font-size: 0.9rem;
         font-weight: 500;
         margin-inline-end: 1rem;
@@ -67,7 +67,7 @@
   & .no-positions {
     text-align: center;
     background-color: white;
-    border-radius: 8px;
+    border-radius: 0;
     padding: 3rem 2rem;
     max-width: 800px;
     margin: 0 auto;
@@ -98,7 +98,7 @@
 
   & .modal-content {
     background-color: white;
-    border-radius: 8px;
+    border-radius: 0;
     max-width: 800px;
     width: 100%;
     max-height: 90vh;
@@ -121,7 +121,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: 0;
     transition: all 0.3s ease;
 
     &:hover {
@@ -148,7 +148,7 @@
         background-color: #607553; /* Dark sage green - 5.04:1 contrast with white (PASS AA) */
         color: white; /* White text */
         padding: 0.5rem 1rem;
-        border-radius: 20px;
+        border-radius: 0;
         font-size: 0.9rem;
         font-weight: 500;
         margin-inline-end: 1rem;

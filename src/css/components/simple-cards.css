@@ -105,7 +105,7 @@
     background-color: var(--card-bg-color, white);
     color: var(--card-text-color, var(--primary-color));
     padding: var(--card-padding-lg) 2rem;
-    border-radius: var(--border-radius-standard);
+    border-radius: 0;
     text-align: center;
     box-shadow: var(--card-shadow-light);
     transition: var(--transition-standard);

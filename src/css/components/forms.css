@@ -19,7 +19,7 @@
       height: 3px;
       background: linear-gradient(135deg, var(--accent-color), var(--accent-color-dark));
       margin: var(--space-4) auto 0;
-      border-radius: 2px;
+      border-radius: 0;
     }
   }
 
@@ -143,7 +143,7 @@
     width: 100%;
     padding: var(--space-4);
     border: 2px solid var(--border-color);
-    border-radius: var(--border-radius-standard);
+    border-radius: 0;
     font-size: var(--text-base);
     font-family: inherit;
     transition: var(--transition-standard);
@@ -321,7 +321,7 @@
 
 .form-alert {
   padding: var(--space-4);
-  border-radius: var(--border-radius-standard);
+  border-radius: 0;
   margin-block-end: var(--space-8);
   border-left: 4px solid currentColor;
   font-size: var(--text-base);
@@ -387,7 +387,7 @@
   max-width: 800px;
   margin: 0 auto;
   background-color: white;
-  border-radius: var(--border-radius-standard);
+  border-radius: 0;
   padding: var(--space-12);
   box-shadow: var(--card-shadow-medium);
 
@@ -440,7 +440,7 @@ textarea.fui-textarea,
 select.fui-select {
   padding: clamp(0.8rem, 1.5vw, 1rem) !important;
   border: 2px solid color-mix(in srgb, var(--primary-color) 15%, transparent) !important;
-  border-radius: clamp(6px, 1vw, 8px) !important;
+  border-radius: 0 !important;
   font-size: clamp(0.95rem, 1.8vw, 1rem) !important;
   transition: all 0.3s ease !important;
   background-color: #fafafa !important;

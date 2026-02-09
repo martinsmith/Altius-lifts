@@ -5,7 +5,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: 0 5px 20px color-mix(in srgb, var(--primary-color) 8%, transparent);
   margin-block-end: 3rem;
@@ -39,7 +39,7 @@
         background-color: var(--primary-color); /* Charcoal grey #404e5c for better contrast */
         color: white;
         padding: 0.5rem 1rem;
-        border-radius: 4px;
+        border-radius: 0;
         font-weight: 600;
         font-size: 0.9rem;
       }

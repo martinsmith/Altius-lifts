@@ -79,7 +79,7 @@
         & .specialty-tag {
           background-color: var(--bg-light);
           padding: var(--space-2) var(--space-4);
-          border-radius: var(--border-radius-full);
+          border-radius: 0;
           font-size: var(--text-sm);
           color: var(--primary-color);
           display: inline-block;
