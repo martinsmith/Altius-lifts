@@ -86,7 +86,7 @@
 
         & strong {
           color: white;
-          display: inline-block;
+          display: inline;
           font-weight: inherit;
         }
       }

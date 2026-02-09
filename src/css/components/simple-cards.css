@@ -117,7 +117,7 @@
     }
 
     & h3 {
-      font-size: 1.4rem;
+      font-size: 1.1rem;
       margin-block-end: 1rem;
       color: var(--card-heading-color, var(--primary-color));
       text-transform: uppercase;

@@ -14,7 +14,7 @@
   }
 
   & p {
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
     color: var(--text-secondary);
     line-height: var(--line-height-relaxed);
     max-width: 700px;
