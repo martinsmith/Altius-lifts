@@ -26,8 +26,8 @@
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
 
     <style>
-        body { visibility: hidden; }
-        body.loaded { visibility: visible; }
+        html.loading body { visibility: hidden; }
+        html.loaded body { visibility: visible; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
         .footer-content { display: grid; gap: 2rem; }
     </style>
@@ -68,18 +68,6 @@
 {% include '_components/footer.twig' %}
 
 <script type="module" src="/_dist/js/app.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(function() {
-            document.body.classList.add('loaded');
-        }, 50);
-    });
-
-    setTimeout(function() {
-        document.body.classList.add('loaded');
-    }, 500);
-</script>
 
 </body>
 </html>

@@ -22,7 +22,6 @@ class ComponentManager {
         this.components.forEach((initFunction, selector) => {
             const elements = document.querySelectorAll(selector);
             if (elements.length > 0) {
-                console.log(`Initializing component: ${selector}`);
                 initFunction(elements);
             }
         });
@@ -285,29 +284,19 @@ function checkImageAspectRatio(modal) {
     // Function to check aspect ratio once image is loaded
     function checkRatio() {
         const aspectRatio = image.naturalWidth / image.naturalHeight;
-        
+
         // If aspect ratio is less than 0.7 (very tall/portrait), apply special layout
         if (aspectRatio < 0.7) {
             modal.classList.add('portrait-image');
-            console.log('Portrait image detected, applying vertical layout');
-        } else {
-            console.log('Landscape image detected, using side-by-side layout');
         }
     }
-    
+
     // Check if image is already loaded
     if (image.complete && image.naturalHeight !== 0) {
         checkRatio();
     } else {
         // Wait for image to load
         image.addEventListener('load', checkRatio);
-        
-        // Fallback timeout in case image fails to load
-        setTimeout(() => {
-            if (image.naturalHeight === 0) {
-                console.log('Image failed to load, using default layout');
-            }
-        }, 3000);
     }
 }
 
@@ -398,18 +387,12 @@ document.addEventListener('keydown', function(e) {
 // Header functionality
 // Services tabs functionality - Simplified and reliable
 componentManager.register('.services-tabs', (elements) => {
-    console.log('Services tabs component starting, found elements:', elements.length);
     elements.forEach(servicesSection => {
-        console.log('Processing services section:', servicesSection);
         const mainTabs = servicesSection.querySelectorAll('.tabs-container .tab');
         const mainIntroSections = servicesSection.querySelectorAll('.main-service-intro');
         const subTabsWrappers = servicesSection.querySelectorAll('.sub-tabs-wrapper');
         const subTabs = servicesSection.querySelectorAll('.sub-tab');
         const contentSections = servicesSection.querySelectorAll('.service-content-section');
-
-        console.log('Found main tabs:', mainTabs.length);
-        console.log('Found main intro sections:', mainIntroSections.length);
-        console.log('Found sub tabs wrappers:', subTabsWrappers.length);
 
         // Initialize - show first main tab's content
         function initializeTabs() {
@@ -438,13 +421,11 @@ componentManager.register('.services-tabs', (elements) => {
                 targetTab = Array.from(mainTabs).find(tab =>
                     tab.getAttribute('data-hash') === urlHash
                 );
-                console.log('URL hash found:', urlHash, 'Matching tab:', targetTab);
             }
 
             // If no hash or hash doesn't match, use first tab
             if (!targetTab && mainTabs.length > 0) {
                 targetTab = mainTabs[0];
-                console.log('Using first tab as default');
             }
 
             if (targetTab) {
@@ -453,15 +434,12 @@ componentManager.register('.services-tabs', (elements) => {
                 targetTab.classList.add('active');
 
                 const targetMainTabId = targetTab.getAttribute('data-tab');
-                console.log('Initializing with tab ID:', targetMainTabId);
 
                 // Show corresponding main intro section
                 const targetMainIntro = servicesSection.querySelector(`.main-service-intro[data-main-tab="${targetMainTabId}"]`);
-                console.log('Found target main intro:', targetMainIntro);
                 if (targetMainIntro) {
                     targetMainIntro.classList.remove('hidden');
                     targetMainIntro.classList.add('visible');
-                    console.log('Initialized main intro for:', targetMainTabId);
                 }
 
                 // Show corresponding sub-tabs wrapper
@@ -504,14 +482,10 @@ componentManager.register('.services-tabs', (elements) => {
 
         // Show main intro section
         function showMainIntroSection(targetMainTabId) {
-            console.log('showMainIntroSection called with:', targetMainTabId);
-            console.log('mainIntroSections found:', mainIntroSections.length);
             mainIntroSections.forEach(intro => {
-                console.log('Checking intro with data-main-tab:', intro.getAttribute('data-main-tab'));
                 if (intro.getAttribute('data-main-tab') === targetMainTabId) {
                     intro.classList.remove('hidden');
                     intro.classList.add('visible');
-                    console.log('Showing intro for:', targetMainTabId);
                 } else {
                     intro.classList.add('hidden');
                     intro.classList.remove('visible');
@@ -768,8 +742,6 @@ componentManager.register('.back-to-top', (elements) => {
 
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Initializing application components...');
-    
     // Initialize components
     componentManager.init();
 });

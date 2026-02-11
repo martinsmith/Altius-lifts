@@ -4,6 +4,7 @@ import legacy from '@vitejs/plugin-legacy';
 import postcssImport from 'postcss-import';
 import postcssNesting from 'postcss-nesting';
 import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
 
 export default defineConfig({
   plugins: [
@@ -44,7 +45,14 @@ export default defineConfig({
       plugins: [
         postcssImport,
         postcssNesting,
-        autoprefixer
+        autoprefixer,
+        cssnano({
+          preset: ['default', {
+            discardComments: {
+              removeAll: true
+            }
+          }]
+        })
       ]
     }
   },
