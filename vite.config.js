@@ -5,6 +5,7 @@ import postcssImport from 'postcss-import';
 import postcssNesting from 'postcss-nesting';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
+import purgecss from '@fullhuman/postcss-purgecss';
 
 export default defineConfig({
   plugins: [
@@ -53,6 +54,64 @@ export default defineConfig({
         postcssImport,
         postcssNesting,
         autoprefixer,
+        // PurgeCSS - Remove unused CSS
+        purgecss({
+          content: [
+            './templates/**/*.twig',
+            './templates/**/*.html',
+            './src/js/**/*.js'
+          ],
+          // Safelist for dynamically added classes
+          safelist: {
+            standard: [
+              'loading',
+              'loaded',
+              'fonts-loaded',
+              'transitions-enabled',
+              'fully-loaded',
+              'animations-enabled',
+              'in-view',
+              'modal-open',
+              'active',
+              'hidden',
+              'visible',
+              'portrait-image',
+              'error',
+              'show'
+            ],
+            // Safelist patterns for dynamic classes
+            deep: [
+              /^home-/,
+              /^services-/,
+              /^contact-/,
+              /^team-/,
+              /^offers-/,
+              /^salon-/,
+              /-page$/,
+              /^data-/,
+              /^fui-/,
+              /^fa-/,
+              /^fab-/,
+              /^fas-/,
+              /^far-/
+            ],
+            greedy: [
+              /modal/,
+              /tab/,
+              /btn/,
+              /service/
+            ]
+          },
+          // Don't remove CSS from these layers
+          blocklist: [],
+          // Custom extractor for Twig templates
+          defaultExtractor: content => {
+            // Match class names in Twig templates
+            const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [];
+            const innerMatches = content.match(/[^<>"'`\s.()]*[^<>"'`\s.():]/g) || [];
+            return broadMatches.concat(innerMatches);
+          }
+        }),
         cssnano({
           preset: ['default', {
             discardComments: {
