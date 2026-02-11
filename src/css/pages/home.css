@@ -1,0 +1,13 @@
+/* Home Page Specific CSS */
+/* Components used primarily or exclusively on the home page */
+
+@import '../components/hero.css';
+@import '../components/services-preview.css';
+@import '../components/service-panels.css';
+@import '../components/testimonials.css';
+@import '../components/instagram-feed.css';
+@import '../components/call-to-action.css';
+@import '../components/products-showcase.css';
+@import '../components/simple-cards.css';
+@import '../components/benefits-section.css';
+

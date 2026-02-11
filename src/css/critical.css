@@ -1,0 +1,178 @@
+/* Critical CSS - Loaded on every page */
+/* This file contains only the essential styles needed for initial render */
+
+/* Define enhanced layer order for better cascade control */
+@layer reset, base, tokens, components, patterns, utilities, overrides;
+
+/* Import single source of truth for design tokens */
+@import 'tokens/design-tokens.css';
+
+/* Import clean utilities system */
+@import 'utilities.css';
+
+/* Import modern container system */
+@import 'components/container-system.css';
+
+/* Import core components used on every page */
+@import 'components/buttons.css';
+@import 'components/forms.css';
+@import 'components/section-base.css';
+@import 'components/card-base.css';
+@import 'components/section-header.css';
+@import 'components/header.css';
+@import 'components/footer.css';
+@import 'components/modal-base.css';
+@import 'components/social-icons.css';
+@import 'components/back-to-top.css';
+
+/* Modern CSS Features Support */
+@supports (container-type: inline-size) {
+  .component-container {
+    container-type: inline-size;
+  }
+}
+
+/* View Transitions API Support */
+@view-transition {
+  navigation: auto;
+}
+
+@layer base {
+
+/* Global Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: var(--font-family-secondary);
+  font-size: 16px;
+  line-height: var(--line-height-normal);
+  color: var(--primary-color);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* Optimize scrolling performance */
+html {
+  scroll-padding-top: 100px; /* Account for fixed header */
+}
+
+/* Reduced motion preference support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Typography Base Styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-4);
+  color: var(--primary-color);
+  line-height: var(--line-height-tight);
+}
+
+h1 { font-size: var(--heading-h1); }
+h2 { font-size: var(--heading-h2); }
+h3 { font-size: var(--heading-h3); }
+h4 { font-size: var(--heading-h4); }
+h5 { font-size: var(--heading-h5); }
+h6 { font-size: var(--heading-h6); }
+
+p {
+  margin-bottom: var(--space-4);
+  line-height: var(--line-height-relaxed);
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent-color);
+  transition: var(--transition-standard);
+}
+
+a:hover {
+  color: var(--accent-color-dark);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Layout Base Styles */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+main {
+  padding-top: calc(var(--header-height) + 0);
+  
+  @media (max-width: 768px) {
+    padding-top: calc(var(--header-height) + 0);
+  }
+}
+
+.section {
+  padding: var(--section-padding) 0;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--section-padding-mobile) 0;
+  }
+}
+
+/* Global Section Header Separators */
+.section-header h2::after,
+.team-intro h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: var(--accent-color);
+  margin: var(--space-4) auto var(--space-6);
+}
+
+/* Responsive adjustments using standardized breakpoints */
+@media (max-width: 1024px) {
+  .container {
+    max-width: 95vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-header h2::after,
+  .team-intro h2::after {
+    width: 50px;
+    height: 2px;
+    margin-bottom: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 90%;
+    padding: 0 var(--space-6);
+  }
+
+  .section-header h2::after,
+  .team-intro h2::after {
+    width: 40px;
+    margin-bottom: var(--space-3);
+  }
+}
+
+} /* End @layer base */
+

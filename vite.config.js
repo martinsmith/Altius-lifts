@@ -19,8 +19,15 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       input: {
-        'css/styles': resolve(process.cwd(), 'src/css/styles.css'),
-        'js/app': resolve(process.cwd(), 'src/js/app.js')
+        // JavaScript entry
+        'js/app': resolve(process.cwd(), 'src/js/app.js'),
+
+        // CSS entries - code splitting for better performance
+        'css/critical': resolve(process.cwd(), 'src/css/critical.css'),
+        'css/shared': resolve(process.cwd(), 'src/css/shared.css'),
+        'css/home': resolve(process.cwd(), 'src/css/pages/home.css'),
+        'css/services': resolve(process.cwd(), 'src/css/pages/services.css'),
+        'css/contact': resolve(process.cwd(), 'src/css/pages/contact.css')
       },
       output: {
         entryFileNames: '[name].js',

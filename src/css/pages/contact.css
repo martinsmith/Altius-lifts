@@ -1,0 +1,8 @@
+/* Contact Page Specific CSS */
+/* Components used on the contact page */
+
+@import '../components/page-header.css';
+@import '../components/contact-card.css';
+@import '../components/contact-info-section.css';
+@import '../components/simple-cards.css';
+

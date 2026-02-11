@@ -1,0 +1,40 @@
+/* Shared Components CSS */
+/* Components used across multiple pages but not critical for initial render */
+
+/* Modal components - used across multiple pages */
+@import 'components/modal-team.css';
+@import 'components/modal-job.css';
+@import 'components/modal-news.css';
+
+/* Common page components */
+@import 'components/page-header.css';
+@import 'components/about-story.css';
+@import 'components/philosophy-grid.css';
+@import 'components/team-grid.css';
+@import 'components/jobs-grid.css';
+@import 'components/culture-section.css';
+@import 'components/news-grid.css';
+@import 'components/news-article-card.css';
+@import 'components/featured-news-item.css';
+@import 'components/pagination.css';
+@import 'components/news-pagination-scroll.css';
+@import 'components/interior-gallery.css';
+@import 'components/promotions-grid.css';
+@import 'components/gift-voucher-section.css';
+@import 'components/faq-section.css';
+@import 'components/brand-navigation.css';
+@import 'components/product-sections.css';
+
+/* Page-specific overrides */
+@layer overrides {
+  /* Team page - CTA section with charcoal background */
+  .team-page .cta-section {
+    background-color: var(--primary-color); /* Charcoal grey #404e5c */
+  }
+
+  /* Offers page - CTA section with charcoal background */
+  .offers-page .cta-section {
+    background-color: var(--primary-color); /* Charcoal grey #404e5c */
+  }
+}
+

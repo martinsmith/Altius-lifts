@@ -38,15 +38,22 @@
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
 
-    {% set criticalPages = ['', 'home', 'services', 'contact', 'salon', 'our-services', 'meet-the-team', 'products'] %}
-    {% set isCriticalPage = currentSegment in criticalPages %}
+    {# Load critical CSS on all pages #}
+    <link rel="stylesheet" href="/_dist/css/critical.css">
 
-    {% if isCriticalPage %}
-      <link rel="stylesheet" href="/_dist/css/styles.css">
-    {% else %}
-      <link rel="preload" href="/_dist/css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-      <noscript><link rel="stylesheet" href="/_dist/css/styles.css"></noscript>
+    {# Load page-specific CSS based on current segment #}
+    {% set pageSegment = currentSegment|default('home') %}
+    {% if pageSegment == '' or pageSegment == 'home' %}
+      <link rel="stylesheet" href="/_dist/css/home.css">
+    {% elseif pageSegment == 'services' or pageSegment == 'our-services' %}
+      <link rel="stylesheet" href="/_dist/css/services.css">
+    {% elseif pageSegment == 'contact' %}
+      <link rel="stylesheet" href="/_dist/css/contact.css">
     {% endif %}
+
+    {# Load shared components CSS asynchronously for all pages #}
+    <link rel="preload" href="/_dist/css/shared.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/_dist/css/shared.css"></noscript>
 
     <meta name="view-transition" content="same-origin">
 
