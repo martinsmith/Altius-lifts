@@ -52,7 +52,7 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '^(?!/_dist/).*': 'https://hair-haven.ddev.site'
+      '^(?!/_dist/).*': 'https://altius-lifts.ddev.site'
     }
   },
 
