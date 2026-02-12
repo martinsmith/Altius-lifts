@@ -14,9 +14,8 @@
 
 /* Hero Section Component Styles */
 .hero {
-  height: 70vh;
   min-height: 600px;
-  background-image: 
+  background-image:
     linear-gradient(
       135deg,
       rgba(64, 78, 92, 0.4) 0%,
@@ -35,11 +34,11 @@
   overflow: hidden;
   border-bottom: 3px solid var(--accent-color);
   padding-block: var(--space-12);
-  
+
   /* Performance optimizations */
   will-change: transform;
   transform: translateZ(0);
-  
+
   /* Modern backdrop filter for better text readability */
   &::before {
     content: '';
@@ -58,16 +57,12 @@
   }
 
   & .hero-content {
-    width: 100%;
-    max-width: 1200px;
     position: relative;
     z-index: 2;
-    color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: var(--space-8) var(--space-4);
-    padding-top: calc(var(--space-8) + 80px);
+    padding-block: calc(var(--space-8) + 80px) var(--space-8);
     animation: heroFadeIn 1.2s ease-out;
 
     & .text-content {
@@ -210,20 +205,14 @@
 /* Responsive Design */
 @media (max-width: 1200px) {
   .hero {
-    height: 65vh;
     min-height: 550px;
-    
-    & .hero-content {
-      padding-top: calc(var(--space-8) + 75px);
-    }
   }
 }
 
 @media (max-width: 1024px) {
   .hero {
-    height: 60vh;
     min-height: 500px;
-    
+
     & .hero-content .hero-buttons {
       flex-wrap: wrap;
       gap: var(--space-3);
@@ -235,12 +224,10 @@
 @media (max-width: 768px) {
   .hero {
     background-attachment: scroll;
-    height: 50vh;
     min-height: 500px;
 
     & .hero-content {
-      padding: var(--space-3) var(--space-4);
-      padding-top: 80px;
+      padding-block: 80px var(--space-3);
 
       & .text-content {
         margin-block-end: var(--space-3);
@@ -310,12 +297,10 @@
 
 @media (max-width: 480px) {
   .hero {
-    height: 45vh;
     min-height: 450px;
 
     & .hero-content {
-      padding: var(--space-2) var(--space-3);
-      padding-top: 70px;
+      padding-block: 70px var(--space-2);
 
       & .text-content {
         margin-block-end: var(--space-2);
