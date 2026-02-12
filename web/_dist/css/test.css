@@ -1,0 +1,357 @@
+/* Firmus-Inspired Test CSS for Altius Lifts */
+/* Using Altius corporate colors: Blue #06559F, Cyan #16DBE1 */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Altius Colors */
+  --primary-blue: #06559F;
+  --primary-cyan: #16DBE1;
+  --dark-blue: #043A6B;
+  --light-blue: #E8F4FC;
+  --neutral-dark: #1E293B;
+  --neutral-light: #F8FAFC;
+  --neutral-mid: #64748B;
+  
+  /* Typography Scale - Firmus-inspired */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--neutral-dark);
+  background: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container */
+.test-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/* Hero Section - Firmus style */
+.test-hero {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.test-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(22, 219, 225, 0.1) 100%);
+  pointer-events: none;
+}
+
+.test-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  padding: var(--space-20) 0;
+}
+
+.test-hero h1 {
+  font-size: var(--text-5xl);
+  font-weight: 300;
+  line-height: 1.1;
+  color: white;
+  margin-bottom: var(--space-6);
+  letter-spacing: -0.02em;
+}
+
+.test-lead {
+  font-size: var(--text-xl);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+
+/* Section Spacing */
+.test-section {
+  padding: var(--space-24) 0;
+}
+
+.test-bg-alt {
+  background: var(--light-blue);
+}
+
+.test-bg-dark {
+  background: var(--neutral-dark);
+}
+
+/* Typography */
+.test-section-title {
+  font-size: var(--text-4xl);
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--neutral-dark);
+  margin-bottom: var(--space-8);
+  letter-spacing: -0.01em;
+}
+
+.test-section-title.test-light {
+  color: white;
+}
+
+.test-section-title.test-center {
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.test-lead.test-light {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.test-lead.test-center {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-12);
+}
+
+/* Grid Layouts */
+.test-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: var(--space-16);
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .test-grid-2col {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+}
+
+/* Services Grid - Firmus-inspired cards */
+.test-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-12);
+}
+
+.test-service-card {
+  background: white;
+  padding: var(--space-8);
+  border-radius: 4px;
+  border: 1px solid rgba(6, 85, 159, 0.1);
+  transition: all 0.3s ease;
+}
+
+.test-service-card:hover {
+  border-color: var(--primary-cyan);
+  box-shadow: 0 4px 20px rgba(22, 219, 225, 0.15);
+  transform: translateY(-2px);
+}
+
+.test-service-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+  color: white;
+  border-radius: 4px;
+  margin-bottom: var(--space-4);
+}
+
+.test-service-card h3 {
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--neutral-dark);
+  margin-bottom: var(--space-3);
+  line-height: 1.3;
+}
+
+.test-service-card p {
+  font-size: var(--text-base);
+  color: var(--neutral-mid);
+  line-height: 1.6;
+}
+
+/* Stats Grid - Firmus-inspired data display */
+.test-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-12);
+  margin-top: var(--space-12);
+  text-align: center;
+}
+
+.test-stat {
+  padding: var(--space-6);
+}
+
+.test-stat-number {
+  font-size: var(--text-6xl);
+  font-weight: 200;
+  color: var(--primary-blue);
+  line-height: 1;
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.02em;
+}
+
+.test-stat-label {
+  font-size: var(--text-lg);
+  color: var(--neutral-mid);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: var(--text-sm);
+}
+
+/* Sectors Grid */
+.test-sectors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-12);
+}
+
+.test-sector {
+  padding: var(--space-6) var(--space-4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  text-align: center;
+  color: white;
+  font-size: var(--text-lg);
+  font-weight: 300;
+  transition: all 0.3s ease;
+}
+
+.test-sector:hover {
+  background: rgba(22, 219, 225, 0.1);
+  border-color: var(--primary-cyan);
+}
+
+/* CTA Section */
+.test-cta {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-8);
+  background: linear-gradient(135deg, var(--light-blue) 0%, white 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(6, 85, 159, 0.1);
+}
+
+.test-cta h2 {
+  font-size: var(--text-4xl);
+  font-weight: 300;
+  color: var(--neutral-dark);
+  margin-bottom: var(--space-4);
+  line-height: 1.2;
+}
+
+.test-cta p {
+  font-size: var(--text-xl);
+  color: var(--neutral-mid);
+  margin-bottom: var(--space-8);
+  font-weight: 300;
+}
+
+/* Button - Firmus-inspired minimal style */
+.test-btn {
+  display: inline-block;
+  padding: var(--space-4) var(--space-8);
+  background: var(--primary-blue);
+  color: white;
+  text-decoration: none;
+  font-size: var(--text-base);
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  border: 2px solid var(--primary-blue);
+}
+
+.test-btn:hover {
+  background: transparent;
+  color: var(--primary-blue);
+  border-color: var(--primary-blue);
+}
+
+/* Responsive Typography */
+@media (max-width: 1024px) {
+  .test-hero h1 {
+    font-size: var(--text-4xl);
+  }
+
+  .test-section-title {
+    font-size: var(--text-3xl);
+  }
+
+  .test-stat-number {
+    font-size: var(--text-5xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .test-hero h1 {
+    font-size: var(--text-3xl);
+  }
+
+  .test-lead {
+    font-size: var(--text-lg);
+  }
+
+  .test-section-title {
+    font-size: var(--text-2xl);
+  }
+
+  .test-section {
+    padding: var(--space-16) 0;
+  }
+
+  .test-cta h2 {
+    font-size: var(--text-2xl);
+  }
+
+  .test-cta p {
+    font-size: var(--text-lg);
+  }
+}
+
