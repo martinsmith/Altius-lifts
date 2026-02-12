@@ -154,11 +154,8 @@ img {
 }
 
 main {
-  padding-top: calc(var(--header-height) + 0);
-  
-  @media (max-width: 768px) {
-    padding-top: calc(var(--header-height) + 0);
-  }
+  /* No padding-top needed — the header is position:fixed and each page's
+     first section (hero, page-header) handles its own top clearance */
 }
 
 .section {

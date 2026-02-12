@@ -347,9 +347,6 @@
   /* Header */
   --header-padding-block: 2rem;
   --header-padding-block-scrolled: 1rem;
-  --header-content-height: 2.5rem;
-  --header-height: calc(var(--header-content-height) + (var(--header-padding-block) * 2));
-  --header-height-scrolled: calc(var(--header-content-height) + (var(--header-padding-block-scrolled) * 2));
 
   /* Z-index scale */
   --z-index-dropdown: 1000;

@@ -9,8 +9,8 @@ header {
   z-index: var(--z-index-fixed);
   padding-block: var(--header-padding-block);
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--blue-700) 50%, var(--primary-color) 100%);
-  will-change: transform, padding;
-  transform: translateZ(0); /* Force GPU acceleration */
+  will-change: padding;
+  transition: padding 0.3s ease;
 
   &.scrolled {
     padding-block: var(--header-padding-block-scrolled);
@@ -66,13 +66,7 @@ header {
 }
 
 nav {
-  padding-top: 0;
-}
-
-@media (min-width: 769px) {
-  nav {
-    padding-top: 1rem;
-  }
+  position: relative;
 }
 
 nav ul {
@@ -92,31 +86,37 @@ nav ul li a {
   color: white;
   text-decoration: none;
   position: relative;
-  padding-bottom: 5px;
+  padding: var(--space-2) var(--space-4);
   transition: color 0.3s ease;
   font-weight: 300;
+  display: block;
 }
 
 nav ul li a:hover {
   color: var(--accent-color);
 }
 
-nav ul li a::after {
-  content: '';
+/* Sliding blob hover effect (JavaScript-driven) */
+.nav-blob {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: white;
-  transition: width 0.3s ease;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 0;
+  background: color-mix(in srgb, var(--accent-color) 20%, transparent);
+  backdrop-filter: blur(4px);
+  transition:
+    left 500ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    top 500ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    width 500ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    height 500ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 200ms ease;
 }
 
-nav ul li a:hover::after,
-nav ul li a.router-link-active::after,
-nav ul li a.active::after {
-  width: 100%;
-  background-color: white;
+/* Ensure nav links sit above the blob */
+nav ul li a {
+  position: relative;
+  z-index: 1;
 }
 
 /* Book Now Button Styling - Corporate cyan accent button */

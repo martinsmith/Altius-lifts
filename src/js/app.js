@@ -2,6 +2,7 @@
 import './fouc-prevention.js';
 import './news-pagination.js';
 import './parallax-effect.js';
+import './nav-hover-effect.js';
 import { FormValidation } from './utils/form-validation.js';
 
 // Component initialization system
@@ -615,7 +616,7 @@ componentManager.register('#header', (elements) => {
 
     // Header scroll effect with throttling
     let ticking = false;
-    
+
     function updateHeader() {
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
@@ -624,7 +625,7 @@ componentManager.register('#header', (elements) => {
         }
         ticking = false;
     }
-    
+
     window.addEventListener('scroll', function() {
         if (!ticking) {
             requestAnimationFrame(updateHeader);
