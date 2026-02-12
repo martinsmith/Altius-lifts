@@ -1,18 +1,274 @@
 @layer components {
 
-/* Call to Action Component Styles (extracted from Vue CallToAction.vue) */
+/* Call to Action Component - Modern Parallax Effect */
 .cta-section {
+  position: relative;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
+  background-attachment: fixed; /* Parallax effect */
+  background-repeat: no-repeat;
   color: white;
   text-align: center;
-  padding-block: 5rem;
+  padding-block: var(--section-padding);
+  overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  /* Enhanced gradient overlay for better readability */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--primary-color) 70%, transparent) 0%,
+      color-mix(in srgb, var(--dark-color) 60%, transparent) 50%,
+      color-mix(in srgb, var(--accent-color) 40%, transparent) 100%
+    );
+    z-index: 1;
+  }
+
+  /* Decorative animated gradient overlay */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 30% 50%,
+      color-mix(in srgb, var(--accent-color) 20%, transparent) 0%,
+      transparent 50%
+    );
+    z-index: 2;
+    animation: pulse-glow 8s ease-in-out infinite;
+  }
+
+  @media (max-width: 992px) {
+    padding-block: var(--section-padding);
+    min-height: 350px;
+    /* Disable parallax on tablets/mobile for better performance */
+    background-attachment: scroll;
+    background-position: center center;
+  }
+
+  @media (max-width: 768px) {
+    padding-block: var(--section-padding-mobile);
+    min-height: 300px;
+    background-position: center center;
+  }
+
+  /* Content container with elevated card design */
   & .cta-content {
+    position: relative;
+    z-index: 3;
     max-width: 700px;
     margin: 0 auto;
+    padding: var(--space-12);
+    background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
+    box-shadow:
+      0 20px 60px color-mix(in srgb, var(--dark-color) 40%, transparent),
+      0 0 0 1px color-mix(in srgb, white 10%, transparent) inset;
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 25px 70px color-mix(in srgb, var(--dark-color) 50%, transparent),
+        0 0 0 1px color-mix(in srgb, white 15%, transparent) inset,
+        0 0 30px color-mix(in srgb, var(--accent-color) 20%, transparent);
+    }
 
+    @media (max-width: 992px) {
+      padding: var(--space-10);
+      max-width: 90%;
+    }
+
+    @media (max-width: 768px) {
+      padding: var(--space-8);
+      border-radius: 6px;
+    }
+  }
+
+  /* Section header styling - uses site design system */
+  & .section-header {
+    margin-block-end: var(--space-8);
+
+    & h2 {
+      /* Uses --text-section-title from design tokens (1.875rem / 30px) */
+      font-size: var(--text-section-title);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--line-height-tight);
+      margin-block-end: var(--space-4);
+      text-shadow: 0 2px 20px color-mix(in srgb, var(--dark-color) 50%, transparent);
+      position: relative;
+      display: inline-block;
+
+      /* Decorative cyan accent line */
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          var(--accent-color) 50%,
+          transparent 100%
+        );
+        box-shadow: 0 0 8px var(--accent-color);
+      }
+    }
+
+    & p {
+      /* Uses --text-xl from design tokens (1.125rem / 18px) */
+      font-size: var(--text-xl);
+      line-height: var(--line-height-relaxed);
+      color: color-mix(in srgb, white 90%, transparent);
+      margin: 0;
+      margin-block-start: var(--space-4);
+      text-shadow: 0 1px 10px color-mix(in srgb, var(--dark-color) 30%, transparent);
+    }
+  }
+
+  /* Enhanced button styling - uses site button system */
+  & .btn {
+    margin-block-start: var(--space-8);
+    /* Uses default button padding and sizing from buttons.css */
+    background: var(--accent-color);
+    color: var(--dark-color);
+    border: 2px solid var(--accent-color);
+    box-shadow:
+      0 4px 20px color-mix(in srgb, var(--accent-color) 40%, transparent),
+      0 0 0 0 var(--accent-color);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        transparent 0%,
+        color-mix(in srgb, white 20%, transparent) 50%,
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 30px color-mix(in srgb, var(--accent-color) 60%, transparent),
+        0 0 0 4px color-mix(in srgb, var(--accent-color) 20%, transparent);
+      background: color-mix(in srgb, var(--accent-color) 90%, white);
+
+      &::before {
+        transform: translateX(100%);
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Dark text variant for light backgrounds */
+.cta-section.cta-dark-text {
+  color: var(--text-primary);
+
+  &::before {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, white 80%, transparent) 0%,
+      color-mix(in srgb, var(--neutral-100) 70%, transparent) 100%
+    );
+  }
+
+  & .cta-content {
+    background: color-mix(in srgb, white 85%, transparent);
+    border-color: color-mix(in srgb, var(--primary-color) 20%, transparent);
+  }
+
+  & .section-header {
+    & h2 {
+      color: var(--primary-color);
+      text-shadow: 0 2px 10px color-mix(in srgb, var(--primary-color) 10%, transparent);
+    }
+
+    & p {
+      color: var(--text-secondary);
+      text-shadow: none;
+    }
+  }
+
+  & .btn {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--primary-color) 40%, transparent);
+
+    &:hover {
+      background: var(--secondary-color);
+      border-color: var(--secondary-color);
+      box-shadow:
+        0 8px 30px color-mix(in srgb, var(--primary-color) 60%, transparent),
+        0 0 0 4px color-mix(in srgb, var(--primary-color) 20%, transparent);
+    }
+  }
+}
+
+/* Pulse glow animation for decorative overlay */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .cta-section {
+    background-attachment: scroll;
+
+    &::after {
+      animation: none;
+    }
+
+    & .cta-content {
+      transition: none;
+
+      &:hover {
+        transform: none;
+      }
+    }
+
+    & .btn {
+      transition: none;
+
+      &::before {
+        display: none;
+      }
+
+      &:hover {
+        transform: none;
+      }
+    }
   }
 }
 
